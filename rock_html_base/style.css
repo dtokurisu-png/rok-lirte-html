@@ -1,0 +1,4121 @@
+:root {
+  /* ===== CONTROLES FUENTE MÁGICA ===== */
+  --fountain-p1-left: 12%;
+  --fountain-p1-top: 88%;
+  --fountain-p2-left: 91%;
+  --fountain-p2-top: 14%;
+
+  --fountain-size: 18%;
+  --fountain-opacity: .72;
+  --fountain-glow: 2;
+
+  --fountain-particle-size:4px;
+  --fountain-particle-distance: 1;
+  --fountain-particle-speed: 15s;
+  --fountain-particle-frequency: 4.60s;
+  --fountain-particle-scale: 2;
+
+
+  /* =========================================================
+     ROK, CALIBRACIÓN MANUAL DE ARENA Y DOS CUADRÍCULAS
+     ========================================================= */
+
+  /* Zoom/pan manual con mouse:
+     - Rueda del mouse sobre la arena = acercar/alejar.
+     - Click sostenido + arrastrar = mover la arena cuando esté ampliada.
+  */
+  --board-zoom: 1;
+  --board-pan-x: 0px;
+  --board-pan-y: 0px;
+
+  /* Tamaño general del tablero dentro de la pantalla */
+  --board-aspect: 2 / 3;
+  --board-max-width: 100%;
+  --board-max-height: 100%;
+
+  /* Imagen de arena */
+  --arena-left: 0%;
+  --arena-top: 0%;
+  --arena-width: 100%;
+  --arena-height: 100%;
+  --arena-fit: cover;
+
+  /* Valores base del grid */
+  --grid-left-base: 24%;
+  --grid-top-base: 14%;
+  --grid-width-base: 53.7%;
+  --grid-height-base: 75.5%;
+
+  /* Tamaño parejo para ambos grids */
+  --grid-row-height: 35.8%;
+  --risk-ally-reference-bottom: 89.5%;
+
+  /* GRID ENEMIGO 9x9 */
+  --enemy-grid-left: var(--grid-left-base);
+  --enemy-grid-top: var(--grid-top-base);
+  --enemy-grid-width: var(--grid-width-base);
+  --enemy-grid-height: var(--grid-row-height);
+
+  /* GRID ALIADO 9x9 */
+  --ally-grid-left: var(--grid-left-base);
+  --ally-grid-top: calc(var(--risk-ally-reference-bottom) - var(--grid-row-height));
+  --ally-grid-width: var(--grid-width-base);
+  --ally-grid-height: var(--grid-row-height);
+
+  /* =========================================================
+     CONTROLES VISUALES DEL GRID, SEPARADOS POR LADO
+
+     IMPORTANTE:
+     Ya no hay un solo fill opacity global.
+     Ahora el enemigo y el aliado se controlan por separado.
+
+     Los colores usan RGB sin rgba:
+     rojo = 255, 255, 255
+     morado = 155, 77, 255
+     rojo oscuro = 198, 59, 59
+  ========================================================= */
+
+  /* GRID ENEMIGO, arriba */
+  --enemy-cell-line-color: 255, 255, 255;
+  --enemy-cell-line-opacity: 0.34;
+
+  --enemy-cell-fill-color-a: 198, 59, 59;
+  --enemy-cell-fill-color-b: 198, 59, 59;
+  --enemy-cell-fill-opacity-a: 0.40;
+  --enemy-cell-fill-opacity-b: 0.012;
+
+  --enemy-cell-label-color: 0, 0, 0;
+  --enemy-cell-label-opacity: 0.72;
+
+  --enemy-calibration-color: 255, 255, 255;
+  --enemy-calibration-opacity: 0.12;
+
+  /* GRID ALIADO, abajo */
+  --ally-cell-line-color: 255, 255, 255;
+  --ally-cell-line-opacity: 0.34;
+
+  --ally-cell-fill-color-a: 155, 77, 255;
+  --ally-cell-fill-color-b: 155, 77, 255;
+  --ally-cell-fill-opacity-a: 0.40;
+  --ally-cell-fill-opacity-b: 0.12;
+
+  --ally-cell-label-color: 0, 0, 0;
+  --ally-cell-label-opacity: 0.72;
+
+  --ally-calibration-color: 255, 255, 255;
+  --ally-calibration-opacity: 0.12;
+
+  /* Hover general de casillas */
+  --cell-hover-opacity: 0.18;
+
+  /* =========================================================
+     LÍNEAS DE ZONA DE RIESGO Y LÍNEA CENTRAL
+     ========================================================= */
+
+  --risk-thickness: 4px;
+  --risk-line-opacity: 0.62;
+  --risk-line-glow-opacity: 0.72;
+
+  --risk-enemy-left: var(--enemy-grid-left);
+  --risk-enemy-top: var(--enemy-grid-top);
+  --risk-enemy-width: var(--enemy-grid-width);
+
+  --risk-ally-left: var(--ally-grid-left);
+  --risk-ally-top: calc(var(--ally-grid-top) + var(--ally-grid-height));
+  --risk-ally-width: var(--ally-grid-width);
+
+  /* Línea central */
+  --battle-center-left: var(--grid-left-base);
+  --battle-center-top-offset: -0.5%;
+  --battle-center-top: calc(((var(--enemy-grid-top) + var(--enemy-grid-height) + var(--ally-grid-top)) / 2) + var(--battle-center-top-offset));
+  --battle-center-width: var(--grid-width-base);
+  --battle-center-thickness: 4px;
+  --battle-center-opacity: 0.78;
+  --battle-center-glow-opacity: 0.78;
+
+  /* =========================================================
+     TAMAÑO Y AJUSTE VISUAL DE FICHAS
+     ========================================================= */
+
+  --caster-w: 5%;
+  --caster-h: 11%;
+  --caster-offset-x: 0px;
+  --caster-offset-y: 0px;
+
+  --guardian-w: 6%;
+  --guardian-h: 11%;
+  --guardian-offset-x: 0px;
+  --guardian-offset-y: 0px;
+
+  --invocation-w: 5%;
+  --invocation-h: 10%;
+  --invocation-offset-x: 0px;
+  --invocation-offset-y: 0px;
+
+  /* =========================================================
+     PALETA GENERAL
+     ========================================================= */
+
+  --bg: #060607;
+  --panel: #0c0c0f;
+  --panel-2: #141419;
+  --line: #2c2c34;
+  --text: #e8e2d8;
+  --muted: #958d9b;
+  --p1: #9b4dff;
+  --p1-soft: rgba(155, 77, 255, .28);
+  --p2: #c63b3b;
+  --p2-soft: rgba(198, 59, 59, .25);
+  --cyan: #26eaff;
+  --gold: #c59a42;
+  --cell-border: rgba(54, 255, 229, .22);
+  --cell-label-font-size: 5px;
+
+  /* =========================================================
+     CONTROLES BADGES / INDICADORES EN ARENA - v4.9
+     ========================================================= */
+
+  /* Guardianes: resistencia */
+  --guardian-resistance-status-x: -0px;
+  --guardian-resistance-status-y: -2px;
+  --guardian-resistance-status-scale: .56;
+  --guardian-resistance-icon-size: 24px;
+  --guardian-resistance-number-size: 20px;
+  --guardian-resistance-number-font-size: 16px;
+  --guardian-resistance-number-x: -12px;
+  --guardian-resistance-number-y: -12px;
+  --guardian-resistance-number-bg: #ffffff;
+  --guardian-resistance-number-color: #12071e;
+
+  /* Invocaciones: posición general de los badges abajo de la ficha */
+  --invocation-badges-x: 0px;
+  --invocation-badges-y: -10px;
+  --invocation-badges-gap: 22px;
+
+  /* Invocaciones: icono de daño */
+  --damage-icon-size:12px;
+  --damage-icon-x: 0px;
+  --damage-icon-y: 0px;
+
+  /* Invocaciones: icono de vida */
+  --life-icon-size: 12px;
+  --life-icon-x: -15px;
+  --life-icon-y: 0px;
+
+  /* Invocaciones: círculo/número */
+  --unit-stat-number-size: 20px;
+  --unit-stat-number-font-size: 16px;
+  --unit-stat-number-bg: #ffffff;
+  --unit-stat-number-color: #12071e;
+  --damage-number-x: -30px;
+  --damage-number-y: -12px;
+  --life-number-x: -12px;
+  --life-number-y: -12px;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% 20%, #16101f, var(--bg) 55%);
+  color: var(--text);
+  font-family: Georgia, 'Times New Roman', serif;
+  overflow: hidden;
+}
+
+button {
+  font-family: inherit;
+}
+
+.game-shell {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 132px minmax(430px, 1fr) 150px 440px;
+  grid-template-rows: 64px 1fr 76px;
+  gap: 8px;
+  padding: 8px;
+}
+
+.panel,
+.top-bar {
+  background: linear-gradient(180deg, rgba(19, 19, 23, .97), rgba(6, 6, 7, .97));
+  border: 1px solid var(--line);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, .65), 0 0 18px rgba(0, 0, 0, .45);
+}
+
+.top-bar {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 440px 1fr 170px;
+  align-items: center;
+  padding: 6px;
+  gap: 14px;
+}
+
+.phase-boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.phase-box {
+  height: 48px;
+  border: 1px solid #363642;
+  background: #0b0b0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8e8790;
+  position: relative;
+}
+
+.phase-box.active.p1 {
+  color: white;
+  background: linear-gradient(180deg, #1d102c, #0d0a12);
+  border-color: var(--p1);
+  box-shadow: inset 0 -4px 0 var(--p1), 0 0 14px var(--p1-soft);
+}
+
+.phase-box.active.p2 {
+  color: white;
+  background: linear-gradient(180deg, #2b1010, #120a0a);
+  border-color: var(--p2);
+  box-shadow: inset 0 -4px 0 var(--p2), 0 0 14px var(--p2-soft);
+}
+
+.phase-box.waiting::after {
+  content: none;
+}
+
+.turn-banner {
+  text-align: center;
+  font-size: 26px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.main-button {
+  height: 46px;
+  background: #15151b;
+  color: var(--text);
+  border: 1px solid #484852;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.main-button:hover {
+  border-color: var(--p1);
+  box-shadow: 0 0 12px var(--p1-soft);
+}
+
+.left-panel {
+  grid-column: 1;
+  grid-row: 2;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.player-block {
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+
+.player-mark {
+  font-size: 42px;
+  color: var(--p1);
+  text-shadow: 0 0 18px var(--p1);
+}
+
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.player-block h2 {
+  color: #c9a6ff;
+  text-transform: uppercase;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.player-block p {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  color: #c8c0ce;
+  margin: 8px 0;
+}
+
+.hint-card {
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid #292934;
+  padding: 8px;
+}
+
+.hint-card h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #b7adbf;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.hint-card small {
+  display: block;
+  font-family: Arial, sans-serif;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 8px;
+  font-size: 10px;
+}
+
+.mini-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.mini-keypad span {
+  min-height: 22px;
+  display: grid;
+  place-items: center;
+  background: #111116;
+  border: 1px solid #3b3b45;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.board-panel {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.board {
+  position: relative;
+  height: var(--board-max-height);
+  aspect-ratio: var(--board-aspect);
+  max-width: var(--board-max-width);
+  background: #050505;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+
+.board-content {
+  position: absolute;
+  inset: 0;
+  transform: translate(var(--board-pan-x), var(--board-pan-y)) scale(var(--board-zoom));
+  transform-origin: center center;
+}
+
+.arena-img {
+  position: absolute;
+  left: var(--arena-left);
+  top: var(--arena-top);
+  width: var(--arena-width);
+  height: var(--arena-height);
+  object-fit: var(--arena-fit);
+}
+
+.grid-layer {
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  z-index: 3;
+}
+
+.enemy-grid {
+  left: var(--enemy-grid-left);
+  top: var(--enemy-grid-top);
+  width: var(--enemy-grid-width);
+  height: var(--enemy-grid-height);
+}
+
+.ally-grid {
+  left: var(--ally-grid-left);
+  top: var(--ally-grid-top);
+  width: var(--ally-grid-width);
+  height: var(--ally-grid-height);
+}
+
+.cell {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  font-family: Arial, sans-serif;
+  font-size: var(--cell-label-font-size);
+  text-align: left;
+  padding: 0;
+  background: transparent;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .28);
+}
+
+.cell-label {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* =========================================================
+   VISUAL DEL GRID ENEMIGO, CONTROLADO INDEPENDIENTEMENTE
+   ========================================================= */
+
+.enemy-grid .cell {
+  border: 1px solid rgba(var(--enemy-cell-line-color), var(--enemy-cell-line-opacity));
+  outline: 1px solid rgba(var(--enemy-calibration-color), var(--enemy-calibration-opacity));
+  color: rgba(var(--enemy-cell-label-color), var(--enemy-cell-label-opacity));
+}
+
+.enemy-grid .cell:nth-child(odd) {
+  background: rgba(var(--enemy-cell-fill-color-a), var(--enemy-cell-fill-opacity-a));
+}
+
+.enemy-grid .cell:nth-child(even) {
+  background: rgba(var(--enemy-cell-fill-color-b), var(--enemy-cell-fill-opacity-b));
+}
+
+/* =========================================================
+   VISUAL DEL GRID ALIADO, CONTROLADO INDEPENDIENTEMENTE
+   ========================================================= */
+
+.ally-grid .cell {
+  border: 1px solid rgba(var(--ally-cell-line-color), var(--ally-cell-line-opacity));
+  outline: 1px solid rgba(var(--ally-calibration-color), var(--ally-calibration-opacity));
+  color: rgba(var(--ally-cell-label-color), var(--ally-cell-label-opacity));
+}
+
+.ally-grid .cell:nth-child(odd) {
+  background: rgba(var(--ally-cell-fill-color-a), var(--ally-cell-fill-opacity-a));
+}
+
+.ally-grid .cell:nth-child(even) {
+  background: rgba(var(--ally-cell-fill-color-b), var(--ally-cell-fill-opacity-b));
+}
+
+.cell.ally {
+  box-shadow: none;
+}
+
+.cell.enemy {
+  box-shadow: none;
+}
+
+.cell:hover {
+  background: rgba(38, 234, 255, var(--cell-hover-opacity));
+}
+
+.cell.caster-zone {
+  background: rgba(155, 77, 255, .22);
+  cursor: pointer;
+  animation: pulseCell 1s infinite alternate;
+}
+
+.cell.selected-place {
+  background: rgba(255, 255, 255, .25);
+  outline: 2px solid #fff;
+}
+
+.cell.occupied {
+  pointer-events: none;
+}
+
+@keyframes pulseCell {
+  from {
+    box-shadow: inset 0 0 10px rgba(155, 77, 255, .2);
+  }
+
+  to {
+    box-shadow: inset 0 0 24px rgba(155, 77, 255, .55);
+  }
+}
+
+.units-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.unit {
+  position: absolute;
+  transform: translate(-50%, -86%);
+  display: grid;
+  place-items: end center;
+  filter: drop-shadow(0 18px 10px rgba(0, 0, 0, .55));
+}
+
+.unit img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.unit.caster {
+  width: var(--caster-w);
+  height: var(--caster-h);
+  transform: translate(calc(-50% + var(--caster-offset-x)), calc(-86% + var(--caster-offset-y)));
+}
+
+.unit.guardian {
+  width: var(--guardian-w);
+  height: var(--guardian-h);
+  transform: translate(calc(-50% + var(--guardian-offset-x)), calc(-80% + var(--guardian-offset-y)));
+}
+
+.unit.invocation {
+  width: var(--invocation-w);
+  height: var(--invocation-h);
+  transform: translate(calc(-50% + var(--invocation-offset-x)), calc(-80% + var(--invocation-offset-y)));
+}
+
+.unit-label {
+  display: none;
+}
+
+.arena-line {
+  position: absolute;
+  z-index: 4;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.risk-line {
+  height: var(--risk-thickness);
+  opacity: var(--risk-line-opacity);
+}
+
+.risk-line-enemy {
+  left: var(--risk-enemy-left);
+  top: var(--risk-enemy-top);
+  width: var(--risk-enemy-width);
+  background: var(--p2);
+  box-shadow:
+    0 0 10px rgba(198, 59, 59, var(--risk-line-glow-opacity)),
+    0 0 26px rgba(198, 59, 59, var(--risk-line-glow-opacity));
+}
+
+.risk-line-ally {
+  left: var(--risk-ally-left);
+  top: var(--risk-ally-top);
+  width: var(--risk-ally-width);
+  background: var(--p1);
+  box-shadow:
+    0 0 10px rgba(155, 77, 255, var(--risk-line-glow-opacity)),
+    0 0 26px rgba(155, 77, 255, var(--risk-line-glow-opacity));
+}
+
+.battle-center-line {
+  left: var(--battle-center-left);
+  top: var(--battle-center-top);
+  width: var(--battle-center-width);
+  height: var(--battle-center-thickness);
+  opacity: var(--battle-center-opacity);
+  background: var(--p1);
+  box-shadow:
+    0 0 12px rgba(155, 77, 255, var(--battle-center-glow-opacity)),
+    0 0 32px rgba(155, 77, 255, var(--battle-center-glow-opacity));
+}
+
+.board-content.player-p2 .battle-center-line {
+  background: var(--p2);
+  box-shadow:
+    0 0 12px rgba(198, 59, 59, var(--battle-center-glow-opacity)),
+    0 0 32px rgba(198, 59, 59, var(--battle-center-glow-opacity));
+}
+
+.board-content.player-p1 .battle-center-line {
+  background: var(--p1);
+  box-shadow:
+    0 0 12px rgba(155, 77, 255, var(--battle-center-glow-opacity)),
+    0 0 32px rgba(155, 77, 255, var(--battle-center-glow-opacity));
+}
+
+.cast-panel {
+  grid-column: 3;
+  grid-row: 2;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.cast-panel h3 {
+  text-transform: uppercase;
+  font-size: 15px;
+  color: #cfc7da;
+}
+
+.cast-queue {
+  width: 100%;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.cast-item {
+  width: 100px;
+  height: 138px;
+  position: relative;
+  border: 1px solid #443b50;
+  background: #08080a;
+}
+
+.cast-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cast-badge {
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #12071e;
+  border: 2px solid var(--p1);
+  color: white;
+  font: bold 18px Arial;
+  box-shadow: 0 0 12px var(--p1);
+}
+
+.small-note {
+  font: 11px Arial;
+  color: var(--muted);
+  text-align: center;
+}
+
+.right-panel {
+  grid-column: 4;
+  grid-row: 2;
+  padding: 10px;
+  display: grid;
+  grid-template-rows: 36px 1fr 182px;
+  gap: 10px;
+}
+
+.tab-stack {
+  display: flex;
+  align-items: end;
+  gap: 4px;
+}
+
+.deck-tab {
+  flex: 1;
+  height: 34px;
+  background: #111116;
+  color: #a39da9;
+  border: 1px solid #34343b;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.deck-tab.active {
+  background: linear-gradient(180deg, #211135, #0f0d14);
+  color: white;
+  border-color: var(--p1);
+  box-shadow: inset 0 -3px 0 var(--p1);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 8px;
+  min-height: 0;
+}
+
+.card-slot {
+  position: relative;
+  background: linear-gradient(180deg, #101014, #070708);
+  border: 1px solid #33333c;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, .7);
+  cursor: pointer;
+  min-height: 0;
+}
+
+.card-slot.empty::before {
+  content: '✦';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, .08);
+  font-size: 38px;
+}
+
+.key-label {
+  position: absolute;
+  z-index: 4;
+  right: 4px;
+  bottom: 4px;
+  background: rgba(0, 0, 0, .8);
+  border: 1px solid #50505a;
+  color: white;
+  min-width: 22px;
+  text-align: center;
+  font: 12px Arial;
+  padding: 2px 3px;
+}
+
+.card-slot.selected {
+  border-color: #fff;
+  box-shadow: 0 0 20px var(--p1-soft), inset 0 0 14px rgba(255, 255, 255, .18);
+}
+
+.card {
+  position: absolute;
+  inset: 4px;
+  overflow: hidden;
+}
+
+.card-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-bg {
+  object-fit: cover;
+  z-index: 1;
+}
+
+.card-art {
+  object-fit: contain;
+  z-index: 2;
+  transform: scale(1.12) translateY(9%);
+  filter: drop-shadow(0 9px 8px rgba(0, 0, 0, .75));
+}
+
+.card-skin {
+  object-fit: fill;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.card-cost {
+  position: absolute;
+  z-index: 4;
+  left: 5px;
+  top: 5px;
+  background: var(--p1);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: bold 14px Arial;
+  box-shadow: 0 0 10px var(--p1);
+}
+
+.caster-stats {
+  border: 1px solid #353540;
+  background: #09090c;
+  display: grid;
+  grid-template-columns: 44% 1fr;
+  overflow: hidden;
+}
+
+.caster-portrait-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #050505;
+}
+
+.caster-portrait-wrap img {
+  position: absolute;
+  width: 155%;
+  left: -32%;
+  bottom: -30%;
+  filter: drop-shadow(0 0 12px var(--p1));
+}
+
+.caster-info {
+  padding: 10px;
+}
+
+.caster-info h2 {
+  font-size: 20px;
+  color: #dec8ff;
+  margin-bottom: 2px;
+}
+
+.tag {
+  font: 12px Arial;
+  color: #bcb3c8;
+  letter-spacing: 2px;
+}
+
+.stats-line {
+  display: grid;
+  grid-template-columns: 1fr 58px;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid #24242c;
+  padding: 7px 0;
+  font-family: Arial, sans-serif;
+}
+
+.stats-line:first-of-type {
+  margin-top: 12px;
+}
+
+.stats-line strong {
+  text-align: center;
+  background: #101014;
+  border: 1px solid #343440;
+  padding: 4px;
+  color: white;
+}
+
+.bottom-bar {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: 180px 1fr 420px;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 14px;
+}
+
+.resource-title {
+  text-transform: uppercase;
+  color: #bdb5c8;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.resource-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.orb {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .35);
+  background: radial-gradient(circle at 34% 30%, #fff, var(--orb-color) 20%, #100016 61%, #050308 100%);
+  box-shadow: 0 0 18px var(--orb-color);
+  position: relative;
+}
+
+.orb::after {
+  content: attr(data-type);
+  position: absolute;
+  left: 55px;
+  top: 13px;
+  font: 12px Arial;
+  color: #e5dced;
+  white-space: nowrap;
+}
+
+.system-log {
+  font: 13px Arial;
+  color: #d7cce5;
+  background: #09090c;
+  border: 1px solid #2d2d36;
+  min-height: 42px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  z-index: 99;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+.transition-overlay.show {
+  opacity: 1;
+}
+
+.transition-card {
+  min-width: 520px;
+  padding: 26px 42px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 30px;
+  border: 1px solid var(--p1);
+  background: linear-gradient(180deg, #141018, #050506);
+  box-shadow: 0 0 28px var(--p1-soft), inset 0 0 20px rgba(255, 255, 255, .05);
+}
+
+.transition-card.p2 {
+  border-color: var(--p2);
+  box-shadow: 0 0 28px var(--p2-soft), inset 0 0 20px rgba(255, 255, 255, .05);
+}
+
+@media (max-width: 1200px) {
+  .game-shell {
+    grid-template-columns: 110px minmax(360px, 1fr) 120px 360px;
+  }
+
+  .turn-banner {
+    font-size: 20px;
+  }
+}
+
+/* =========================================================
+   FIX FINAL: OPACIDAD A/B SEPARADA POR GRID
+   Este bloque va al final para que los cuadros A y B sí respondan
+   a sus controles de opacidad aunque haya reglas anteriores.
+   ========================================================= */
+
+.enemy-grid .cell:nth-child(odd) {
+  background-color: rgba(var(--enemy-cell-fill-color-a), var(--enemy-cell-fill-opacity-a)) !important;
+  background-image: none !important;
+}
+
+.enemy-grid .cell:nth-child(even) {
+  background-color: rgba(var(--enemy-cell-fill-color-b), var(--enemy-cell-fill-opacity-b)) !important;
+  background-image: none !important;
+}
+
+.ally-grid .cell:nth-child(odd) {
+  background-color: rgba(var(--ally-cell-fill-color-a), var(--ally-cell-fill-opacity-a)) !important;
+  background-image: none !important;
+}
+
+.ally-grid .cell:nth-child(even) {
+  background-color: rgba(var(--ally-cell-fill-color-b), var(--ally-cell-fill-opacity-b)) !important;
+  background-image: none !important;
+}
+
+/* =========================================================
+   ROK PATCH: HUD VERTICAL, ARENA MÁS GRANDE Y RECURSOS LATERALES
+   ========================================================= */
+
+/* El layout ya no usa barra superior ni barra inferior.
+   La arena ocupa toda la altura disponible. */
+.game-shell {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 92px minmax(430px, 1fr) 96px 150px 440px;
+  grid-template-rows: 1fr;
+  gap: 8px;
+  padding: 8px;
+}
+
+/* La barra superior y la barra inferior quedan anuladas por si quedaron en HTML viejo. */
+.top-bar,
+.bottom-bar {
+  display: none !important;
+}
+
+/* Panel izquierdo: se limpia el texto informativo y se usa para elementos. */
+.left-panel {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.player-block,
+.hint-card {
+  display: none !important;
+}
+
+.info-chip {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: rgba(0, 0, 0, .55);
+  color: rgba(255, 255, 255, .72);
+  font: 11px Arial, sans-serif;
+  line-height: 1;
+  padding: 0;
+  cursor: default;
+}
+
+.hidden-player-readout {
+  display: none;
+}
+
+.resource-title {
+  margin-top: 24px;
+  text-transform: uppercase;
+  color: #bdb5c8;
+  font-size: 11px;
+  letter-spacing: 1px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  opacity: .86;
+}
+
+.resource-bar,
+.vertical-resource-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+  overflow: auto;
+  padding-top: 8px;
+}
+
+.orb {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+}
+
+.orb::after {
+  content: none !important;
+}
+
+/* Arena central ampliada. */
+.board-panel {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.board {
+  position: relative;
+  height: 100%;
+  max-height: 100%;
+  width: auto;
+  aspect-ratio: var(--board-aspect);
+  max-width: 100%;
+  background: #050505;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+
+/* Columna vertical de fases entre arena y casteo. */
+.phase-rail {
+  grid-column: 3;
+  grid-row: 1;
+  padding: 8px 6px;
+  display: grid;
+  grid-template-rows: auto auto minmax(26px, auto) 1fr;
+  gap: 8px;
+  min-width: 0;
+}
+
+.phase-boxes,
+.phase-boxes-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.phase-box {
+  min-height: 52px;
+  height: auto;
+  padding: 6px 4px;
+  border: 1px solid #363642;
+  background: #0b0b0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .7px;
+  color: #8e8790;
+  font-size: 11px;
+  line-height: 1.1;
+  position: relative;
+}
+
+.next-phase-vertical {
+  height: 54px;
+  padding: 5px;
+  font-size: 10px;
+  line-height: 1.1;
+  white-space: normal;
+}
+
+.turn-banner,
+.turn-banner-vertical {
+  text-align: center;
+  font: 10px Arial, sans-serif;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: #b9afc2;
+  opacity: .9;
+}
+
+.system-log,
+.system-log-vertical {
+  font: 10px Arial, sans-serif;
+  color: #d7cce5;
+  background: #09090c;
+  border: 1px solid #2d2d36;
+  min-height: 42px;
+  padding: 6px;
+  overflow: hidden;
+}
+
+/* Zona de casteo permanece a la derecha de la columna de fases. */
+.cast-panel {
+  grid-column: 4;
+  grid-row: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Panel de cartas/caster a la derecha. */
+.right-panel {
+  grid-column: 5;
+  grid-row: 1;
+  padding: 10px;
+  display: grid;
+  grid-template-rows: 36px 1fr 182px;
+  gap: 10px;
+}
+
+/* =========================================================
+   FIX FINAL: OPACIDAD A/B SEPARADA POR GRID
+   Este bloque va al final para que los cuadros A y B sí respondan
+   a sus controles de opacidad aunque haya reglas anteriores.
+   ========================================================= */
+
+.enemy-grid .cell:nth-child(odd) {
+  background-color: rgba(var(--enemy-cell-fill-color-a), var(--enemy-cell-fill-opacity-a)) !important;
+  background-image: none !important;
+}
+
+.enemy-grid .cell:nth-child(even) {
+  background-color: rgba(var(--enemy-cell-fill-color-b), var(--enemy-cell-fill-opacity-b)) !important;
+  background-image: none !important;
+}
+
+.ally-grid .cell:nth-child(odd) {
+  background-color: rgba(var(--ally-cell-fill-color-a), var(--ally-cell-fill-opacity-a)) !important;
+  background-image: none !important;
+}
+
+.ally-grid .cell:nth-child(even) {
+  background-color: rgba(var(--ally-cell-fill-color-b), var(--ally-cell-fill-opacity-b)) !important;
+  background-image: none !important;
+}
+
+/* Responsive simple */
+@media (max-width: 1200px) {
+  .game-shell {
+    grid-template-columns: 82px minmax(360px, 1fr) 86px 130px 360px;
+  }
+
+  .phase-box {
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   ROK PATCH: AJUSTE FINO LAYOUT VERTICAL
+   - Fases más anchas
+   - Zona de casteo más angosta
+   - Sin textos informativos extra
+   - Elementos sin título vertical
+   ========================================================= */
+
+/* Barra izquierda de elementos un poco más ancha.
+   Columna de fases más ancha.
+   Zona de casteo más angosta. */
+.game-shell {
+  grid-template-columns: 112px minmax(430px, 1fr) 128px 118px 440px !important;
+}
+
+/* El panel izquierdo queda solo para orbes/elementos. */
+.left-panel {
+  padding: 8px 6px !important;
+  align-items: center !important;
+}
+
+.resource-title {
+  display: none !important;
+}
+
+.resource-bar,
+.vertical-resource-bar {
+  padding-top: 28px !important;
+  gap: 10px !important;
+  overflow: auto !important;
+}
+
+/* Orbes un poco más visibles en la barra izquierda. */
+.orb {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.orb::after {
+  content: none !important;
+}
+
+/* Fases más legibles por ancho, sin texto auxiliar debajo. */
+.phase-rail {
+  grid-template-rows: auto auto !important;
+  gap: 8px !important;
+  padding: 8px !important;
+}
+
+.phase-box {
+  min-height: 54px !important;
+  font-size: 12px !important;
+  letter-spacing: .8px !important;
+  padding: 7px 5px !important;
+}
+
+.next-phase-vertical {
+  height: 56px !important;
+  font-size: 11px !important;
+}
+
+/* Quitar textos informativos de abajo de las fases. */
+.turn-banner,
+.turn-banner-vertical,
+.system-log,
+.system-log-vertical {
+  display: none !important;
+}
+
+/* Zona de casteo más comprimida a lo ancho. */
+.cast-panel {
+  padding: 8px 6px !important;
+}
+
+.cast-panel h3 {
+  font-size: 13px !important;
+  text-align: center !important;
+}
+
+.cast-item {
+  width: 82px !important;
+  height: 116px !important;
+}
+
+.small-note {
+  display: none !important;
+}
+
+/* Ajuste responsive del nuevo layout */
+@media (max-width: 1200px) {
+  .game-shell {
+    grid-template-columns: 96px minmax(360px, 1fr) 112px 106px 360px !important;
+  }
+}
+
+/* =========================================================
+   ROK BETA v0.12: INTERACCIÓN DE ARENA
+   - Click izquierdo queda libre para casillas y fichas.
+   - Arrastre/pan solo con botón central del mouse.
+   ========================================================= */
+
+.board {
+  cursor: default !important;
+}
+
+.board.is-panning {
+  cursor: grabbing !important;
+}
+
+.grid-layer {
+  pointer-events: auto !important;
+}
+
+.cell {
+  cursor: pointer;
+}
+
+.cell.occupied {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+.units-layer {
+  pointer-events: none;
+}
+
+.unit {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.unit img {
+  pointer-events: none;
+}
+
+/* =========================================================
+   ROK BETA v0.13 CORREGIDA: PANEL WIDE DE INFO DEL KASTER
+   Base revertida desde v0.12. Este cambio NO usa el panel raro
+   de v0.13 anterior.
+   ========================================================= */
+
+/* La pantalla ahora tiene 2 filas:
+   - fila 1: arena + contador de turno + casteo + pestañas
+   - fila 2: panel ancho del Kaster, desde la izquierda del contador
+             de turno hasta el borde derecho de la ventana */
+.game-shell {
+  grid-template-columns: 112px minmax(430px, 1fr) 128px 118px 440px !important;
+  grid-template-rows: minmax(0, 1fr) 220px !important;
+}
+
+/* Paneles que deben usar toda la altura izquierda/arena. */
+.left-panel {
+  grid-column: 1 !important;
+  grid-row: 1 / 3 !important;
+}
+
+.board-panel {
+  grid-column: 2 !important;
+  grid-row: 1 / 3 !important;
+}
+
+/* Contador de turno/fases. El botón queda justo después de Espera. */
+.phase-rail {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+  align-content: start !important;
+  grid-template-rows: auto auto !important;
+  gap: 8px !important;
+}
+
+.phase-boxes,
+.phase-boxes-vertical {
+  align-content: start !important;
+}
+
+.next-phase-vertical {
+  margin-top: 6px !important;
+}
+
+/* Casteo más angosto y en la fila superior. */
+.cast-panel {
+  grid-column: 4 !important;
+  grid-row: 1 !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+/* Pestañas y cartas arriba a la derecha. Ya no contiene el panel del Kaster. */
+.right-panel {
+  grid-column: 5 !important;
+  grid-row: 1 !important;
+  grid-template-rows: 36px minmax(0, 1fr) !important;
+}
+
+/* Panel ancho del Kaster:
+   desde la izquierda del contador de turno hasta el borde derecho. */
+.caster-wide-panel {
+  grid-column: 3 / 6 !important;
+  grid-row: 2 !important;
+  display: grid !important;
+  grid-template-columns: 150px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  padding: 12px !important;
+  overflow: hidden !important;
+  align-items: center !important;
+}
+
+/* Carta del Kaster dentro del panel.
+   Mantiene proporción, no se estira. */
+.caster-card-shell {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.caster-wide-card {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  height: 100% !important;
+  aspect-ratio: 2 / 3 !important;
+  max-width: 138px !important;
+  max-height: 196px !important;
+  overflow: hidden !important;
+}
+
+.caster-wide-card .card-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.caster-wide-card .card-bg {
+  object-fit: cover !important;
+}
+
+.caster-wide-art {
+  object-fit: contain !important;
+  transform: scale(1.14) translateY(7%) !important;
+  filter: drop-shadow(0 10px 9px rgba(0, 0, 0, .75));
+}
+
+.caster-wide-card .card-skin {
+  object-fit: fill !important;
+  pointer-events: none;
+}
+
+/* Textos distribuidos dentro del contenedor ancho. */
+.caster-wide-info {
+  min-width: 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: center;
+  gap: 12px;
+}
+
+.caster-wide-title h2 {
+  font-size: 28px;
+  color: #dec8ff;
+  margin: 0 0 4px;
+  letter-spacing: 1px;
+}
+
+.caster-wide-title .tag {
+  font: 12px Arial, sans-serif;
+  color: #bcb3c8;
+  letter-spacing: 2px;
+}
+
+.caster-wide-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  gap: 8px;
+  align-content: start;
+}
+
+.caster-wide-stats .stats-line {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  align-items: center;
+  border-top: 1px solid #24242c;
+  padding: 8px;
+  font-family: Arial, sans-serif;
+  background: rgba(255,255,255,.03);
+  min-width: 0;
+}
+
+.caster-wide-stats .stats-line span {
+  font-size: 11px;
+  color: #bfb5c9;
+}
+
+.caster-wide-stats .stats-line strong {
+  text-align: center;
+  background: #101014;
+  border: 1px solid #343440;
+  padding: 5px;
+  color: white;
+  font-size: 13px;
+}
+
+/* Evita que reglas viejas del panel de caster afecten al nuevo panel. */
+.caster-wide-panel .caster-portrait-wrap img {
+  position: static;
+  width: auto;
+  left: auto;
+  bottom: auto;
+}
+
+/* Responsive simple */
+@media (max-width: 1200px) {
+  .game-shell {
+    grid-template-columns: 96px minmax(360px, 1fr) 116px 106px 360px !important;
+    grid-template-rows: minmax(0, 1fr) 205px !important;
+  }
+
+  .caster-wide-panel {
+    grid-template-columns: 130px minmax(0, 1fr) !important;
+  }
+
+  .caster-wide-title h2 {
+    font-size: 22px;
+  }
+
+  .caster-wide-stats {
+    grid-template-columns: repeat(2, minmax(90px, 1fr));
+  }
+}
+
+/* =========================================================
+   ROK BETA v0.14: PROPORCIÓN POR SKIN + FLUJO MOUSE DE KASTEO
+   ========================================================= */
+
+:root {
+  /* El skin manda la proporción de TODAS las cartas.
+     Tamaño real detectado del skin actual: 1595 x 1595. */
+  --card-skin-aspect: 1595 / 1595;
+  --kaster-panel-height: 110px;
+}
+
+/* Panel Kaster: misma ubicación horizontal de v0.13 corregida,
+   pero altura reducida aproximadamente al 50%. */
+.game-shell {
+  grid-template-rows: minmax(0, 1fr) var(--kaster-panel-height) !important;
+}
+
+.caster-wide-panel {
+  min-height: var(--kaster-panel-height) !important;
+  max-height: var(--kaster-panel-height) !important;
+  grid-template-columns: 88px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 7px 10px !important;
+}
+
+.caster-wide-card {
+  aspect-ratio: var(--card-skin-aspect) !important;
+  height: 92px !important;
+  width: auto !important;
+  max-width: 92px !important;
+  max-height: 92px !important;
+}
+
+.caster-wide-title h2 {
+  font-size: 18px !important;
+  margin-bottom: 0 !important;
+}
+
+.caster-wide-title .tag {
+  font-size: 10px !important;
+}
+
+.caster-wide-info {
+  gap: 5px !important;
+}
+
+.caster-wide-stats {
+  grid-template-columns: repeat(4, minmax(62px, 1fr)) !important;
+  gap: 5px !important;
+}
+
+.caster-wide-stats .stats-line {
+  padding: 4px 6px !important;
+  gap: 3px !important;
+}
+
+.caster-wide-stats .stats-line span {
+  font-size: 9px !important;
+}
+
+.caster-wide-stats .stats-line strong {
+  font-size: 10px !important;
+  padding: 3px !important;
+}
+
+/* Las cartas del Spellbook respetan la proporción del skin. */
+.card-slot {
+  aspect-ratio: var(--card-skin-aspect) !important;
+  min-height: unset !important;
+}
+
+.card-grid {
+  grid-auto-rows: auto !important;
+  align-content: start !important;
+}
+
+.card {
+  aspect-ratio: var(--card-skin-aspect) !important;
+}
+
+.card-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card-bg {
+  object-fit: cover !important;
+}
+
+.card-art {
+  object-fit: contain !important;
+}
+
+.card-skin {
+  object-fit: fill !important;
+}
+
+/* Ventana grande de info de carta:
+   cubre arena + fases + zona de kasteo, dejando visible el Spellbook. */
+.card-info-overlay {
+  grid-column: 2 / 5;
+  grid-row: 1;
+  z-index: 60;
+  display: none;
+  position: relative;
+  background: rgba(5, 5, 8, .91);
+  border: 1px solid rgba(155, 77, 255, .42);
+  box-shadow:
+    inset 0 0 32px rgba(0, 0, 0, .72),
+    0 0 28px rgba(155, 77, 255, .18);
+  padding: 18px;
+}
+
+.card-info-overlay.open {
+  display: grid;
+}
+
+.card-info-box {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 16px;
+  min-height: 0;
+}
+
+.card-info-main {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.card-info-preview {
+  width: 190px;
+  aspect-ratio: var(--card-skin-aspect) !important;
+  position: relative;
+  overflow: hidden;
+  filter: drop-shadow(0 16px 14px rgba(0, 0, 0, .8));
+}
+
+.card-info-preview .card {
+  position: absolute;
+  inset: 0;
+}
+
+.card-info-text h2 {
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: #eadcff;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.card-info-text p {
+  font: 13px Arial, sans-serif;
+  color: #b9abc9;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.card-info-stats {
+  width: 190px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.card-info-stats div {
+  display: grid;
+  grid-template-columns: 1fr 58px;
+  align-items: center;
+  background: rgba(255, 255, 255, .035);
+  border: 1px solid rgba(255, 255, 255, .10);
+  padding: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.card-info-stats span {
+  color: #c9bfd3;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.card-info-stats strong {
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.card-info-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-self: end;
+}
+
+.card-info-btn {
+  height: 52px !important;
+}
+
+.card-info-btn.secondary {
+  border-color: #55515e;
+  color: #cfc8d8;
+}
+
+/* Zona de kasteo: muestra ficha/token + reloj de arena + fases. */
+.cast-item {
+  width: 76px !important;
+  height: 96px !important;
+  border: none !important;
+  background: transparent !important;
+  overflow: visible !important;
+  display: grid;
+  place-items: center;
+}
+
+.cast-item img {
+  width: 74px !important;
+  height: 88px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, .65));
+}
+
+.cast-badge {
+  right: -6px !important;
+  bottom: 2px !important;
+  width: 34px !important;
+  height: 25px !important;
+  border-radius: 999px !important;
+  font: bold 13px Arial, sans-serif !important;
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --kaster-panel-height: 104px;
+  }
+
+  .caster-wide-panel {
+    grid-template-columns: 82px minmax(0, 1fr) !important;
+  }
+
+  .caster-wide-card {
+    height: 86px !important;
+    max-width: 86px !important;
+    max-height: 86px !important;
+  }
+
+  .card-info-main {
+    grid-template-columns: 160px 1fr;
+  }
+
+  .card-info-preview,
+  .card-info-stats {
+    width: 160px;
+  }
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.15: VIEW SIEMPRE + KASTEO VISUAL + MARCADOR RESPAWN
+   ========================================================= */
+
+.spawn-markers-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.spawn-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  aspect-ratio: var(--card-skin-aspect);
+  filter: drop-shadow(0 0 8px var(--marker-glow)) drop-shadow(0 0 14px var(--marker-glow));
+}
+
+.spawn-marker .card {
+  position: absolute;
+  inset: 0;
+}
+
+.spawn-marker .card-cost,
+.spawn-marker .key-label { display: none !important; }
+
+.cell.caster-zone {
+  background: rgba(255, 255, 255, .18) !important;
+  cursor: pointer;
+  animation: pulseCastCell 0.95s infinite alternate;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.45), 0 0 14px rgba(255,255,255,.20);
+}
+
+.cell.caster-zone::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/kast-cell-icon.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  opacity: .92;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.55));
+  pointer-events: none;
+}
+
+.cell.caster-zone:hover {
+  background: rgba(255,255,255,.38) !important;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.88), 0 0 16px rgba(255,255,255,.55);
+}
+
+.cell.selected-place {
+  background: rgba(255, 255, 255, .55) !important;
+  outline: 2px solid #fff;
+}
+
+@keyframes pulseCastCell {
+  from { box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 0 8px rgba(255,255,255,.18); }
+  to { box-shadow: inset 0 0 0 2px rgba(255,255,255,.78), 0 0 18px rgba(255,255,255,.55); }
+}
+
+.card-info-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  filter: grayscale(0.25);
+  box-shadow: none !important;
+}
+
+.cast-item {
+  position: relative;
+  overflow: visible !important;
+}
+
+.cast-item img {
+  filter: drop-shadow(0 0 10px rgba(255,255,255,.65)) drop-shadow(0 10px 8px rgba(0,0,0,.65)) !important;
+}
+
+.cast-item.entering {
+  animation: castDropIn .42s ease-out;
+}
+
+.cast-status {
+  position: absolute;
+  right: -8px;
+  bottom: 0px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.cast-icon-badge,
+.cast-number-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #12071e;
+  border: 2px solid var(--p1);
+  color: white;
+  font: bold 13px Arial;
+  box-shadow: 0 0 10px rgba(255,255,255,.32);
+}
+
+.cast-icon-badge {
+  transform: translateY(-8px);
+}
+
+@keyframes castDropIn {
+  0% { transform: translateY(-34px) scale(.78); opacity: 0; filter: blur(3px); }
+  60% { transform: translateY(6px) scale(1.04); opacity: 1; filter: blur(0); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.17: BADGES SUPERPUESTOS + LINK VISUAL RESPAWN/FICHA
+   ========================================================= */
+
+.spawn-marker {
+  pointer-events: auto;
+  overflow: visible;
+}
+
+.spawn-status {
+  position: absolute;
+  right: -6px;
+  bottom: -4px;
+  z-index: 3;
+}
+
+.cast-status {
+  position: absolute;
+  right: -8px;
+  bottom: -4px;
+  display: block;
+}
+
+.cast-icon-badge.big {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  font-size: 22px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.cast-corner-number {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  color: #12071e;
+  border: 1px solid #12071e;
+  font: bold 10px Arial;
+  box-shadow: 0 0 8px rgba(255,255,255,.65);
+}
+
+.cast-number-badge { display: none !important; }
+
+.cast-item.entering {
+  animation: castDropFromTop .58s ease-out;
+}
+
+@keyframes castDropFromTop {
+  0% { transform: translateY(-88px) scale(.72); opacity: 0; filter: blur(4px); }
+  62% { transform: translateY(0) scale(1.04); opacity: 1; filter: blur(0); }
+  78% { transform: translateY(0) scale(.98); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; box-shadow: 0 0 0 rgba(255,255,255,0); }
+}
+
+.cast-item.entering img {
+  animation: castLandingPulse .55s .38s ease-out 1;
+}
+
+@keyframes castLandingPulse {
+  0% { filter: drop-shadow(0 0 3px rgba(255,255,255,.3)) drop-shadow(0 10px 8px rgba(0,0,0,.65)); }
+  50% { filter: drop-shadow(0 0 16px rgba(255,255,255,.95)) drop-shadow(0 10px 8px rgba(0,0,0,.65)); }
+  100% { filter: drop-shadow(0 0 10px rgba(255,255,255,.65)) drop-shadow(0 10px 8px rgba(0,0,0,.65)); }
+}
+
+.pulse-linked {
+  animation: linkedPulse 0.9s infinite alternate;
+}
+
+@keyframes linkedPulse {
+  from { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 6px rgba(255,255,255,.35)) drop-shadow(0 0 12px rgba(255,255,255,.15)); }
+  to { transform: translate(-50%, -50%) scale(1.12); filter: drop-shadow(0 0 16px rgba(255,255,255,.95)) drop-shadow(0 0 22px rgba(255,255,255,.75)); }
+}
+
+.spawn-marker.pulse-linked .card,
+.spawn-marker.hover-linked .card {
+  outline: 2px solid rgba(255,255,255,.85);
+  box-shadow: 0 0 16px rgba(255,255,255,.85);
+}
+
+.unit.invocation.hover-linked img {
+  filter: brightness(1.25) saturate(0) contrast(1.05) drop-shadow(0 0 12px rgba(255,255,255,.95));
+}
+
+.spawn-marker.hover-linked {
+  filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 18px #fff);
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.17A: AJUSTES DESDE LA ESTABLE v0.17
+   ========================================================= */
+
+/* Reducir ~40% la intensidad de las casillas de Kasteo */
+.cell.caster-zone {
+  background: rgba(255,255,255,.10) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 0 5px rgba(255,255,255,.09) !important;
+}
+
+.cell.caster-zone::after {
+  opacity: .55 !important;
+}
+
+.cell.caster-zone:hover {
+  background: rgba(255,255,255,.22) !important;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.58), 0 0 11px rgba(255,255,255,.30) !important;
+}
+
+@keyframes pulseCastCell {
+  from { box-shadow: inset 0 0 0 1px rgba(255,255,255,.18), 0 0 4px rgba(255,255,255,.08); }
+  to { box-shadow: inset 0 0 0 2px rgba(255,255,255,.40), 0 0 8px rgba(255,255,255,.22); }
+}
+
+/* Badge de la carta en arena: mismo lenguaje visual, más pequeño */
+.spawn-status {
+  right: -4px;
+  bottom: -2px;
+}
+
+.spawn-status .cast-icon-badge.big {
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+}
+
+.spawn-status .cast-corner-number {
+  width: 13px;
+  height: 13px;
+  right: -2px;
+  bottom: -2px;
+  font: bold 8px Arial;
+}
+
+/* Hover cruzado carta arena -> ficha en zona de Kasteo */
+.cast-item.queue-linked {
+  animation: queuePulse .9s infinite alternate;
+}
+
+.cast-item.queue-linked img {
+  filter: drop-shadow(0 0 14px rgba(255,255,255,.95)) drop-shadow(0 0 20px rgba(255,255,255,.70)) !important;
+}
+
+@keyframes queuePulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.18A: OUTLINE + GLOW + MOVIMIENTO DESDE v0.17A
+   ========================================================= */
+
+.move-options-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.units-layer {
+  z-index: 6;
+}
+
+.move-option {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 8px;
+  background: rgba(255,255,255,.08);
+  box-shadow: 0 0 8px rgba(255,255,255,.14), inset 0 0 0 1px rgba(255,255,255,.18);
+  cursor: pointer;
+  pointer-events: auto;
+  overflow: hidden;
+  animation: movePulse .9s infinite alternate;
+}
+
+.move-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .9;
+}
+
+.move-option:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 10px rgba(255,255,255,.24), inset 0 0 0 1px rgba(255,255,255,.32);
+}
+
+@keyframes movePulse {
+  from { box-shadow: 0 0 6px rgba(255,255,255,.08), inset 0 0 0 1px rgba(255,255,255,.14); }
+  to { box-shadow: 0 0 10px rgba(255,255,255,.22), inset 0 0 0 1px rgba(255,255,255,.28); }
+}
+
+.unit.caster img,
+.unit.guardian img,
+.unit.invocation img {
+  filter:
+    drop-shadow(1px 0 0 rgba(255,255,255,.9))
+    drop-shadow(-1px 0 0 rgba(255,255,255,.9))
+    drop-shadow(0 1px 0 rgba(255,255,255,.9))
+    drop-shadow(0 -1px 0 rgba(255,255,255,.9))
+    drop-shadow(0 0 5px color-mix(in srgb, var(--unit-glow, #ffffff) 72%, white 28%))
+    drop-shadow(0 0 10px color-mix(in srgb, var(--unit-glow, #ffffff) 42%, transparent 58%))
+    drop-shadow(0 10px 8px rgba(0,0,0,.58));
+  transition: transform .16s ease, filter .16s ease;
+}
+
+.unit.caster:hover img,
+.unit.guardian:hover img,
+.unit.invocation:hover img,
+.unit.selected-mover img,
+.unit.invocation.hover-linked img {
+  filter:
+    drop-shadow(1px 0 0 rgba(255,255,255,1))
+    drop-shadow(-1px 0 0 rgba(255,255,255,1))
+    drop-shadow(0 1px 0 rgba(255,255,255,1))
+    drop-shadow(0 -1px 0 rgba(255,255,255,1))
+    drop-shadow(0 0 7px rgba(255,255,255,.55))
+    drop-shadow(0 0 10px color-mix(in srgb, var(--unit-glow, #ffffff) 45%, white 20%))
+    drop-shadow(0 10px 8px rgba(0,0,0,.58));
+}
+
+.unit.caster:hover,
+.unit.guardian:hover,
+.unit.invocation:hover,
+.unit.selected-mover {
+  transform: translate(-50%, -86%) scale(1.015);
+}
+
+.unit.guardian:hover,
+.unit.invocation:hover,
+.unit.selected-mover.invocation {
+  transform: translate(calc(-50% + var(--invocation-offset-x)), calc(-80% + var(--invocation-offset-y))) scale(1.015);
+}
+
+.unit.guardian:hover {
+  transform: translate(calc(-50% + var(--guardian-offset-x)), calc(-80% + var(--guardian-offset-y))) scale(1.015);
+}
+
+.unit.selected-mover.caster {
+  transform: translate(calc(-50% + var(--caster-offset-x)), calc(-86% + var(--caster-offset-y))) scale(1.02);
+}
+
+.unit.selected-mover.guardian {
+  transform: translate(calc(-50% + var(--guardian-offset-x)), calc(-80% + var(--guardian-offset-y))) scale(1.02);
+}
+
+.unit.selected-mover.invocation {
+  transform: translate(calc(-50% + var(--invocation-offset-x)), calc(-80% + var(--invocation-offset-y))) scale(1.02);
+}
+
+.unit.caster:hover img,
+.unit.guardian:hover img,
+.unit.invocation:hover img,
+.unit.selected-mover img {
+  animation: unitWhitePulse 1s infinite alternate;
+}
+
+@keyframes unitWhitePulse {
+  from { filter:
+    drop-shadow(1px 0 0 rgba(255,255,255,.92))
+    drop-shadow(-1px 0 0 rgba(255,255,255,.92))
+    drop-shadow(0 1px 0 rgba(255,255,255,.92))
+    drop-shadow(0 -1px 0 rgba(255,255,255,.92))
+    drop-shadow(0 0 5px rgba(255,255,255,.28))
+    drop-shadow(0 0 9px color-mix(in srgb, var(--unit-glow, #ffffff) 38%, white 16%))
+    drop-shadow(0 10px 8px rgba(0,0,0,.58)); }
+  to { filter:
+    drop-shadow(1px 0 0 rgba(255,255,255,1))
+    drop-shadow(-1px 0 0 rgba(255,255,255,1))
+    drop-shadow(0 1px 0 rgba(255,255,255,1))
+    drop-shadow(0 -1px 0 rgba(255,255,255,1))
+    drop-shadow(0 0 7px rgba(255,255,255,.42))
+    drop-shadow(0 0 10px color-mix(in srgb, var(--unit-glow, #ffffff) 48%, white 18%))
+    drop-shadow(0 10px 8px rgba(0,0,0,.58)); }
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.19: TRASLADO KASTEO -> ARENA + OUTLINE SUAVE
+   ========================================================= */
+
+/* Outline reducido aprox. 80%: borde blanco casi de filo, glow elemental suave. */
+.unit.caster img,
+.unit.guardian img,
+.unit.invocation img {
+  filter:
+    drop-shadow(.25px 0 0 rgba(255,255,255,.62))
+    drop-shadow(-.25px 0 0 rgba(255,255,255,.62))
+    drop-shadow(0 .25px 0 rgba(255,255,255,.62))
+    drop-shadow(0 -.25px 0 rgba(255,255,255,.62))
+    drop-shadow(0 0 3px color-mix(in srgb, var(--unit-glow, #ffffff) 42%, transparent 58%))
+    drop-shadow(0 8px 7px rgba(0,0,0,.55)) !important;
+}
+
+.unit.caster:hover img,
+.unit.guardian:hover img,
+.unit.invocation:hover img,
+.unit.selected-mover img,
+.unit.invocation.hover-linked img {
+  filter:
+    drop-shadow(.35px 0 0 rgba(255,255,255,.78))
+    drop-shadow(-.35px 0 0 rgba(255,255,255,.78))
+    drop-shadow(0 .35px 0 rgba(255,255,255,.78))
+    drop-shadow(0 -.35px 0 rgba(255,255,255,.78))
+    drop-shadow(0 0 5px rgba(255,255,255,.32))
+    drop-shadow(0 0 6px color-mix(in srgb, var(--unit-glow, #ffffff) 38%, transparent 62%))
+    drop-shadow(0 8px 7px rgba(0,0,0,.55)) !important;
+}
+
+.unit.caster:hover img,
+.unit.guardian:hover img,
+.unit.invocation:hover img,
+.unit.selected-mover img {
+  animation: unitWhitePulseSoft 1s infinite alternate !important;
+}
+
+@keyframes unitWhitePulseSoft {
+  from { filter:
+    drop-shadow(.25px 0 0 rgba(255,255,255,.58))
+    drop-shadow(-.25px 0 0 rgba(255,255,255,.58))
+    drop-shadow(0 .25px 0 rgba(255,255,255,.58))
+    drop-shadow(0 -.25px 0 rgba(255,255,255,.58))
+    drop-shadow(0 0 3px rgba(255,255,255,.18))
+    drop-shadow(0 0 5px color-mix(in srgb, var(--unit-glow, #ffffff) 32%, transparent 68%)); }
+  to { filter:
+    drop-shadow(.35px 0 0 rgba(255,255,255,.80))
+    drop-shadow(-.35px 0 0 rgba(255,255,255,.80))
+    drop-shadow(0 .35px 0 rgba(255,255,255,.80))
+    drop-shadow(0 -.35px 0 rgba(255,255,255,.80))
+    drop-shadow(0 0 5px rgba(255,255,255,.30))
+    drop-shadow(0 0 6px color-mix(in srgb, var(--unit-glow, #ffffff) 38%, transparent 62%)); }
+}
+
+/* Ficha temporal que viaja desde zona de Kasteo hasta la casilla de arena. */
+.cast-travel-token {
+  position: fixed;
+  z-index: 9999;
+  transform: translate(-50%, -50%) scale(1, 1);
+  transform-origin: center center;
+  pointer-events: none;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,.75)) drop-shadow(0 10px 8px rgba(0,0,0,.65));
+}
+
+.cast-travel-token img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cast-travel-token.traveling {
+  animation: castTravelToArena .72s cubic-bezier(.19,.82,.25,1) forwards;
+}
+
+@keyframes castTravelToArena {
+  0% {
+    transform: translate(-50%, -50%) scale(1, 1);
+    opacity: 1;
+  }
+  74% {
+    transform: translate(calc(-50% + var(--travel-x)), calc(-50% + var(--travel-y))) scale(var(--travel-scale-x), var(--travel-scale-y));
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,.65)) drop-shadow(0 8px 7px rgba(0,0,0,.55));
+  }
+  88% {
+    transform: translate(calc(-50% + var(--travel-x)), calc(-50% + var(--travel-y))) scale(calc(var(--travel-scale-x) * 1.12), calc(var(--travel-scale-y) * 1.12));
+    filter: drop-shadow(0 0 16px rgba(255,255,255,.95));
+  }
+  100% {
+    transform: translate(calc(-50% + var(--travel-x)), calc(-50% + var(--travel-y))) scale(var(--travel-scale-x), var(--travel-scale-y));
+    opacity: 0;
+  }
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.20: flechas cuadradas + transición centrada en arena
+   ========================================================= */
+
+.move-options-layer {
+  z-index: 20 !important;
+  pointer-events: none;
+}
+
+.units-layer {
+  z-index: 8 !important;
+}
+
+.move-option {
+  z-index: 21;
+  border-radius: 0 !important;
+  background: rgba(255,255,255,.05) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  box-shadow: 0 0 6px rgba(255,255,255,.10), inset 0 0 0 1px rgba(255,255,255,.10) !important;
+  overflow: visible !important;
+  opacity: .6;
+}
+
+.move-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill !important;
+  border-radius: 0 !important;
+  opacity: .6;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.move-option:hover {
+  opacity: .78;
+  transform: translate(-50%, -50%) scale(1.01);
+  box-shadow: 0 0 8px rgba(255,255,255,.16), inset 0 0 0 1px rgba(255,255,255,.18) !important;
+}
+
+.move-option:hover img {
+  opacity: .78;
+}
+
+.transition-overlay {
+  background: transparent !important;
+  place-items: unset !important;
+  display: block !important;
+}
+
+.transition-card {
+  position: fixed;
+  min-width: 460px;
+  max-width: min(80vw, 760px);
+  padding: 18px 30px;
+  white-space: pre-line;
+  letter-spacing: 4px;
+  font-size: 24px;
+  line-height: 1.15;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  border-width: 1px;
+  background: linear-gradient(180deg, rgba(20,16,24,.82), rgba(5,5,6,.82));
+  box-shadow: 0 0 18px var(--p1-soft), inset 0 0 16px rgba(255,255,255,.04);
+}
+
+.transition-card.p2 {
+  box-shadow: 0 0 18px var(--p2-soft), inset 0 0 16px rgba(255,255,255,.04);
+}
+
+.transition-card.fly-phase {
+  animation: phaseSlideArena 1.05s ease both;
+}
+
+@keyframes phaseSlideArena {
+  0% {
+    opacity: 0;
+    transform: translate(calc(-50% - 300px), -50%);
+  }
+  18% {
+    opacity: .72;
+    transform: translate(calc(-50% - 120px), -50%);
+  }
+  38% {
+    opacity: .98;
+    transform: translate(-50%, -50%);
+  }
+  64% {
+    opacity: .98;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + 300px), -50%);
+  }
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.21: profundidad, hover suave y transición limpia
+   ========================================================= */
+
+/* Las casillas de kasteo suben por encima de todo mientras eliges dónde kastear */
+.grid-layer.casting-active {
+  z-index: 24 !important;
+}
+
+.grid-layer.casting-active .cell.caster-zone,
+.grid-layer.casting-active .cell.selected-place {
+  z-index: 25;
+}
+
+/* El reloj de arena del punto de respawn queda centrado */
+.spawn-status {
+  top: 50%;
+  left: 50%;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+/* Hover de la carta de respawn: mucho más sutil y coherente */
+.spawn-marker.pulse-linked .card,
+.spawn-marker.hover-linked .card {
+  outline: 1px solid rgba(255,255,255,.62);
+  box-shadow: 0 0 7px rgba(255,255,255,.36);
+}
+
+.spawn-marker.hover-linked {
+  filter: drop-shadow(0 0 5px rgba(255,255,255,.28)) drop-shadow(0 0 9px rgba(255,255,255,.18));
+}
+
+/* El item en zona de Kasteo solo anima al entrar. El hover cruzado ya no reinicia la entrada */
+.cast-item.entering {
+  animation: castDropFromTop .58s ease-out 1;
+}
+
+.cast-item.queue-linked {
+  animation: queuePulseSoft .82s infinite alternate;
+}
+
+.cast-item.queue-linked img {
+  filter: drop-shadow(0 0 7px rgba(255,255,255,.42)) drop-shadow(0 0 12px rgba(255,255,255,.25)) !important;
+}
+
+@keyframes queuePulseSoft {
+  from { transform: scale(1); }
+  to { transform: scale(1.045); }
+}
+
+/* Evitar hover demasiado fuerte sobre fichas ligadas al respawn */
+.unit.invocation.hover-linked img {
+  filter: brightness(1.06) saturate(1) contrast(1.02) drop-shadow(0 0 6px rgba(255,255,255,.32)) !important;
+}
+
+/* Transición de fase/jugador sin borde, con degradado lateral y movimiento fluido */
+.transition-overlay {
+  background: transparent !important;
+  opacity: 1 !important;
+  transition: none !important;
+  display: block !important;
+  pointer-events: none;
+}
+
+.transition-overlay:not(.show) .transition-card {
+  display: none;
+}
+
+.transition-card {
+  border: none !important;
+  min-width: 520px;
+  max-width: min(84vw, 860px);
+  padding: 16px 34px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 28px;
+  color: rgba(255,255,255,.96);
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0) 0%,
+    rgba(84,57,120,.10) 12%,
+    rgba(18,12,26,.78) 32%,
+    rgba(18,12,26,.96) 50%,
+    rgba(18,12,26,.78) 68%,
+    rgba(84,57,120,.10) 88%,
+    rgba(0,0,0,0) 100%) !important;
+  box-shadow: none !important;
+  text-shadow: 0 0 12px rgba(255,255,255,.18), 0 0 28px rgba(166,106,255,.22);
+  backdrop-filter: blur(1px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.transition-card.p2 {
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0) 0%,
+    rgba(120,45,65,.10) 12%,
+    rgba(30,12,18,.78) 32%,
+    rgba(30,12,18,.96) 50%,
+    rgba(30,12,18,.78) 68%,
+    rgba(120,45,65,.10) 88%,
+    rgba(0,0,0,0) 100%) !important;
+  text-shadow: 0 0 12px rgba(255,255,255,.18), 0 0 28px rgba(255,109,138,.22);
+}
+
+.transition-card.fly-phase {
+  animation: phaseSlideArenaSmooth 1.02s cubic-bezier(.22,.78,.2,1) both;
+}
+
+@keyframes phaseSlideArenaSmooth {
+  0% { opacity: 0; transform: translate(calc(-50% - 260px), -50%); }
+  18% { opacity: .72; transform: translate(calc(-50% - 110px), -50%); }
+  35% { opacity: .98; transform: translate(-50%, -50%); }
+  62% { opacity: .98; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(calc(-50% + 260px), -50%); }
+}
+
+
+
+/* =========================================================
+   ROK BETA v0.22: transición por color activo + hitbox real de ficha
+   ========================================================= */
+
+/* La imagen completa de una ficha ya no bloquea clicks sobre unidades/casillas detrás. */
+.unit {
+  pointer-events: none !important;
+}
+
+.unit img {
+  pointer-events: none !important;
+}
+
+.unit-hitbox {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  transform: translateX(-50%);
+  width: 44%;
+  height: 32%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgba(255,255,255,0);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 4;
+}
+
+.unit-hitbox:hover {
+  background: rgba(255,255,255,.035);
+}
+
+.unit.unit-hovered img,
+.unit.selected-mover img,
+.unit.invocation.hover-linked img {
+  filter:
+    drop-shadow(1px 0 0 rgba(255,255,255,.84))
+    drop-shadow(-1px 0 0 rgba(255,255,255,.84))
+    drop-shadow(0 1px 0 rgba(255,255,255,.84))
+    drop-shadow(0 -1px 0 rgba(255,255,255,.84))
+    drop-shadow(0 0 5px rgba(255,255,255,.30))
+    drop-shadow(0 0 7px color-mix(in srgb, var(--unit-glow, #ffffff) 36%, white 14%))
+    drop-shadow(0 10px 8px rgba(0,0,0,.58)) !important;
+}
+
+/* Transición: color dinámico, sin borde, sin parpadeo raro, con degradado lateral */
+.transition-overlay {
+  background: transparent !important;
+  opacity: 1 !important;
+  transition: none !important;
+  display: block !important;
+  pointer-events: none;
+}
+
+.transition-overlay:not(.show) .transition-card {
+  display: none !important;
+}
+
+.transition-card {
+  --phase-rgb: 155, 77, 255;
+  --phase-color: #9b4dff;
+  border: none !important;
+  min-width: 520px;
+  max-width: min(84vw, 860px);
+  padding: 16px 34px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 28px;
+  line-height: 1.15;
+  color: rgba(255,255,255,.96);
+  background: linear-gradient(90deg,
+    rgba(var(--phase-rgb), 0) 0%,
+    rgba(var(--phase-rgb), .10) 13%,
+    rgba(var(--phase-rgb), .42) 34%,
+    rgba(var(--phase-rgb), .62) 50%,
+    rgba(var(--phase-rgb), .42) 66%,
+    rgba(var(--phase-rgb), .10) 87%,
+    rgba(var(--phase-rgb), 0) 100%) !important;
+  box-shadow: none !important;
+  text-shadow: 0 0 10px rgba(255,255,255,.18), 0 0 26px rgba(var(--phase-rgb), .45);
+  backdrop-filter: blur(1px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.transition-card.p2 {
+  background: linear-gradient(90deg,
+    rgba(var(--phase-rgb), 0) 0%,
+    rgba(var(--phase-rgb), .10) 13%,
+    rgba(var(--phase-rgb), .42) 34%,
+    rgba(var(--phase-rgb), .62) 50%,
+    rgba(var(--phase-rgb), .42) 66%,
+    rgba(var(--phase-rgb), .10) 87%,
+    rgba(var(--phase-rgb), 0) 100%) !important;
+  text-shadow: 0 0 10px rgba(255,255,255,.18), 0 0 26px rgba(var(--phase-rgb), .45);
+}
+
+.transition-card.fly-phase {
+  animation: phaseSlideArenaStable 1.02s cubic-bezier(.22,.78,.2,1) both;
+}
+
+@keyframes phaseSlideArenaStable {
+  0% { opacity: 0; transform: translate(calc(-50% - 260px), -50%); }
+  18% { opacity: .72; transform: translate(calc(-50% - 110px), -50%); }
+  35% { opacity: .98; transform: translate(-50%, -50%); }
+  62% { opacity: .98; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(calc(-50% + 260px), -50%); }
+}
+
+
+/* =========================================================
+   ROK BETA v0.23: transición estilo overlay cinematográfico
+   ========================================================= */
+.transition-overlay {
+  background: transparent !important;
+  opacity: 1 !important;
+  transition: none !important;
+  display: block !important;
+  pointer-events: none;
+}
+
+.transition-overlay:not(.show) .transition-card {
+  display: none;
+}
+
+.transition-card {
+  position: fixed;
+  min-width: 760px;
+  max-width: min(90vw, 1120px);
+  padding: 38px 80px;
+  border: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 78px;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(255,255,255,.98);
+  background:
+    linear-gradient(90deg,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,.16) 10%,
+      rgba(0,0,0,.62) 22%,
+      rgba(0,0,0,.82) 33%,
+      rgba(0,0,0,.90) 50%,
+      rgba(0,0,0,.82) 67%,
+      rgba(0,0,0,.62) 78%,
+      rgba(0,0,0,.16) 90%,
+      rgba(0,0,0,0) 100%) !important;
+  box-shadow: none !important;
+  text-shadow:
+    0 0 2px rgba(255,255,255,.45),
+    0 0 16px rgba(var(--phase-rgb), .35),
+    0 0 34px rgba(var(--phase-rgb), .28),
+    0 0 58px rgba(var(--phase-rgb), .18);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  will-change: transform, opacity;
+  overflow: visible;
+}
+
+.transition-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(var(--phase-rgb), .08) 18%,
+      rgba(var(--phase-rgb), .13) 50%,
+      rgba(var(--phase-rgb), .08) 82%,
+      rgba(255,255,255,0) 100%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.transition-card.p2 {
+  color: rgba(255,255,255,.98);
+}
+
+.transition-card.fly-phase {
+  animation: phaseSlideCinematic 1.06s cubic-bezier(.18,.74,.18,1) both;
+}
+
+@keyframes phaseSlideCinematic {
+  0% {
+    opacity: 0;
+    transform: translate(calc(-50% - 320px), -50%);
+  }
+  18% {
+    opacity: .64;
+    transform: translate(calc(-50% - 130px), -50%);
+  }
+  36% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  64% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + 320px), -50%);
+  }
+}
+
+@media (max-width: 1100px) {
+  .transition-card {
+    min-width: 0;
+    width: min(92vw, 980px);
+    font-size: 56px;
+    padding: 30px 40px;
+  }
+}
+
+@media (max-width: 700px) {
+  .transition-card {
+    width: min(94vw, 760px);
+    font-size: 38px;
+    padding: 22px 20px;
+    letter-spacing: 2px;
+  }
+}
+
+
+/* =========================================================
+   ROK BETA v0.24: transición con texto reducido y secuencia corregida
+   ========================================================= */
+.transition-card {
+  min-width: 620px !important;
+  max-width: min(88vw, 980px) !important;
+  padding: 28px 64px !important;
+  font-size: 54px !important;
+  font-weight: 800;
+  letter-spacing: 3px !important;
+  line-height: 1.02 !important;
+  color: rgba(255,255,255,.98) !important;
+  background:
+    linear-gradient(90deg,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,.12) 10%,
+      rgba(0,0,0,.56) 22%,
+      rgba(0,0,0,.84) 34%,
+      rgba(0,0,0,.92) 50%,
+      rgba(0,0,0,.84) 66%,
+      rgba(0,0,0,.56) 78%,
+      rgba(0,0,0,.12) 90%,
+      rgba(0,0,0,0) 100%) !important;
+  text-shadow:
+    0 0 2px rgba(255,255,255,.35),
+    0 0 12px rgba(var(--phase-rgb), .28),
+    0 0 26px rgba(var(--phase-rgb), .20),
+    0 0 42px rgba(var(--phase-rgb), .12) !important;
+}
+
+.transition-card::before {
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(var(--phase-rgb), .04) 18%,
+      rgba(var(--phase-rgb), .10) 50%,
+      rgba(var(--phase-rgb), .04) 82%,
+      rgba(255,255,255,0) 100%) !important;
+}
+
+.transition-card.fly-phase {
+  animation: phaseSlideCinematicTight 0.96s cubic-bezier(.18,.74,.18,1) both !important;
+}
+
+@keyframes phaseSlideCinematicTight {
+  0% { opacity: 0; transform: translate(calc(-50% - 240px), -50%); }
+  20% { opacity: .66; transform: translate(calc(-50% - 90px), -50%); }
+  38% { opacity: 1; transform: translate(-50%, -50%); }
+  66% { opacity: 1; transform: translate(-50%, -50%); }
+  100% { opacity: 0; transform: translate(calc(-50% + 240px), -50%); }
+}
+
+@media (max-width: 1100px) {
+  .transition-card {
+    width: min(90vw, 900px) !important;
+    font-size: 42px !important;
+    padding: 24px 28px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .transition-card {
+    width: min(92vw, 720px) !important;
+    font-size: 30px !important;
+    padding: 18px 18px !important;
+    letter-spacing: 2px !important;
+  }
+}
+
+
+/* =========================================================
+   ROK BETA v0.25: transición sin pausa central
+   ========================================================= */
+.transition-card.fly-phase {
+  animation: phaseSlideCinematicFlow 0.88s linear both !important;
+}
+
+@keyframes phaseSlideCinematicFlow {
+  0% {
+    opacity: 0;
+    transform: translate(calc(-50% - 260px), -50%);
+  }
+  18% {
+    opacity: .72;
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  82% {
+    opacity: .72;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + 260px), -50%);
+  }
+}
+
+
+/* =========================================================
+   ROK BETA v0.26: Drop-in + Landing Impact en zona de Kasteo
+   ========================================================= */
+
+/* La entrada inicial usa una animación única: cae primero y luego impacta. */
+.cast-item.entering {
+  animation: kastDropLanding .92s cubic-bezier(.18,.78,.2,1) 1 both !important;
+  pointer-events: none;
+}
+
+.cast-item.entering img {
+  animation: kastLandingFlash .32s ease-out .58s 1 both !important;
+}
+
+/* Mientras cae, ni la ficha ni el punto de respawn aceptan hover/palpitar. */
+.cast-item.intro-locked,
+.spawn-marker.intro-locked {
+  pointer-events: none !important;
+}
+
+.spawn-marker.intro-locked .card {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@keyframes kastDropLanding {
+  0% {
+    opacity: 0;
+    transform: translateY(-120px) scale(.82);
+    filter: blur(3px);
+  }
+  54% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+    filter: blur(0);
+  }
+  66% {
+    transform: translateY(0) scale(.94, 1.06);
+  }
+  78% {
+    transform: translateY(-6px) scale(1.03, .98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes kastLandingFlash {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(255,255,255,.20)) drop-shadow(0 10px 8px rgba(0,0,0,.65));
+  }
+  45% {
+    filter: drop-shadow(0 0 14px rgba(255,255,255,.88)) drop-shadow(0 0 22px rgba(255,255,255,.52)) drop-shadow(0 10px 8px rgba(0,0,0,.65));
+  }
+  100% {
+    filter: drop-shadow(0 0 7px rgba(255,255,255,.42)) drop-shadow(0 10px 8px rgba(0,0,0,.65));
+  }
+}
+
+/* El pulso queda reservado SOLO para hover, después de la caída. */
+.cast-item.queue-linked:not(.entering) {
+  animation: queuePulseSoft .82s infinite alternate;
+}
+
+.cast-item.queue-linked.entering {
+  animation: kastDropLanding .92s cubic-bezier(.18,.78,.2,1) 1 both !important;
+}
+
+
+/* =========================================================
+   v0.28 · EXTRACCIÓN ANIMADA
+   ========================================================= */
+.extraction-fx-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 18;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.extract-card-fx,
+.extract-orb-fx,
+.extract-source-glow,
+.extract-impact-fx {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity, left, top;
+}
+
+.extract-card-fx {
+  width: 92px;
+  aspect-ratio: 1024 / 1536;
+  overflow: hidden;
+  border-radius: 10px;
+  filter: drop-shadow(0 18px 18px rgba(0,0,0,.45));
+}
+
+.extract-card-fx .card-layer { position:absolute; inset:0; width:100%; height:100%; }
+.extract-card-fx .card-bg { object-fit: cover; }
+.extract-card-fx .card-art {
+  object-fit: contain;
+  transform: scale(1.06) translateY(6%);
+  filter: drop-shadow(0 7px 8px rgba(0,0,0,.55));
+}
+.extract-card-fx .card-skin { object-fit: fill; }
+.extract-card-fx .extract-card-count {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(139, 74, 255, .95);
+  box-shadow: 0 0 14px rgba(155, 77, 255, .55);
+  color: white;
+  font: 700 13px Arial, sans-serif;
+  z-index: 5;
+}
+
+.extract-source-glow {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.82) 0%, rgba(183,108,255,.52) 32%, rgba(115,32,190,.16) 68%, rgba(0,0,0,0) 100%);
+  transform: translate(-50%, -50%);
+}
+
+.extract-impact-fx {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.85) 0%, rgba(193,151,255,.35) 28%, rgba(110,40,199,.14) 56%, rgba(0,0,0,0) 78%);
+  transform: translate(-50%, -50%) scale(.6);
+}
+
+.extract-orb-fx {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.28);
+  background: radial-gradient(circle at 34% 30%, #fff, #b675ff 16%, #4f1393 34%, #12061f 67%, #07020f 100%);
+  box-shadow: 0 0 18px rgba(155,77,255,.65);
+  transform: translate(-50%, -50%);
+}
+
+.phase-box.disabled,
+.main-button:disabled {
+  opacity: .65;
+  filter: grayscale(.15);
+  cursor: not-allowed;
+}
+
+
+
+/* =========================================================
+   v0.29 · CALIBRACIÓN DE EXTRACCIÓN CON TEXTURA REAL
+   ========================================================= */
+
+/* La carta de elemento usa la proporción de la skin, no un ratio inventado. */
+.extract-card-fx {
+  width: 150px !important;
+  aspect-ratio: var(--card-skin-aspect) !important;
+  border-radius: 0 !important;
+}
+
+/* La carta arranca pequeña por escala y llega al tamaño del Spellbook.
+   La proporción sigue mandada por el skin. */
+.extract-card-fx .card-bg {
+  object-fit: cover !important;
+}
+
+.extract-card-fx .card-art {
+  object-fit: contain !important;
+  transform: scale(1.02) translateY(4%) !important;
+}
+
+.extract-card-fx .card-skin {
+  object-fit: fill !important;
+}
+
+/* Glow de fuente calibrado para que se lea como activación de la fuente,
+   sin parecer un orbe flotando fuera de sitio. */
+.extract-source-glow {
+  width: 68px !important;
+  height: 68px !important;
+  opacity: .92;
+}
+
+/* Orbes de extracción un poco más compactos para que caigan limpio en la barra. */
+.extract-orb-fx {
+  width: 42px !important;
+  height: 42px !important;
+}
+
+
+/* =========================================================
+   v0.30A · SISTEMA VISUAL DE FUENTES
+   ========================================================= */
+.fountain-p1 {
+  left: var(--fountain-p1-left) !important;
+  top: var(--fountain-p1-top) !important;
+}
+.fountain-p2 {
+  left: var(--fountain-p2-left) !important;
+  top: var(--fountain-p2-top) !important;
+}
+
+.fountain-fx {
+  position: absolute;
+  width: var(--fountain-size);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+  --fountain-color: #9b4dff;
+}
+.fountain-fx::before {
+  content: '';
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 34%,
+      rgba(255,255,255,.55) 0,
+      color-mix(in srgb, var(--fountain-color) 48%, white 52%) 14%,
+      color-mix(in srgb, var(--fountain-color) 35%, transparent 65%) 35%,
+      rgba(0,0,0,0) 72%),
+    conic-gradient(from 0deg,
+      color-mix(in srgb, var(--fountain-color) 28%, transparent 72%),
+      rgba(255,255,255,.05),
+      color-mix(in srgb, var(--fountain-color) 28%, transparent 72%));
+  filter: blur(1.1px) drop-shadow(0 0 calc(22px * var(--fountain-glow)) var(--fountain-color));
+  opacity: var(--fountain-opacity);
+  animation: fountainSwirl 7.5s linear infinite, fountainPulse 2.8s ease-in-out infinite;
+}
+.fountain-fx::after {
+  content: '';
+  position: absolute;
+  inset: 23%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--fountain-color) 32%, white 18%);
+  box-shadow: 0 0 calc(24px * var(--fountain-glow)) var(--fountain-color), inset 0 0 10px rgba(255,255,255,.08);
+  opacity: calc(var(--fountain-opacity) * .55);
+  animation: fountainRingPulse 2.4s ease-in-out infinite;
+}
+.fountain-particles {
+  position: absolute;
+  inset: 0;
+}
+.fountain-particle {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: var(--fountain-particle-size);
+  height: var(--fountain-particle-size);
+  margin-left: calc(var(--fountain-particle-size) / -2);
+  margin-top: calc(var(--fountain-particle-size) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255,255,255,.95) 0,
+    color-mix(in srgb, var(--fountain-color) 34%, white 66%) 34%,
+    color-mix(in srgb, var(--fountain-color) 55%, transparent 45%) 68%,
+    rgba(0,0,0,0) 100%);
+  opacity: 0;
+  animation: fountainParticle var(--fountain-particle-speed) ease-in-out infinite;
+}
+.fountain-particle.p1 { --dx: -18px; --dy: -26px; --s: .8; animation-delay: calc(var(--fountain-particle-frequency) * 0); }
+.fountain-particle.p2 { --dx: 16px; --dy: -34px; --s: 1; animation-delay: calc(var(--fountain-particle-frequency) * 1); }
+.fountain-particle.p3 { --dx: -28px; --dy: -18px; --s: .65; animation-delay: calc(var(--fountain-particle-frequency) * 2); }
+.fountain-particle.p4 { --dx: 24px; --dy: -22px; --s: .9; animation-delay: calc(var(--fountain-particle-frequency) * 3); }
+.fountain-particle.p5 { --dx: -10px; --dy: -40px; --s: .72; animation-delay: calc(var(--fountain-particle-frequency) * 4); }
+.fountain-particle.p6 { --dx: 6px; --dy: -28px; --s: .6; animation-delay: calc(var(--fountain-particle-frequency) * 5); }
+.fountain-particle.p7 { --dx: -22px; --dy: -36px; --s: .88; animation-delay: calc(var(--fountain-particle-frequency) * 6); }
+.fountain-particle.p8 { --dx: 20px; --dy: -30px; --s: .75; animation-delay: calc(var(--fountain-particle-frequency) * 7); }
+
+@keyframes fountainSwirl {
+  from { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.04); }
+  to { transform: rotate(360deg) scale(1); }
+}
+@keyframes fountainPulse {
+  0%, 100% { opacity: calc(var(--fountain-opacity) * .8); }
+  50% { opacity: var(--fountain-opacity); }
+}
+@keyframes fountainRingPulse {
+  0%, 100% { transform: scale(.92); opacity: calc(var(--fountain-opacity) * .25); }
+  50% { transform: scale(1.06); opacity: calc(var(--fountain-opacity) * .7); }
+}
+@keyframes fountainParticle {
+  0% {
+    transform: translate(0, 0) scale(.35);
+    opacity: 0;
+  }
+  20% {
+    opacity: .9;
+  }
+  65% {
+    transform:
+      translate(
+        calc(var(--dx) * var(--fountain-particle-distance)),
+        calc(var(--dy) * var(--fountain-particle-distance))
+      )
+      scale(calc(var(--s) * var(--fountain-particle-scale)));
+    opacity: .72;
+  }
+  100% {
+    transform:
+      translate(
+        calc(var(--dx) * var(--fountain-particle-distance) * 1.15),
+        calc(var(--dy) * var(--fountain-particle-distance) * 1.15)
+      )
+      scale(.3);
+    opacity: 0;
+  }
+}
+
+
+.fountain-fx .fountain-gen-glow {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255,255,255,.75) 0%,
+    color-mix(in srgb, var(--fountain-color) 60%, white 40%) 22%,
+    color-mix(in srgb, var(--fountain-color) 50%, transparent 50%) 52%,
+    rgba(0,0,0,0) 76%);
+  opacity: 0;
+  transform: scale(.55);
+  filter: blur(1.2px) drop-shadow(0 0 14px var(--fountain-color));
+  transition: opacity .18s ease, transform .22s ease;
+  pointer-events: none;
+}
+
+.fountain-fx.is-extracting {
+  --fountain-particle-scale: var(--fountain-extract-particle-scale);
+}
+
+.fountain-fx.is-extracting::before {
+  opacity: var(--fountain-extract-opacity);
+  animation-duration: 2s, 1s;
+}
+
+.fountain-fx.is-extracting::after {
+  opacity: calc(var(--fountain-extract-opacity) * .8);
+  box-shadow: 0 0 calc(34px * var(--fountain-extract-glow)) var(--fountain-color), inset 0 0 14px rgba(255,255,255,.12);
+  animation-duration: 1.1s;
+}
+
+.fountain-fx.is-extracting .fountain-particle {
+  animation-duration: var(--fountain-extract-speed);
+}
+
+.fountain-fx.is-extracting .fountain-gen-glow {
+  opacity: .95;
+  transform: scale(1.06);
+}
+
+
+/* =========================================================
+   v0.30G · AVISO VISIBLE + RESET DE VISTA AL CAMBIO DE TURNO
+   ========================================================= */
+.transition-card.pinned-top {
+  top: 72px !important;
+  left: 50% !important;
+  z-index: 1000;
+}
+
+
+/* =========================================================
+   v0.30H · TEST COMBATE/RIESGO/RESTAURACIÓN
+   ========================================================= */
+.unit.restoring img {
+  filter:
+    brightness(.95)
+    sepia(1)
+    saturate(4)
+    hue-rotate(230deg)
+    drop-shadow(0 0 10px var(--restore-color, #9b4dff))
+    drop-shadow(0 8px 7px rgba(0,0,0,.55)) !important;
+  opacity: .88;
+}
+.restore-badge,
+.resistance-badge {
+  position: absolute;
+  right: -8px;
+  bottom: 4px;
+  min-width: 28px;
+  min-height: 24px;
+  border-radius: 999px;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 5px;
+  background: rgba(5,5,8,.82);
+  border: 1px solid rgba(255,255,255,.72);
+  color: white;
+  font: bold 11px Arial, sans-serif;
+  box-shadow: 0 0 9px rgba(255,255,255,.36);
+  pointer-events: none;
+}
+.resistance-badge .brick-shield {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.9);
+  clip-path: polygon(50% 0%, 88% 14%, 80% 70%, 50% 100%, 20% 70%, 12% 14%);
+  font-size: 6px;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.95) 0 2px, rgba(255,255,255,.45) 2px 3px);
+  color: transparent;
+}
+.floating-damage {
+  position: absolute;
+  z-index: 80;
+  transform: translate(-50%, -50%);
+  color: #ff3434;
+  font: 900 22px Arial, sans-serif;
+  text-shadow: 0 0 4px #000, 0 0 12px rgba(255,0,0,.55);
+  pointer-events: none;
+  animation: damageFloatUp .9s ease-out forwards;
+}
+@keyframes damageFloatUp {
+  0% { opacity: 0; transform: translate(-50%, -35%) scale(.8); }
+  18% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 0; transform: translate(-50%, -125%) scale(.92); }
+}
+.kaster-info-token,
+.guardian-info-token {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, rgba(255,255,255,.06), rgba(0,0,0,.7));
+}
+.kaster-info-token img,
+.guardian-info-token img {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px rgba(255,255,255,.35));
+}
+.card-info-stats {
+  grid-template-columns: repeat(5, minmax(70px, 1fr)) !important;
+}
+
+
+/* =========================================================
+   v0.30I · RESISTENCIA DE GUARDIANES CON MISMA COHERENCIA QUE TIEMPO
+   ========================================================= */
+.resistance-badge {
+  display: none !important;
+}
+
+.resistance-status {
+  position: absolute;
+  right: -8px;
+  bottom: -4px;
+  display: block;
+  pointer-events: none;
+  z-index: 8;
+}
+
+.resistance-icon-badge {
+  position: relative;
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 22px !important;
+  line-height: 1;
+  display: grid !important;
+  place-items: center !important;
+  border-color: rgba(255,255,255,.86) !important;
+  background: #12071e !important;
+  box-shadow: 0 0 10px rgba(255,255,255,.32) !important;
+}
+
+.resistance-icon-badge .brick-shield {
+  width: 22px;
+  height: 24px;
+  display: block;
+  background: #fff;
+  clip-path: polygon(50% 0%, 88% 14%, 80% 70%, 50% 100%, 20% 70%, 12% 14%);
+  position: relative;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.5));
+}
+
+.resistance-icon-badge .brick-shield::before,
+.resistance-icon-badge .brick-shield::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: inherit;
+  pointer-events: none;
+}
+
+/* Líneas internas tipo ladrillo, sin encerrar todo en otro contenedor raro. */
+.resistance-icon-badge .brick-shield::before {
+  background:
+    repeating-linear-gradient(0deg,
+      transparent 0 5px,
+      rgba(18,7,30,.82) 5px 6px),
+    repeating-linear-gradient(90deg,
+      transparent 0 7px,
+      rgba(18,7,30,.68) 7px 8px);
+  opacity: .72;
+}
+
+.resistance-icon-badge .brick-shield::after {
+  inset: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,0) 55%);
+  opacity: .55;
+}
+
+.resistance-corner-number {
+  position: absolute !important;
+  right: -3px !important;
+  bottom: -3px !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  background: #ffffff !important;
+  color: #12071e !important;
+  border: 1px solid #12071e !important;
+  font: bold 10px Arial, sans-serif !important;
+  box-shadow: 0 0 8px rgba(255,255,255,.65) !important;
+}
+
+
+/* =========================================================
+   v1.01 · BADGE PEQUEÑO + INFO CLICKEABLE + HITBOX INVOCACIÓN
+   ========================================================= */
+.info-chip {
+  cursor: pointer !important;
+}
+.info-chip:hover {
+  color: #fff !important;
+  border-color: rgba(255,255,255,.65) !important;
+  box-shadow: 0 0 10px rgba(255,255,255,.22);
+}
+
+/* Resistencia de Guardianes reducida aprox. a la mitad. */
+.resistance-status {
+  right: -4px !important;
+  bottom: -2px !important;
+  transform: scale(.56);
+  transform-origin: right bottom;
+}
+.resistance-icon-badge {
+  width: 34px !important;
+  height: 34px !important;
+}
+.resistance-icon-badge .brick-shield {
+  width: 22px !important;
+  height: 24px !important;
+}
+
+/* Las invocaciones necesitan una zona clickeable más útil para movimiento. */
+.unit.invocation .unit-hitbox {
+  width: 62% !important;
+  height: 58% !important;
+  bottom: 5% !important;
+}
+.unit.caster .unit-hitbox {
+  width: 52% !important;
+  height: 44% !important;
+  bottom: 3% !important;
+}
+
+.patch-info-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 160;
+  display: none;
+  place-items: center;
+  background: rgba(0,0,0,.62);
+  backdrop-filter: blur(2px);
+}
+.patch-info-overlay.open {
+  display: grid;
+}
+.patch-info-card {
+  width: min(520px, 86vw);
+  max-height: 82vh;
+  overflow: auto;
+  position: relative;
+  padding: 22px 24px;
+  border: 1px solid rgba(155,77,255,.46);
+  background: linear-gradient(180deg, rgba(18,14,25,.98), rgba(5,5,8,.98));
+  box-shadow: 0 0 28px rgba(155,77,255,.22), inset 0 0 24px rgba(0,0,0,.62);
+  color: var(--text);
+}
+.patch-info-card h2 {
+  margin: 0 0 10px;
+  color: #eadcff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.patch-info-card h3 {
+  margin: 16px 0 8px;
+  color: #cdb8ff;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.patch-info-body,
+.patch-info-body li,
+.patch-info-body p {
+  font: 13px Arial, sans-serif;
+  color: #d7cce5;
+  line-height: 1.45;
+}
+.patch-info-body ul {
+  margin: 6px 0 0 18px;
+  padding: 0;
+}
+.patch-info-close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: rgba(0,0,0,.35);
+  color: white;
+  cursor: pointer;
+  font: 20px Arial, sans-serif;
+  line-height: 1;
+}
+.patch-info-close:hover {
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,.24);
+}
+
+
+/* =========================================================
+   ROK v4.1 · TARGET & ATTACK CORE
+   ========================================================= */
+.combat-target-menu,
+.combat-action-menu {
+  position: absolute;
+  transform: translate(-50%, -112%);
+  z-index: 90;
+  display: flex;
+  gap: 4px;
+  pointer-events: auto;
+  padding: 4px;
+  border: 1px solid rgba(255,255,255,.24);
+  background: rgba(5,5,8,.88);
+  box-shadow: 0 0 16px rgba(0,0,0,.62), 0 0 12px rgba(255,255,255,.12);
+  backdrop-filter: blur(2px);
+}
+
+.combat-action-menu {
+  transform: translate(-50%, -118%);
+  border-color: rgba(255,80,80,.38);
+  box-shadow: 0 0 16px rgba(0,0,0,.62), 0 0 14px rgba(255,60,60,.18);
+}
+
+.combat-target-menu button,
+.combat-action-menu button {
+  height: 24px;
+  min-width: 58px;
+  padding: 0 7px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: #101015;
+  color: #f1edf5;
+  font: 10px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  cursor: pointer;
+}
+
+.combat-target-menu button:hover,
+.combat-action-menu button:hover {
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,.28);
+}
+
+.combat-action-menu [data-action="damage"],
+.combat-target-menu [data-action="combat"] {
+  border-color: rgba(255,80,80,.58);
+  color: #ffd8d8;
+}
+
+.return-to-spellbook-token {
+  position: fixed;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter:
+    sepia(1)
+    hue-rotate(220deg)
+    saturate(2)
+    drop-shadow(0 0 16px var(--return-color, #9b4dff))
+    drop-shadow(0 0 26px rgba(255,255,255,.28));
+}
+
+.return-to-spellbook-token img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.return-to-spellbook-token.traveling {
+  animation: returnToSpellbook .72s cubic-bezier(.19,.82,.25,1) forwards;
+}
+
+@keyframes returnToSpellbook {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  70% { opacity: .92; transform: translate(calc(-50% + var(--return-x)), calc(-50% + var(--return-y))) scale(.72); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--return-x)), calc(-50% + var(--return-y))) scale(.42); }
+}
+
+
+/* =========================================================
+   ROK v4.2 · TARGET FIX + VIEW CLASIFICADO
+   ========================================================= */
+.card-info-stats.card-info-stats-grouped {
+  width: min(560px, 100%);
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 8px !important;
+}
+.card-info-stats.card-info-stats-grouped .stat-row {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(62px, 1fr));
+  gap: 6px;
+  align-items: center;
+  padding: 8px !important;
+  border: 1px solid rgba(255,255,255,.11);
+  background: rgba(255,255,255,.035);
+}
+.card-info-stats.card-info-stats-grouped .stat-row-life {
+  grid-template-columns: repeat(2, minmax(72px, 1fr));
+}
+.card-info-stats.card-info-stats-grouped .stat-row-cast {
+  grid-template-columns: repeat(4, minmax(72px, 1fr));
+}
+.card-info-stats.card-info-stats-grouped .stat-row-move {
+  grid-template-columns: repeat(6, minmax(62px, 1fr));
+}
+.combat-target-menu,
+.combat-action-menu {
+  z-index: 500 !important;
+}
+.unit.selected-mover {
+  filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 18px var(--unit-glow, #9b4dff));
+}
+
+
+/* =========================================================
+   ROK v4.3 · DEFENSA DEL KASTER + ANIMACIONES
+   ========================================================= */
+.caster-defense-menu {
+  position: absolute;
+  transform: translate(-50%, -122%);
+  z-index: 96;
+  display: flex;
+  gap: 5px;
+  pointer-events: auto;
+  padding: 4px;
+  border: 1px solid rgba(255,255,255,.34);
+  background: rgba(5,5,8,.92);
+  box-shadow: 0 0 18px rgba(0,0,0,.7), 0 0 14px rgba(155,77,255,.22);
+  backdrop-filter: blur(2px);
+}
+.caster-defense-menu button {
+  height: 25px;
+  min-width: 78px;
+  padding: 0 8px;
+  border: 1px solid rgba(255,255,255,.2);
+  background: #101015;
+  color: #f5efff;
+  font: 10px Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  cursor: pointer;
+}
+.caster-defense-menu [data-action="defend"] {
+  color: #dfffea;
+  border-color: rgba(120,255,170,.55);
+}
+.caster-defense-menu [data-action="counter"] {
+  color: #ffd8d8;
+  border-color: rgba(255,90,90,.58);
+}
+.caster-defense-menu button:hover {
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255,255,255,.26);
+}
+.restore-travel-token {
+  position: fixed;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter:
+    sepia(1)
+    saturate(3)
+    drop-shadow(0 0 16px var(--restore-fly-color, #9b4dff))
+    drop-shadow(0 0 24px rgba(255,255,255,.28));
+}
+.restore-travel-token img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.restore-travel-token.traveling {
+  animation: restoreToSpawn .72s cubic-bezier(.19,.82,.25,1) forwards;
+}
+@keyframes restoreToSpawn {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  62% { opacity: .96; transform: translate(calc(-50% + var(--restore-x)), calc(-50% + var(--restore-y))) scale(.82); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--restore-x)), calc(-50% + var(--restore-y))) scale(.58); }
+}
+.card-info-stats.card-info-stats-grouped .stat-row-life {
+  grid-template-columns: repeat(4, minmax(72px, 1fr)) !important;
+}
+
+
+/* =========================================================
+   ROK v4.4 · COMBATE SOSTENIDO Y MOVIMIENTO OBLIGATORIO
+   ========================================================= */
+.floating-combat {
+  position: absolute;
+  z-index: 82;
+  transform: translate(-50%, -50%);
+  color: #fff3c9;
+  font: 900 13px Arial, sans-serif;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 4px #000, 0 0 14px rgba(255,210,70,.75), 0 0 22px rgba(255,80,40,.35);
+  pointer-events: none;
+  animation: combatFloatUp .95s ease-out forwards;
+}
+@keyframes combatFloatUp {
+  0% { opacity: 0; transform: translate(-50%, -35%) scale(.82); }
+  16% { opacity: 1; transform: translate(-50%, -54%) scale(1.04); }
+  100% { opacity: 0; transform: translate(-50%, -132%) scale(.94); }
+}
+.unit.invocation.engaged {
+  filter: drop-shadow(0 0 8px rgba(255,230,120,.45)) drop-shadow(0 0 14px rgba(255,80,40,.22));
+}
+.unit.invocation.engaged::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid rgba(255,230,140,.72);
+  box-shadow: 0 0 10px rgba(255,180,60,.28);
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ROK v4.7 · MOVIMIENTO OBLIGATORIO SOLO INVOCACIONES + BADGES VIDA/DAÑO
+   ========================================================= */
+
+/* Números más grandes para resistencia de Guardianes, sin volver grande el icono completo. */
+.resistance-corner-number {
+  width: 32px !important;
+  height: 32px !important;
+  right: -12px !important;
+  bottom: -12px !important;
+  font: bold 16px Arial, sans-serif !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 12px rgba(255,255,255,.72) !important;
+}
+
+.invocation-stat-status {
+  position: absolute;
+  left: -8px;
+  bottom: -3px;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.unit-stat-icon-badge {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #12071e;
+  border: 2px solid rgba(255,255,255,.86);
+  box-shadow: 0 0 10px rgba(255,255,255,.32), 0 0 11px var(--unit-glow, #9b4dff);
+}
+
+.unit-stat-corner-number {
+  position: absolute;
+  right: -12px;
+  bottom: -12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  color: #12071e;
+  border: 2px solid #12071e;
+  font: bold 16px Arial, sans-serif;
+  box-shadow: 0 0 12px rgba(255,255,255,.72);
+}
+
+.unit-sword-icon {
+  position: relative;
+  width: 5px;
+  height: 19px;
+  background: #fff;
+  border-radius: 2px;
+  transform: rotate(42deg);
+  filter: drop-shadow(0 0 3px rgba(255,255,255,.65));
+}
+.unit-sword-icon::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -5px;
+  width: 0;
+  height: 0;
+  transform: translateX(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 7px solid #fff;
+}
+.unit-sword-icon::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 16px;
+  height: 4px;
+  background: #fff;
+  border-radius: 999px;
+  transform: translateX(-50%) rotate(90deg);
+}
+
+.unit-heart-icon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  transform: rotate(-45deg) translateY(1px);
+  filter: drop-shadow(0 0 3px rgba(255,255,255,.65));
+}
+.unit-heart-icon::before,
+.unit-heart-icon::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #fff;
+}
+.unit-heart-icon::before { top: -7px; left: 0; }
+.unit-heart-icon::after { top: 0; left: 7px; }
+
+/* Si la ficha está restaurándose, los indicadores no deben pelear con el reloj. */
+.unit.invocation.restoring .invocation-stat-status {
+  opacity: .72;
+}
+
+
+/* =========================================================
+   ROK v4.8 · DISPOSICIÓN COHERENTE DE BADGES DE INVOCACIÓN
+   ========================================================= */
+/* Los indicadores de invocación siguen la misma lógica visual del Guardián:
+   icono principal + número en esquina, ubicados abajo de la ficha.
+   Como la invocación tiene dos datos, se colocan uno al lado del otro. */
+.invocation-stat-status {
+  left: 50% !important;
+  right: auto !important;
+  bottom: -10px !important;
+  transform: translateX(-50%) !important;
+  z-index: 12 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 22px !important;
+  pointer-events: none !important;
+  width: max-content !important;
+}
+
+.unit-stat-icon-badge {
+  width: 34px !important;
+  height: 34px !important;
+  background: #12071e !important;
+  border: 2px solid rgba(255,255,255,.86) !important;
+  box-shadow: 0 0 10px rgba(255,255,255,.32), 0 0 11px var(--unit-glow, #9b4dff) !important;
+}
+
+.unit-stat-corner-number {
+  width: 32px !important;
+  height: 32px !important;
+  right: -12px !important;
+  bottom: -12px !important;
+  font: bold 16px Arial, sans-serif !important;
+  border-width: 2px !important;
+  box-shadow: 0 0 12px rgba(255,255,255,.72) !important;
+}
+
+.unit.invocation.restoring .invocation-stat-status {
+  bottom: -14px !important;
+  opacity: .72;
+}
+
+
+/* =========================================================
+   ROK v4.9 · CONTROLES FINOS DE BADGES SIN CONTENEDOR VISUAL
+   ========================================================= */
+/* Regla base: el icono no lleva caja visual. La caja/círculo solo existe en el número. */
+
+/* Guardianes */
+.resistance-status {
+  right: var(--guardian-resistance-status-x) !important;
+  bottom: var(--guardian-resistance-status-y) !important;
+  transform: scale(var(--guardian-resistance-status-scale)) !important;
+  transform-origin: right bottom !important;
+}
+
+.resistance-icon-badge {
+  width: var(--guardian-resistance-icon-size) !important;
+  height: var(--guardian-resistance-icon-size) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.resistance-icon-badge .brick-shield {
+  width: var(--guardian-resistance-icon-size) !important;
+  height: calc(var(--guardian-resistance-icon-size) * 1.08) !important;
+  background: #fff !important;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.58)) !important;
+}
+
+.resistance-corner-number {
+  width: var(--guardian-resistance-number-size) !important;
+  height: var(--guardian-resistance-number-size) !important;
+  right: var(--guardian-resistance-number-x) !important;
+  bottom: var(--guardian-resistance-number-y) !important;
+  background: var(--guardian-resistance-number-bg) !important;
+  color: var(--guardian-resistance-number-color) !important;
+  font: bold var(--guardian-resistance-number-font-size) Arial, sans-serif !important;
+  border: 2px solid #12071e !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  box-shadow: 0 0 12px rgba(255,255,255,.72) !important;
+}
+
+/* Invocaciones */
+.invocation-stat-status {
+  left: 50% !important;
+  right: auto !important;
+  bottom: var(--invocation-badges-y) !important;
+  transform: translateX(calc(-50% + var(--invocation-badges-x))) !important;
+  gap: var(--invocation-badges-gap) !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: max-content !important;
+  pointer-events: none !important;
+}
+
+.unit-stat-icon-badge {
+  width: max(var(--damage-icon-size), var(--life-icon-size)) !important;
+  height: max(var(--damage-icon-size), var(--life-icon-size)) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  display: grid !important;
+  place-items: center !important;
+  position: relative !important;
+}
+
+.unit-damage-badge {
+  transform: translate(var(--damage-icon-x), var(--damage-icon-y)) !important;
+}
+
+.unit-life-badge {
+  transform: translate(var(--life-icon-x), var(--life-icon-y)) !important;
+}
+
+.unit-damage-badge .unit-sword-icon {
+  width: calc(var(--damage-icon-size) * .18) !important;
+  height: calc(var(--damage-icon-size) * .70) !important;
+  background: #fff !important;
+  border-radius: 2px !important;
+  transform: rotate(42deg) !important;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.65)) !important;
+}
+.unit-damage-badge .unit-sword-icon::before {
+  top: calc(var(--damage-icon-size) * -.20) !important;
+  border-left-width: calc(var(--damage-icon-size) * .145) !important;
+  border-right-width: calc(var(--damage-icon-size) * .145) !important;
+  border-bottom-width: calc(var(--damage-icon-size) * .25) !important;
+}
+.unit-damage-badge .unit-sword-icon::after {
+  bottom: calc(var(--damage-icon-size) * .07) !important;
+  width: calc(var(--damage-icon-size) * .58) !important;
+  height: calc(var(--damage-icon-size) * .145) !important;
+}
+
+.unit-life-badge .unit-heart-icon {
+  width: calc(var(--life-icon-size) * .54) !important;
+  height: calc(var(--life-icon-size) * .54) !important;
+  background: #fff !important;
+  transform: rotate(-45deg) translateY(calc(var(--life-icon-size) * .04)) !important;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.65)) !important;
+}
+.unit-life-badge .unit-heart-icon::before,
+.unit-life-badge .unit-heart-icon::after {
+  width: calc(var(--life-icon-size) * .54) !important;
+  height: calc(var(--life-icon-size) * .54) !important;
+  background: #fff !important;
+}
+.unit-life-badge .unit-heart-icon::before {
+  top: calc(var(--life-icon-size) * -.25) !important;
+  left: 0 !important;
+}
+.unit-life-badge .unit-heart-icon::after {
+  top: 0 !important;
+  left: calc(var(--life-icon-size) * .25) !important;
+}
+
+.unit-stat-corner-number {
+  width: var(--unit-stat-number-size) !important;
+  height: var(--unit-stat-number-size) !important;
+  background: var(--unit-stat-number-bg) !important;
+  color: var(--unit-stat-number-color) !important;
+  font: bold var(--unit-stat-number-font-size) Arial, sans-serif !important;
+  border: 2px solid #12071e !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  box-shadow: 0 0 12px rgba(255,255,255,.72) !important;
+}
+
+.unit-damage-badge .unit-stat-corner-number {
+  right: var(--damage-number-x) !important;
+  bottom: var(--damage-number-y) !important;
+}
+
+.unit-life-badge .unit-stat-corner-number {
+  right: var(--life-number-x) !important;
+  bottom: var(--life-number-y) !important;
+}
+
+.unit.invocation.restoring .invocation-stat-status {
+  bottom: calc(var(--invocation-badges-y) - 4px) !important;
+  opacity: .72;
+}
+
+
+/* =========================================================
+   v5.0 · BOTÓN REFRESCAR CSS SIN REINICIAR
+   ========================================================= */
+.css-refresh-chip {
+  position: absolute;
+  top: 5px;
+  left: 28px;
+  min-width: 36px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: rgba(0, 0, 0, .55);
+  color: rgba(255, 255, 255, .76);
+  font: bold 9px Arial, sans-serif;
+  line-height: 1;
+  padding: 0 6px;
+  cursor: pointer;
+  letter-spacing: .5px;
+  z-index: 40;
+}
+.css-refresh-chip:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,.65);
+  box-shadow: 0 0 10px rgba(255,255,255,.22);
+}
+.css-refresh-chip.flash {
+  color: #12071e;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 0 14px rgba(255,255,255,.55);
+}
