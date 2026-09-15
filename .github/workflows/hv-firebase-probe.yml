@@ -14,7 +14,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/getProjectConfig?key=AIzaSyA6C6f3gSVDvgxcQuyD8PsyQiHNDPD_ZOQ&projectNumber=496903032464' -o firebase-auth-config.json
+          curl -sS 'https://identitytoolkit.googleapis.com/v1/projects?key=AIzaSyA6C6f3gSVDvgxcQuyD8PsyQiHNDPD_ZOQ' -o firebase-auth-config.json
           cat firebase-auth-config.json
       - name: Upload config
         uses: actions/upload-artifact@v4
