@@ -31,11 +31,13 @@ jobs:
         with:
           gradle-version: '8.10.2'
 
-      - name: Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android platform
-        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Ensure Android 35 SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
 
       - name: Generate permanent HallValla signing key
         shell: bash
