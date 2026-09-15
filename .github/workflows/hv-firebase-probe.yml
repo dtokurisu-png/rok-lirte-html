@@ -10,15 +10,61 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch public Firebase Auth project config
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Discover Google OAuth client used by Firebase web auth
         shell: bash
         run: |
           set -euo pipefail
-          curl -sS -H 'Referer: https://elberlord.github.io/Hallvalla/' 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/getProjectConfig?key=AIzaSyA6C6f3gSVDvgxcQuyD8PsyQiHNDPD_ZOQ&projectNumber=496903032464' -o firebase-auth-config.json
-          cat firebase-auth-config.json
-      - name: Upload config
+          npm init -y >/dev/null 2>&1
+          npm install puppeteer-core@24 >/dev/null 2>&1
+          cat > probe.mjs <<'EOF'
+          import puppeteer from 'puppeteer-core';
+          import fs from 'node:fs';
+          const chrome = ['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium-browser','/usr/bin/chromium'].find(fs.existsSync);
+          if (!chrome) throw new Error('Chrome/Chromium not found');
+          const browser = await puppeteer.launch({headless:true, executablePath:chrome, args:['--no-sandbox','--disable-dev-shm-usage']});
+          const page = await browser.newPage();
+          const seen = [];
+          function capture(url) {
+            if (!url || seen.includes(url)) return;
+            seen.push(url);
+            console.log('URL', url);
+          }
+          page.on('popup', p => {
+            capture(p.url());
+            p.on('framenavigated', f => capture(f.url()));
+            p.on('request', r => {
+              const u = r.url();
+              if (u.includes('accounts.google.com') || u.includes('oauth2')) capture(u);
+            });
+          });
+          await page.goto('https://elberlord.github.io/Hallvalla/?dev', {waitUntil:'networkidle2', timeout:90000});
+          await page.waitForSelector('#googleLoginSplashBtn', {timeout:60000});
+          await page.click('#googleLoginSplashBtn');
+          await new Promise(r => setTimeout(r, 12000));
+          let client = '';
+          for (const u of seen) {
+            try {
+              const parsed = new URL(u);
+              const c = parsed.searchParams.get('client_id');
+              if (c && c.endsWith('.apps.googleusercontent.com')) { client = c; break; }
+              const txt = decodeURIComponent(u);
+              const m = txt.match(/client_id=([^&]+\.apps\.googleusercontent\.com)/);
+              if (m) { client = m[1]; break; }
+            } catch {}
+          }
+          fs.writeFileSync('google-oauth-client.txt', client || 'NOT_FOUND');
+          console.log('GOOGLE_OAUTH_CLIENT_ID=' + (client || 'NOT_FOUND'));
+          await browser.close();
+          if (!client) process.exitCode = 2;
+          EOF
+          node probe.mjs
+      - name: Upload result
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: hallvalla-firebase-auth-config
-          path: firebase-auth-config.json
+          name: hallvalla-google-oauth-client
+          path: google-oauth-client.txt
           retention-days: 1
