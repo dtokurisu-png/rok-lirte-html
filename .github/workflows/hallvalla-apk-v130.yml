@@ -1,6 +1,11 @@
 name: HallValla APK v130
 
 on:
+  push:
+    branches: [hallvalla-apk-v130-build]
+    paths:
+      - '.hallvalla-android/**'
+      - '.github/workflows/hallvalla-apk-v130.yml'
   pull_request:
     branches: [main]
     paths:
