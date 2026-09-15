@@ -9,15 +9,32 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+
+import org.json.JSONObject;
+
 public class MainActivity extends Activity {
-    private static final String HOME_URL = "https://elberlord.github.io/Hallvalla/?apk=130";
+    private static final String HOME_URL = "https://elberlord.github.io/Hallvalla/?apk=131";
+    private static final String TRUSTED_HOST = "elberlord.github.io";
+    private static final String WEB_CLIENT_ID = "496903032464-mcru6mkdr99pgos2fdegarg08eb55ujf.apps.googleusercontent.com";
+    private static final int RC_GOOGLE_SIGN_IN = 7311;
+
     private WebView webView;
+    private GoogleSignInClient googleSignInClient;
+    private boolean googleSignInInFlight = false;
+    private String pendingGoogleMode = "splash";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +42,13 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         enterImmersiveMode();
+
+        GoogleSignInOptions googleOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(WEB_CLIENT_ID)
+            .requestEmail()
+            .requestProfile()
+            .build();
+        googleSignInClient = GoogleSignIn.getClient(this, googleOptions);
 
         webView = new WebView(this);
         webView.setBackgroundColor(Color.BLACK);
@@ -47,28 +71,35 @@ public class MainActivity extends Activity {
         settings.setSupportZoom(false);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+        settings.setUserAgentString(settings.getUserAgentString() + " HallVallaAndroid/131");
 
         CookieManager cookies = CookieManager.getInstance();
         cookies.setAcceptCookie(true);
         cookies.setAcceptThirdPartyCookies(webView, true);
 
+        webView.addJavascriptInterface(new HallVallaAndroidBridge(), "HallVallaAndroid");
         webView.setWebChromeClient(new WebChromeClient());
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
                 String host = uri.getHost() == null ? "" : uri.getHost().toLowerCase();
-                if (host.equals("elberlord.github.io") || host.endsWith("firebaseapp.com") ||
-                    host.endsWith("googleapis.com") || host.endsWith("google.com") ||
-                    host.endsWith("gstatic.com")) {
+                if (host.equals(TRUSTED_HOST) || host.endsWith("firebaseapp.com") ||
+                    host.endsWith("googleapis.com") || host.endsWith("gstatic.com")) {
                     return false;
                 }
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, uri));
                     return true;
                 } catch (Exception ignored) {
-                    return false;
+                    return true;
                 }
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                if (isTrustedHallVallaUrl(url)) installNativeGoogleBridge();
             }
         });
 
@@ -80,9 +111,214 @@ public class MainActivity extends Activity {
         webView.requestFocus();
     }
 
+    private boolean isTrustedHallVallaUrl(String url) {
+        try {
+            Uri uri = Uri.parse(url == null ? "" : url);
+            return "https".equalsIgnoreCase(uri.getScheme()) && TRUSTED_HOST.equalsIgnoreCase(uri.getHost());
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private final class HallVallaAndroidBridge {
+        @JavascriptInterface
+        public void requestGoogleSignIn(String mode) {
+            runOnUiThread(() -> {
+                if (!isTrustedHallVallaUrl(webView == null ? null : webView.getUrl())) {
+                    sendNativeGoogleError("Solicitud de acceso bloqueada fuera de HallValla.");
+                    return;
+                }
+                startNativeGoogleSignIn(mode);
+            });
+        }
+    }
+
+    private void startNativeGoogleSignIn(String mode) {
+        if (googleSignInInFlight) return;
+        googleSignInInFlight = true;
+        pendingGoogleMode = normalizeGoogleMode(mode);
+        evaluateOnHallValla("window.__hallvallaNativeGoogleSetBusy?.(true);");
+
+        googleSignInClient.signOut().addOnCompleteListener(this, task -> {
+            try {
+                startActivityForResult(googleSignInClient.getSignInIntent(), RC_GOOGLE_SIGN_IN);
+            } catch (Exception error) {
+                googleSignInInFlight = false;
+                sendNativeGoogleError("No se pudo abrir el selector de cuentas de Google.");
+            }
+        });
+    }
+
+    private String normalizeGoogleMode(String mode) {
+        if ("migrate".equals(mode) || "login".equals(mode) || "link".equals(mode)) return mode;
+        return "splash";
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != RC_GOOGLE_SIGN_IN) return;
+
+        googleSignInInFlight = false;
+        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+        try {
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            String idToken = account == null ? null : account.getIdToken();
+            if (idToken == null || idToken.trim().isEmpty()) {
+                sendNativeGoogleError("Google no devolvió un token de identidad. Revisa la configuración OAuth de Android.");
+                return;
+            }
+            String js = "window.__hallvallaNativeGoogleReceive?.(" + JSONObject.quote(idToken) + "," + JSONObject.quote(pendingGoogleMode) + ");";
+            evaluateOnHallValla(js);
+        } catch (ApiException error) {
+            int code = error.getStatusCode();
+            String message;
+            if (code == 10) {
+                message = "Google rechazó la configuración de esta APK (DEVELOPER_ERROR). Debe estar registrado com.hallvalla.game con la huella SHA-1 de la firma HallValla en el proyecto OAuth.";
+            } else if (code == 12501) {
+                message = "Acceso con Google cancelado.";
+            } else {
+                message = "No se pudo iniciar sesión con Google. Código Android: " + code + ".";
+            }
+            sendNativeGoogleError(message);
+        } catch (Exception error) {
+            sendNativeGoogleError("No se pudo completar el acceso con Google.");
+        }
+    }
+
+    private void sendNativeGoogleError(String message) {
+        googleSignInInFlight = false;
+        String js = "window.__hallvallaNativeGoogleError?.(" + JSONObject.quote(message) + ");";
+        evaluateOnHallValla(js);
+    }
+
+    private void evaluateOnHallValla(String javascript) {
+        if (webView == null || !isTrustedHallVallaUrl(webView.getUrl())) return;
+        webView.evaluateJavascript(javascript, null);
+    }
+
+    private void installNativeGoogleBridge() {
+        if (webView == null) return;
+        webView.evaluateJavascript(NATIVE_GOOGLE_BRIDGE_SCRIPT, null);
+    }
+
+    private static final String NATIVE_GOOGLE_BRIDGE_SCRIPT = """
+        (() => {
+          if (window.__hallvallaNativeGoogleBridgeV131Installed) return;
+          window.__hallvallaNativeGoogleBridgeV131Installed = true;
+
+          const googleButtons = new Map([
+            ['googleLoginSplashBtn', 'splash'],
+            ['accountGoogleMigrateBtn', 'migrate'],
+            ['accountGoogleLoginBtn', 'login'],
+            ['accountLinkGoogleBtn', 'link']
+          ]);
+
+          const allGoogleButtons = () => [...googleButtons.keys()].map(id => document.getElementById(id)).filter(Boolean);
+          window.__hallvallaNativeGoogleSetBusy = busy => {
+            for (const button of allGoogleButtons()) button.disabled = !!busy;
+          };
+
+          window.__hallvallaNativeGoogleError = message => {
+            window.__hallvallaNativeGoogleSetBusy(false);
+            const safe = String(message || 'No se pudo iniciar sesión con Google.');
+            const accountMessage = document.getElementById('accountMessage');
+            if (accountMessage) {
+              accountMessage.textContent = safe;
+              accountMessage.classList.add('error');
+              accountMessage.classList.remove('success');
+            }
+            const accountPanel = document.getElementById('accountPanel');
+            if (!accountPanel || accountPanel.classList.contains('hidden')) alert(safe);
+          };
+
+          async function firebaseNativeModules() {
+            const [appMod, authMod] = await Promise.all([
+              import('https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js'),
+              import('https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js')
+            ]);
+            const apps = appMod.getApps();
+            const config = window.__HALLVALLA_FIREBASE_CONFIG__;
+            if (!apps.length && !config) throw new Error('Firebase todavía no terminó de iniciar. Inténtalo otra vez.');
+            const app = apps.length ? apps[0] : appMod.initializeApp(config);
+            return {authMod, auth: authMod.getAuth(app)};
+          }
+
+          window.__hallvallaNativeGoogleReceive = async (idToken, mode = 'splash') => {
+            window.__hallvallaNativeGoogleSetBusy(true);
+            try {
+              if (!idToken) throw new Error('Google no devolvió un token de identidad.');
+              const {authMod, auth} = await firebaseNativeModules();
+              const credential = authMod.GoogleAuthProvider.credential(idToken);
+              const current = auth.currentUser;
+              let result;
+
+              const shouldLink = mode === 'link' || mode === 'migrate' ||
+                (mode === 'splash' && current && (current.isAnonymous || !(current.providerData || []).some(p => p && p.providerId === 'google.com')));
+
+              if (shouldLink && current) {
+                try {
+                  result = await authMod.linkWithCredential(current, credential);
+                } catch (error) {
+                  const code = String(error && error.code || '');
+                  const alreadyOwned = code === 'auth/credential-already-in-use' ||
+                    code === 'auth/email-already-in-use' ||
+                    code === 'auth/account-exists-with-different-credential';
+                  if (alreadyOwned && (mode === 'splash' || mode === 'login')) {
+                    result = await authMod.signInWithCredential(auth, credential);
+                  } else {
+                    throw error;
+                  }
+                }
+              } else {
+                result = await authMod.signInWithCredential(auth, credential);
+              }
+
+              const user = result && result.user ? result.user : auth.currentUser;
+              if (!user) throw new Error('Firebase no devolvió una sesión válida.');
+
+              if (typeof window.hallvallaBootstrapPermanentAccount === 'function') {
+                await window.hallvallaBootstrapPermanentAccount(user, {explicitLogin: true});
+              }
+              if (typeof window.hallvallaRequireGoogleLogin === 'function') {
+                window.hallvallaRequireGoogleLogin();
+              }
+              const accountMessage = document.getElementById('accountMessage');
+              if (accountMessage) {
+                accountMessage.textContent = 'Sesión iniciada con Google.';
+                accountMessage.classList.remove('error');
+                accountMessage.classList.add('success');
+              }
+            } catch (error) {
+              console.warn('[HallValla Android] Error de credencial Google nativa:', error);
+              const code = String(error && error.code || '');
+              let message = String(error && error.message || 'No se pudo iniciar sesión con Google.');
+              if (code === 'auth/credential-already-in-use') message = 'Esa cuenta de Google ya pertenece a otra cuenta de HallValla.';
+              if (code === 'auth/account-exists-with-different-credential') message = 'Ese correo ya existe con otro método de acceso.';
+              if (code === 'auth/network-request-failed') message = 'Firebase no pudo completar el acceso. Comprueba la conexión y vuelve a intentarlo.';
+              window.__hallvallaNativeGoogleError(message);
+              return;
+            }
+            window.__hallvallaNativeGoogleSetBusy(false);
+          };
+
+          document.addEventListener('click', event => {
+            const target = event.target && event.target.closest ? event.target.closest('button, [role="button"]') : null;
+            if (!target) return;
+            const mode = googleButtons.get(target.id);
+            if (!mode || !window.HallVallaAndroid || typeof window.HallVallaAndroid.requestGoogleSignIn !== 'function') return;
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            window.__hallvallaNativeGoogleSetBusy(true);
+            window.HallVallaAndroid.requestGoogleSignIn(mode);
+          }, true);
+        })();
+        """;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        webView.saveState(outState);
+        if (webView != null) webView.saveState(outState);
         super.onSaveInstanceState(outState);
     }
 
