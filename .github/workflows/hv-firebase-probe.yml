@@ -1,0 +1,24 @@
+name: HallValla Firebase Auth Probe
+
+on:
+  push:
+    branches: [hallvalla-apk-v130-build]
+    paths:
+      - '.github/workflows/hv-firebase-probe.yml'
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch public Firebase Auth project config
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/getProjectConfig?key=AIzaSyA6C6f3gSVDvgxcQuyD8PsyQiHNDPD_ZOQ&projectNumber=496903032464' -o firebase-auth-config.json
+          cat firebase-auth-config.json
+      - name: Upload config
+        uses: actions/upload-artifact@v4
+        with:
+          name: hallvalla-firebase-auth-config
+          path: firebase-auth-config.json
+          retention-days: 1
