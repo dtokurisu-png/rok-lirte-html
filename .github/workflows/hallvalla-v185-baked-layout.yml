@@ -48,7 +48,7 @@ jobs:
           cp hvsrc/web/hallvalla-stage.html patch/web/
           cp hvsrc/web/index.html patch/web/
           cp hvsrc/web/service-worker.js patch/web/
-          cp hvsrc/REPO_FILE_SHA256SUMS.txt patch/
+          if [ -f hvsrc/REPO_FILE_SHA256SUMS.txt ]; then cp hvsrc/REPO_FILE_SHA256SUMS.txt patch/; fi
           printf '%s\n' \
             'HallValla v185 · layout aprobado fijado en producción' \
             'Plano lógico: 1366×636' \
