@@ -62,18 +62,17 @@ new="    const priority=['data-mine-panel','data-mine-nav','data-action','data-m
 if old not in dev: raise SystemExit("priority selector list not found")
 dev=dev.replace(old,new,1)
 
-old="""    const parent=node.parentElement;
-    if(parent){const same=Array.from(parent.children).filter(child=>child.tagName===node.tagName);if(same.length>1)part+=\`:nth-of-type(\${same.indexOf(node)+1})\`;}"""
-new="""    const parent=node.parentElement;
+pattern=r'''    const parent=node\.parentElement;\n    if\(parent\)\{const same=Array\.from\(parent\.children\)\.filter\(child=>child\.tagName===node\.tagName\);if\(same\.length>1\)part\+=`:nth-of-type\(\$\{same\.indexOf\(node\)\+1\}\)`;\}'''
+replacement='''    const parent=node.parentElement;
     /* Stable data identity already identifies the logical element.
        Adding nth-of-type tied it to a page/slot and invalidated adjustments
        after pagination or filtering. */
     if(parent&&!data.length){
       const same=Array.from(parent.children).filter(child=>child.tagName===node.tagName);
-      if(same.length>1)part+=\`:nth-of-type(\${same.indexOf(node)+1})\`;
-    }"""
-if old not in dev: raise SystemExit("selectorPart nth block not found")
-dev=dev.replace(old,new,1)
+      if(same.length>1)part+=`:nth-of-type(${same.indexOf(node)+1})`;
+    }'''
+dev,n=re.subn(pattern,replacement,dev,count=1)
+if n!=1: raise SystemExit("selectorPart nth block not found")
 
 dev=dev.replace("CONTROL UNIVERSAL LIBRE v5 · 1366×636","CONTROL UNIVERSAL LIBRE v6 · 1366×636")
 dev=dev.replace("BASE FIJA v185 · nuevos cambios quedan como delta DEV","BASE FIJA v189 · selectores estables por identidad")
