@@ -1,0 +1,68 @@
+name: HallValla v185 baked layout
+
+on:
+  push:
+    branches:
+      - hallvalla-v185-baked-layout
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply approved fixed layout
+        run: python3 .hallvalla-v185/patch.py hvsrc
+
+      - name: Validate baked runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'designStage":{"width":1366,"height":636,"mode":"fixed"}' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'data-beast-season-seal' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'setProperty("translate".*"important")' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'setProperty("scale".*"important")' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'CONTROL UNIVERSAL LIBRE v5' hvsrc/web/js/features/hvdev.js
+          grep -q '20260918.185' hvsrc/web/hallvalla-stage.html
+          node --check hvsrc/web/js/features/universal-layout-runtime.js
+          node --check hvsrc/web/js/features/hvdev.js
+          node --check hvsrc/web/js/bootstrap-loader.js
+
+      - name: Build upload patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p patch/web/js/features patch/web/js
+          cp hvsrc/web/js/features/universal-layout-runtime.js patch/web/js/features/
+          cp hvsrc/web/js/features/hvdev.js patch/web/js/features/
+          cp hvsrc/web/js/bootstrap-loader.js patch/web/js/
+          cp hvsrc/web/hallvalla-stage.html patch/web/
+          cp hvsrc/web/index.html patch/web/
+          cp hvsrc/web/service-worker.js patch/web/
+          cp hvsrc/REPO_FILE_SHA256SUMS.txt patch/
+          printf '%s\n' \
+            'HallValla v185 · layout aprobado fijado en producción' \
+            'Plano lógico: 1366×636' \
+            '178 selectores aprobados integrados al Universal Layout Runtime' \
+            'Incluye Forja, Beast Master y sello de temporada descubierto al final.' \
+            'Modo Historia y Mina no reciben overrides nuevos porque ya estaban correctos.' \
+            '?dev v5 arranca limpio sobre esta base fija para evitar duplicar offsets.' \
+            > patch/LEEME_v185_LAYOUT_FIJO.txt
+          cd patch
+          zip -r ../HallValla_v185_LAYOUT_FIJO_PATCH.zip . >/dev/null
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-v185-layout-fijo
+          path: patch/HallValla_v185_LAYOUT_FIJO_PATCH.zip
+          retention-days: 2
+          if-no-files-found: error
