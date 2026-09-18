@@ -1,0 +1,74 @@
+name: HallValla v186 pagination fix
+
+on:
+  push:
+    branches:
+      - hallvalla-v186-pagination-fix
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v186 pagination fix
+        run: python3 .hallvalla-v186/patch.py hvsrc
+
+      - name: Validate pagination architecture
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'baked-v2-pagination-stable' hvsrc/web/js/features/universal-layout-runtime.js
+          test "$(grep -o 'data-deck-card-key=' hvsrc/web/js/features/universal-layout-runtime.js | wc -l)" -eq 0
+          grep -q '#deckBuilderPanel #deckCollectionGrid > :nth-child(15)' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'hvUniversalLayoutRuntime?.apply?.()' hvsrc/web/js/features/forge-layout.js
+          grep -q '20260918.186' hvsrc/web/hallvalla-stage.html
+          node --check hvsrc/web/js/features/universal-layout-runtime.js
+          node --check hvsrc/web/js/features/forge-layout.js
+          node --check hvsrc/web/js/bootstrap-loader.js
+
+      - name: Build patch ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p patch/web/js/features patch/web/js
+          cp hvsrc/web/js/features/universal-layout-runtime.js patch/web/js/features/
+          cp hvsrc/web/js/features/forge-layout.js patch/web/js/features/
+          cp hvsrc/web/js/bootstrap-loader.js patch/web/js/
+          cp hvsrc/web/hallvalla-stage.html patch/web/
+          cp hvsrc/web/index.html patch/web/
+          cp hvsrc/web/service-worker.js patch/web/
+          cat > patch/LEEME_v186_PAGINACION.txt <<'EOF'
+          HallValla v186 · corrección estructural de paginación de Forja
+
+          Causa:
+          - La Forja tenía un layout runtime por SLOT en forge-layout.js.
+          - El layout universal v185 tenía ajustes por CARTA + nth-of-type.
+          - Al paginar, renderDeckBuilder reemplaza #deckCollectionGrid.innerHTML.
+          - La carta cambia de slot y los selectores por carta dejan de coincidir.
+          - Además Forge reaplicaba sus estilos !important después del rerender.
+
+          Solución:
+          - Los ajustes de colección se consolidaron a 15 slots estables.
+          - El mismo slot conserva la misma geometría en todas las páginas/filtros.
+          - Forge reaplica siempre el runtime universal al terminar su propio layout.
+          - No se tocaron los ajustes fijos de mazo, Beast Master, Mina o Historia.
+          EOF
+          cd patch
+          zip -r ../HallValla_v186_PAGINACION_FIX.zip . >/dev/null
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-v186-pagination-fix
+          path: HallValla_v186_PAGINACION_FIX.zip
+          retention-days: 2
+          if-no-files-found: error
