@@ -165,13 +165,13 @@ wr(FORGE_LAYOUT,'''/* HallValla · Forge lifecycle bridge v188
 dead_functions={
  "web/js/features/hvdev.js":["defaultState"],
  "web/js/features/pve.js":["countBy"],
- "web/js/parts/03-runtime-clocks.js":["startTurnTimerLoop","isUnitMovePhase","canOpenHandForViewNow"],
- "web/js/parts/05-cards-specials-lore.js":["getPrincipalSlotsForLeaderType","getDeckSizeForPrincipalSlots","isSwordUnitCardLike","isCanonicalFootArcherMovementOne"],
+ "web/js/parts/03-runtime-clocks.js":["startTurnTimerLoop","tickTurnTimer","isUnitMovePhase","canManuallyOpenHandNow","canOpenHandForViewNow"],
+ "web/js/parts/05-cards-specials-lore.js":["getPrincipalSlotsForLeaderType","getDeckSizeForPrincipalSlots","isSwordUnitCardLike","isMountedArcherCard","isCanonicalFootArcherMovementOne"],
  "web/js/parts/06-decks-units-combat-rules.js":["getStarterComplementTemplate"],
- "web/js/parts/10-board-interactions.js":["handleBattleCancelButton","syncBattleCancelUndoUi"],
+ "web/js/parts/10-board-interactions.js":["handleBattleCancelButton","syncBattleCancelUndoUi","tryImmediateMoveUndo"],
  "web/js/parts/11-render-battle-tutorial.js":["getBasicTutorialEnemyUnit","renderDetail","maybeShowBasicTutorialGate"],
  "web/js/parts/13-collection-deck-forge.js":["closeHallvallaPackOdds","normalizePrincipalKeys","setCurrentDeckPrincipal","clearCurrentDeckPrincipal","renderDeckPrincipalSelector"],
- "web/js/parts/15-settings-tuners-events.js":["isChapterOneCompleteForTutorial","startHomeDeckTutorial","getHallvallaMineWheelCategory","getHallvallaMineShopPuzzleHtml"],
+ "web/js/parts/15-settings-tuners-events.js":["isChapterOneCompleteForTutorial","ensureHomeDeckTutorialUi","startHomeDeckTutorial","getHallvallaMineWheelCategory","getHallvallaMineShopRevealOrder","getHallvallaMineShopPuzzleHtml"],
  "web/js/parts/21-realtime-experimental.js":["hallvallaRtMoveUnit"],
 }
 
