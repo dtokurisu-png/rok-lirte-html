@@ -1,0 +1,78 @@
+name: HallValla v187 full repo
+
+on:
+  push:
+    branches:
+      - hallvalla-v187-single-layout-owner
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v187
+        run: python3 .hallvalla-v187/patch.py hvsrc
+
+      - name: Validate one geometry owner
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check hvsrc/web/js/features/universal-layout-runtime.js
+          node --check hvsrc/web/js/features/forge-layout.js
+          node --check hvsrc/web/js/bootstrap-loader.js
+
+          grep -q 'baked-v3-single-owner' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q '#deckBuilderPanel #deckCollectionGrid > :nth-child(15)' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'Forge layout bridge v187' hvsrc/web/js/features/forge-layout.js
+          grep -q '__HALLVALLA_APPLY_FORGE_LAYOUT__=applyCanonicalForgeLayout' hvsrc/web/js/features/forge-layout.js
+
+          if grep -q 'USER_LAYOUT' hvsrc/web/js/features/forge-layout.js; then
+            echo 'ERROR: forge-layout.js still contains USER_LAYOUT'
+            exit 1
+          fi
+          if grep -Eq "setProperty\\(['\"](translate|scale|width|height)" hvsrc/web/js/features/forge-layout.js; then
+            echo 'ERROR: forge-layout.js still writes geometry'
+            exit 1
+          fi
+          if grep -q 'data-deck-card-key=' hvsrc/web/js/features/universal-layout-runtime.js; then
+            echo 'ERROR: universal runtime still binds collection layout to card identity'
+            exit 1
+          fi
+
+          grep -q '20260918.187' hvsrc/web/hallvalla-stage.html
+          grep -q 'data-hv-shell="187"' hvsrc/web/index.html
+
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found in repo'
+            find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \)
+            exit 1
+          fi
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v187
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v187/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v187.zip HallValla_REPO_COMPLETO_v187
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v187.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v187
+          path: HallValla_REPO_COMPLETO_v187.zip
+          retention-days: 2
+          if-no-files-found: error
