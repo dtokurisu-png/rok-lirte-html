@@ -1,0 +1,68 @@
+name: HallValla v189 restore user layout
+
+on:
+  push:
+    branches:
+      - hallvalla-v189-restore-user-layout
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: 78dda31406e0994e2f7b4b9f6baa7ea216e168fe
+          path: hvuser
+
+      - name: Restore calibrated user layout
+        run: python3 .hallvalla-v189/patch.py hvsrc hvuser
+
+      - name: Validate v189
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do node --check "$f"; done
+          grep -q 'user-json-restored-stable-selectors-v189' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q '#closeDeckBuilderBtn":{"x":5.008,"y":526.828}' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'data-deck-card-key="spearman"' hvsrc/web/js/features/universal-layout-runtime.js
+          ! grep -q 'data-deck-card-key=.*nth-of-type' hvsrc/web/js/features/universal-layout-runtime.js
+          ! grep -q 'data-draft-index=.*nth-of-type' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'CONTROL UNIVERSAL LIBRE v6' hvsrc/web/js/features/hvdev.js
+          grep -q 'data-deck-card-key' hvsrc/web/js/features/hvdev.js
+          grep -q '20260918.189' hvsrc/web/hallvalla-stage.html
+          grep -q 'AUDITORIA_FRONTEND_v188' <(ls hvsrc/docs)
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found'
+            exit 1
+          fi
+
+      - name: Build full repo ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v189
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v189/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v189.zip HallValla_REPO_COMPLETO_v189
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v189.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v189
+          path: HallValla_REPO_COMPLETO_v189.zip
+          retention-days: 2
+          if-no-files-found: error
