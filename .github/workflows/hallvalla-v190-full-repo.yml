@@ -1,0 +1,105 @@
+name: HallValla v190 single deck + portraits
+
+on:
+  push:
+    branches:
+      - hallvalla-v190-one-deck-container
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: 78dda31406e0994e2f7b4b9f6baa7ea216e168fe
+          path: hvuser
+
+      - name: Build v190
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 .hallvalla-v190/patch_layout.py hvsrc hvuser
+          python3 .hallvalla-v190/patch_css.py hvsrc
+          python3 .hallvalla-v190/patch_dev.py hvsrc
+          python3 .hallvalla-v190/patch_version.py hvsrc
+
+      - name: Validate architecture and syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do node --check "$f"; done
+
+          ! grep -q 'deckExtraSlots' hvsrc/web/hallvalla-stage.html
+          ! grep -q 'deckExtraSlots' hvsrc/web/js/parts/13-collection-deck-forge.js
+          ! grep -q 'deckExtraSlots' hvsrc/web/styles.css
+          ! grep -q 'deckExtraSlots' hvsrc/web/js/features/universal-layout-runtime.js
+
+          test "$(grep -o 'id="currentDeckList"' hvsrc/web/hallvalla-stage.html | wc -l)" -eq 1
+          grep -q 'slotHtml.slice(0,30)' hvsrc/web/js/parts/13-collection-deck-forge.js
+          grep -q 'grid-template-rows:repeat(6' hvsrc/web/styles.css
+          grep -q 'grid-template-columns:repeat(5' hvsrc/web/styles.css
+
+          grep -q 'TAMAÑO GENERAL %' hvsrc/web/js/features/hvdev.js
+          grep -q "wholeCard=node.closest?.('.deck-mini-card')" hvsrc/web/js/features/hvdev.js
+          grep -q 'CONTROL UNIVERSAL LIBRE v7' hvsrc/web/js/features/hvdev.js
+          grep -q 'single-deck-stable-smart-scale-v190' hvsrc/web/js/features/hvdev.js
+
+          grep -q 'single-deck-container-uniform-portraits-v190' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q '#closeDeckBuilderBtn' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'data-beast-tab' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'data-beast-season-seal' hvsrc/web/js/features/universal-layout-runtime.js
+
+          grep -q 'object-fit:cover' hvsrc/web/styles.css
+          grep -q 'object-position:center 18%' hvsrc/web/styles.css
+          grep -q '20260918.190' hvsrc/web/hallvalla-stage.html
+
+          python3 - <<'PY'
+          import json,re
+          from pathlib import Path
+          def cfg(path):
+              t=Path(path).read_text(encoding='utf-8')
+              return json.loads(re.search(r'const CANONICAL_CONFIG=(\{.*?\});\n',t,re.S).group(1))
+          now=cfg('hvsrc/web/js/features/universal-layout-runtime.js')
+          old=cfg('hvuser/web/js/features/universal-layout-runtime.js')
+          def beast(c):
+              return {k:v for k,v in c['items'].items() if 'beast' in k}
+          assert beast(now)==beast(old), 'Beast/event layout changed'
+          assert now['items']['#closeDeckBuilderBtn']==old['items']['#closeDeckBuilderBtn'], 'Back button changed'
+          print('Beast/event and Back button preserved exactly')
+          PY
+
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found'
+            exit 1
+          fi
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v190
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v190/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v190.zip HallValla_REPO_COMPLETO_v190
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v190.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v190
+          path: HallValla_REPO_COMPLETO_v190.zip
+          retention-days: 2
+          if-no-files-found: error
