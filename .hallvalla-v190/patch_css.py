@@ -6,7 +6,7 @@ ROOT=Path(sys.argv[1]).resolve()
 CSS=ROOT/"web/styles.css"
 css=CSS.read_text(encoding="utf-8")
 
-leaf=re.compile(r'([^{}]+)\\{([^{}]*)\\}',re.S)
+leaf=re.compile(r'([^{}]+)\{([^{}]*)\}',re.S)
 removed=0
 for _ in range(12):
     changed=[0]
@@ -22,7 +22,7 @@ for _ in range(12):
         break
     css=nxt
 
-css=re.sub(r'/\\*\\s*Slots 21–30:.*?\\*/','',css,flags=re.S)
+css=re.sub(r'/\*\s*Slots 21–30:.*?\*/','',css,flags=re.S)
 
 canonical=r'''
 /* ==========================================================================
