@@ -1,0 +1,48 @@
+name: HallValla v184 DEV patch
+
+on:
+  push:
+    branches:
+      - hallvalla-v184-dev-important
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+      - name: Apply v184 patch
+        run: python3 .hallvalla-v184/patch.py hvsrc
+      - name: Verify important DEV overrides
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q "CONTROL UNIVERSAL LIBRE v4" hvsrc/web/js/features/hvdev.js
+          grep -q "setProperty('translate'.*'important')" hvsrc/web/js/features/hvdev.js
+          grep -q "setProperty('scale'.*'important')" hvsrc/web/js/features/hvdev.js
+          grep -q "20260918.184" hvsrc/web/hallvalla-stage.html
+      - name: Build patch ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out/web/js/features out/web/js
+          cp hvsrc/web/js/features/hvdev.js out/web/js/features/
+          cp hvsrc/web/js/bootstrap-loader.js out/web/js/
+          cp hvsrc/web/hallvalla-stage.html out/web/
+          cp hvsrc/web/index.html out/web/
+          cp hvsrc/web/service-worker.js out/web/
+          cd out
+          zip -r ../HallValla_v184_DEV_IMPORTANT_FIX.zip web >/dev/null
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-v184-DEV-important-fix
+          path: HallValla_v184_DEV_IMPORTANT_FIX.zip
+          retention-days: 1
