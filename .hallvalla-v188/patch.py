@@ -171,7 +171,7 @@ dead_functions={
  "web/js/parts/10-board-interactions.js":["handleBattleCancelButton","syncBattleCancelUndoUi"],
  "web/js/parts/11-render-battle-tutorial.js":["getBasicTutorialEnemyUnit","renderDetail","maybeShowBasicTutorialGate"],
  "web/js/parts/13-collection-deck-forge.js":["closeHallvallaPackOdds","normalizePrincipalKeys","setCurrentDeckPrincipal","clearCurrentDeckPrincipal","renderDeckPrincipalSelector"],
- "web/js/parts/15-settings-tuners-events.js":["isChapterOneCompleteForTutorial","startHomeDeckTutorial","hallvallaSystemTutorialEscape","getHallvallaMineWheelCategory","getHallvallaMineShopPuzzleHtml"],
+ "web/js/parts/15-settings-tuners-events.js":["isChapterOneCompleteForTutorial","startHomeDeckTutorial","getHallvallaMineWheelCategory","getHallvallaMineShopPuzzleHtml"],
  "web/js/parts/21-realtime-experimental.js":["hallvallaRtMoveUnit"],
 }
 
