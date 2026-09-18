@@ -13,7 +13,7 @@ def rd(p): return p.read_text(encoding="utf-8")
 def wr(p,s): p.write_text(s,encoding="utf-8")
 
 src=rd(USERBASE/"web/js/features/universal-layout-runtime.js")
-m=re.search(r'const CANONICAL_CONFIG=(\\{.*?\\});\\n',src,re.S)
+m=re.search(r'const CANONICAL_CONFIG=(\{.*?\});\n',src,re.S)
 if not m:
     raise SystemExit("approved user canonical config not found")
 user_cfg=json.loads(m.group(1))
@@ -33,7 +33,7 @@ if beast_count < 4:
     raise SystemExit("Beast/event calibrated entries missing")
 
 runtime=rd(RUNTIME)
-cm=re.search(r'const CANONICAL_CONFIG=(\\{.*?\\});\\n',runtime,re.S)
+cm=re.search(r'const CANONICAL_CONFIG=(\{.*?\});\n',runtime,re.S)
 if not cm:
     raise SystemExit("current canonical config not found")
 new_cfg={
