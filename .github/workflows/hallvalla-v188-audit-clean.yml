@@ -1,0 +1,70 @@
+name: HallValla v188 audit clean
+
+on:
+  push:
+    branches:
+      - hallvalla-v188-audit-clean
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: 78dda31406e0994e2f7b4b9f6baa7ea216e168fe
+          path: hvlegacy
+
+      - name: Apply v188 audit cleanup
+        run: python3 .hallvalla-v188/patch.py hvsrc hvlegacy
+
+      - name: Validate cleaned frontend
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do node --check "$f"; done
+          grep -q 'baked-v4-single-owner-width-height' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q 'Forge lifecycle bridge v188' hvsrc/web/js/features/forge-layout.js
+          ! grep -q 'USER_LAYOUT' hvsrc/web/js/features/forge-layout.js
+          ! grep -Eq "setProperty\(['\"](translate|scale|width|height)" hvsrc/web/js/features/forge-layout.js
+          grep -q '#deckBuilderPanel #deckExtraSlots > :nth-child(10)' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q '#deckBuilderPanel #deckCollectionGrid > :nth-child(15)' hvsrc/web/js/features/universal-layout-runtime.js
+          grep -q '20260918.188' hvsrc/web/hallvalla-stage.html
+          grep -q 'AUDITORIA_FRONTEND_v188' <(ls hvsrc/docs)
+          ! grep -q 'hv47-' hvsrc/web/styles.css
+          ! grep -q 'actions-hud-tuner' hvsrc/web/styles.css
+          ! grep -q 'hv-forge-direct-tuner' hvsrc/web/styles.css
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found'
+            exit 1
+          fi
+
+      - name: Build full repo ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v188_AUDITADO
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v188_AUDITADO/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v188_AUDITADO.zip HallValla_REPO_COMPLETO_v188_AUDITADO
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v188_AUDITADO.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v188-AUDITADO
+          path: HallValla_REPO_COMPLETO_v188_AUDITADO.zip
+          retention-days: 2
+          if-no-files-found: error
