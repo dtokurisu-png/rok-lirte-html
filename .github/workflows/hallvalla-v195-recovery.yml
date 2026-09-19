@@ -1,0 +1,83 @@
+name: HallValla v195 recovery hotfix
+
+on:
+  push:
+    branches:
+      - hallvalla-v195-recovery-hotfix
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v195 recovery
+        run: python3 .hallvalla-v195/patch.py hvsrc
+
+      - name: Validate v195
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do
+            node --check "$f"
+          done
+
+          grep -q '20260919.195' hvsrc/web/js/bootstrap-loader.js
+          grep -q 'initBattleClockTuner();' hvsrc/web/js/system/settings-events.js
+          grep -q 'const BATTLE_CLOCK_TUNER_DEFAULTS' hvsrc/web/js/system/settings-events.js
+          grep -q '7BOARDCTRL1' hvsrc/web/js/system/settings-events.js
+          grep -q 'HallValla · Editor visual avanzado del modal DET' hvsrc/web/js/system/settings-events.js
+
+          grep -q 'closeSettingsXBtn' hvsrc/web/hallvalla-stage.html
+          grep -q 'closeHomeSettingsPanel' hvsrc/web/js/system/settings-events.js
+          grep -q '#settingsPanel .hv-settings-close-x' hvsrc/web/styles.css
+
+          grep -q 'PVP_BOT_FALLBACK_MS=7000' hvsrc/web/js/features/pvp/index.js
+          grep -q 'schedulePvpBotFallback' hvsrc/web/js/features/pvp/index.js
+          grep -q 'PVP_BOT_FALLBACK_MAX_ATTEMPTS=4' hvsrc/web/js/features/pvp/index.js
+          grep -q 'Rival BOT no inició:' hvsrc/web/js/features/pvp/index.js
+
+          # v194 experimental split must NOT be present.
+          test ! -f hvsrc/web/js/system/board-visual-runtime.js
+          test ! -f hvsrc/web/js/system/battle-clock-runtime.js
+          test ! -f hvsrc/web/js/system/det-runtime.js
+          test ! -f hvsrc/web/js/dev/board-editor.js
+          test ! -f hvsrc/web/js/dev/battle-clock-editor.js
+          test ! -f hvsrc/web/js/dev/det-editor.js
+
+          # Approved universal layout remains byte-for-byte untouched.
+          git -C hvsrc diff --exit-code HEAD -- web/js/layout/universal-runtime.js
+
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found'
+            exit 1
+          fi
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v195_RECOVERY
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v195_RECOVERY/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v195_RECOVERY.zip HallValla_REPO_COMPLETO_v195_RECOVERY
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v195_RECOVERY.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v195-RECOVERY
+          path: HallValla_REPO_COMPLETO_v195_RECOVERY.zip
+          retention-days: 2
+          if-no-files-found: error
