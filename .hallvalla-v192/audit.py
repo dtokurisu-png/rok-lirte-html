@@ -10,6 +10,7 @@ css_files=sorted(WEB.rglob("*.css"))
 
 texts={str(p.relative_to(ROOT)):p.read_text(encoding="utf-8",errors="ignore") for p in js_files+html_files+css_files}
 all_code="\n".join(texts.values())
+identifier_counts=collections.Counter(re.findall(r'[A-Za-z_$][\\w$]*',all_code))
 
 func_decl=[]
 for p in js_files:
@@ -53,12 +54,14 @@ css_dups=[]
 for p in css_files:
     rel=str(p.relative_to(ROOT)); t=texts[rel]
     selectors=collections.Counter()
-    for m in re.finditer(r'([^{}]+)\{[^{}]*\}',t,re.S):
-        head=" ".join(m.group(1).split())
-        if head.startswith("@") or ";" in head: continue
+    # bounded non-nested rule scan; avoid catastrophic backtracking on huge CSS
+    for chunk in t.split("}"):
+        if "{" not in chunk: continue
+        head=chunk.rsplit("{",1)[0].strip()
+        if not head or head.startswith("@") or len(head)>2000: continue
         for s in head.split(","):
             s=" ".join(s.split())
-            if s: selectors[s]+=1
+            if s and not s.startswith("@"): selectors[s]+=1
     css_dups.extend({"file":rel,"selector":s,"count":n} for s,n in selectors.items() if n>1)
 css_dups=sorted(css_dups,key=lambda x:(-x["count"],x["file"],x["selector"]))
 
