@@ -154,6 +154,7 @@ move_names=[
 "initHvMissionsTunerOptions","getHvMissionsTunerSelection","syncHvMissionsTunerControls",
 "updateHvMissionsTunerValue","exportHvMissionsLayoutJson","makeHvMissionsDraggable",
 "restoreHvMissionsTunerPositions","initHvMissionsLayoutTuner"
+]
 
 def function_span(text,name):
     m=re.search(r'(?m)^[ \t]*(?:async[ \t]+)?function[ \t]+'+re.escape(name)+r'[ \t]*\(',text)
