@@ -144,10 +144,6 @@ settings=settings.replace("  syncFieldStatBadgesTunerControls();\n  if(save)save
                           "  globalThis.__HALLVALLA_DEV_SYNC_FIELD_STATS__?.();\n  if(save)saveFieldStatBadgesTunerState();",1)
 settings=settings.replace("  syncBattleVisualSizeControls();\n  if(save)saveBattleVisualSizeState();",
                           "  globalThis.__HALLVALLA_DEV_SYNC_BATTLE_VISUAL__?.();\n  if(save)saveBattleVisualSizeState();",1)
-settings=settings.replace("  syncFieldBoardTunerControls();\n  if(save)saveFieldBoardTunerPreferences();",
-                          "  globalThis.__HALLVALLA_DEV_SYNC_FIELD_BOARD__?.();\n  if(save)saveFieldBoardTunerPreferences();",1)
-settings=settings.replace("  syncBattleClockTunerControls();\n  if(save)saveBattleClockTunerState();",
-                          "  globalThis.__HALLVALLA_DEV_SYNC_BATTLE_CLOCK__?.();\n  if(save)saveBattleClockTunerState();",1)
 
 move_names=[
 "getCurrentFieldBadgeTarget","setFieldStatBadgesTunerStatus","syncFieldStatBadgesTunerControls",
@@ -155,17 +151,9 @@ move_names=[
 "copyFieldStatBadgesTunerValues","resetCurrentFieldBadge","resetFieldStatBadgesTuner","initFieldStatBadgesTuner",
 "syncBattleVisualSizeControls","setBattleVisualSizeStatus","openBattleVisualSizeTuner","closeBattleVisualSizeTuner",
 "resetBattleVisualSizeTuner","copyBattleVisualSizeValues","updateBattleVisualSizeValue","initBattleVisualSizeTuner",
-"syncFieldBoardTunerControls","setFieldBoardTunerStatus","canEditFieldBoardLayout","openFieldBoardTuner",
-"closeFieldBoardTuner","nearestFreeLeaderX","changeFieldBoardDimensions","resetFieldCardScale",
-"copyFieldBoardValues","initFieldBoardTuner",
-"syncBattleClockTunerControls","setBattleClockTunerStatus","openBattleClockTuner","closeBattleClockTuner",
-"updateBattleClockTunerFromInput","resetBattleClockTarget","resetBattleClockCurrent","resetBattleClockAll",
-"copyBattleClockValues","getBattleClockTargetFromElement","startBattleClockDrag","moveBattleClockDrag",
-"finishBattleClockDrag","initBattleClockTuner",
 "initHvMissionsTunerOptions","getHvMissionsTunerSelection","syncHvMissionsTunerControls",
 "updateHvMissionsTunerValue","exportHvMissionsLayoutJson","makeHvMissionsDraggable",
 "restoreHvMissionsTunerPositions","initHvMissionsLayoutTuner"
-]
 
 def function_span(text,name):
     m=re.search(r'(?m)^[ \t]*(?:async[ \t]+)?function[ \t]+'+re.escape(name)+r'[ \t]*\(',text)
@@ -208,8 +196,6 @@ def function_span(text,name):
 for old,new in [
 ("initFieldStatBadgesTuner();","applyFieldStatBadgesTunerState(false);"),
 ("initBattleVisualSizeTuner();","applyBattleVisualSizeState(false);"),
-("initFieldBoardTuner();","applyFieldBoardCardScale(false);"),
-("initBattleClockTuner();","applyBattleClockTunerState(false);"),
 ("initHvMissionsLayoutTuner();","")
 ]:
     if old not in settings: raise SystemExit("initializer missing: "+old)
@@ -251,13 +237,8 @@ dev_body="\n".join(source.rstrip() for _,_,source in moved_source)
 dev_footer='''
 globalThis.__HALLVALLA_DEV_SYNC_FIELD_STATS__=syncFieldStatBadgesTunerControls;
 globalThis.__HALLVALLA_DEV_SYNC_BATTLE_VISUAL__=syncBattleVisualSizeControls;
-globalThis.__HALLVALLA_DEV_SYNC_FIELD_BOARD__=syncFieldBoardTunerControls;
-globalThis.__HALLVALLA_DEV_SYNC_BATTLE_CLOCK__=syncBattleClockTunerControls;
-
 initFieldStatBadgesTuner();
 initBattleVisualSizeTuner();
-initFieldBoardTuner();
-initBattleClockTuner();
 initHvMissionsLayoutTuner();
 
 globalThis.hallvallaExportCanonicalUiDraft=()=>{
@@ -324,11 +305,11 @@ wr(doc,'''# HallValla v193 - Auditoria profunda / Fase DEV
 - Produccion y ?dev arrancan desde los mismos valores.
 - Produccion ya no consume calibraciones visuales privadas de localStorage.
 - ?dev conserva localStorage solo como overlay temporal.
-- Field Stats, lideres/mano, tablero, relojes y editor visual de Misiones
+- Field Stats, lideres/mano y editor visual de Misiones
   salieron de system/settings-events.js y viven en dev/calibrators.js.
 - dev/calibrators.js solo se carga con ?dev.
 - hallvallaExportCanonicalUiDraft() exporta un borrador con formato canonico.
-- DET avanzado queda para la siguiente fase porque aun mezcla runtime y editor.
+- Tablero, relojes y DET avanzado quedan para las siguientes fases porque aun mezclan runtime y editor.
 
 Flujo: canonical -> PROD y DEV -> overlay DEV -> export -> aprobacion -> canonical.
 ''')
