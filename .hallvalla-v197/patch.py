@@ -35,7 +35,7 @@ replacements=[
 for old,new in replacements:
     if old not in pvp:
         raise SystemExit('missing stealth anchor: '+old[:120])
-    pvp=pvp.replace(old,new,1)
+    pvp=pvp.replace(old,new)
 
 # Only reveal a generic rival-found state after the bot room is actually confirmed.
 anchor='''      if(!confirm.exists()||confirm.val()?.pvpBotMatch!==true||String(confirm.val()?.playerSlots?.player2Uid||"")!==botUid)throw new Error("Firebase no confirmó el duelo contra BOT.");\n\n      clearRandomMatchTimer();'''
