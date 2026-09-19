@@ -1,0 +1,105 @@
+name: HallValla v196 bot deadline TR cleanup
+
+on:
+  push:
+    branches:
+      - hallvalla-v196-bot-deadline-tr-cleanup
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v196
+        run: python3 .hallvalla-v196/patch.py hvsrc
+
+      - name: Validate v196
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do
+            node --check "$f"
+          done
+
+          grep -q '20260919.196' hvsrc/web/js/bootstrap-loader.js
+
+          # BOT fallback is tied to the full matchmaking search lifetime, not one room code.
+          grep -q 'let randomSearchStartedAt=0' hvsrc/web/js/features/pvp/index.js
+          grep -q 'setMatchmakingSearchText("PREPARANDO RIVAL BOT...")' hvsrc/web/js/features/pvp/index.js
+          grep -q 'searchAge>=PVP_BOT_FALLBACK_MS' hvsrc/web/js/features/pvp/index.js
+          grep -q 'Crear duelo BOT PvP' hvsrc/web/js/features/pvp/index.js
+          grep -q 'botCode=makeCode' hvsrc/web/js/features/pvp/index.js || grep -q 'const candidate=makeCode(8)' hvsrc/web/js/features/pvp/index.js
+          grep -q 'BOT NO INICIÓ · REINTENTANDO' hvsrc/web/js/features/pvp/index.js
+
+          # The old room is removed only after the new bot room was confirmed.
+          python3 - <<'PY'
+          from pathlib import Path
+          t=Path('hvsrc/web/js/features/pvp/index.js').read_text(encoding='utf-8')
+          confirm=t.index('Confirmar duelo BOT PvP')
+          remove_old=t.index('remove(waitingPublicRef)',confirm)
+          create_new=t.index('set(botPublicRef,pub)')
+          assert create_new < confirm < remove_old
+          assert 'randomSearchStartedAt=Date.now()' in t
+          print('BOT transition ordering OK')
+          PY
+
+          # Top TR debug/status pill is no longer created in PvE or PvP.
+          ! grep -q 'node.className="hallvalla-rt-status"' hvsrc/web/js/realtime/experimental.js
+          grep -q 'existing.remove()' hvsrc/web/js/realtime/experimental.js
+          grep -q 'hallvallaRtState.statusNode=null' hvsrc/web/js/realtime/experimental.js
+
+          # v195 functional clock/board/DET runtime remains intact.
+          grep -q 'initBattleClockTuner();' hvsrc/web/js/system/settings-events.js
+          grep -q 'const BATTLE_CLOCK_TUNER_DEFAULTS' hvsrc/web/js/system/settings-events.js
+          grep -q '7BOARDCTRL1' hvsrc/web/js/system/settings-events.js
+          grep -q 'HallValla · Editor visual avanzado del modal DET' hvsrc/web/js/system/settings-events.js
+
+          # v194 discarded split must stay absent.
+          test ! -f hvsrc/web/js/system/board-visual-runtime.js
+          test ! -f hvsrc/web/js/system/battle-clock-runtime.js
+          test ! -f hvsrc/web/js/system/det-runtime.js
+          test ! -f hvsrc/web/js/dev/board-editor.js
+          test ! -f hvsrc/web/js/dev/battle-clock-editor.js
+          test ! -f hvsrc/web/js/dev/det-editor.js
+
+          # Approved universal layout stays byte-for-byte untouched.
+          git -C hvsrc diff --exit-code HEAD -- web/js/layout/universal-runtime.js
+
+          # Home settings recovery from v195 remains present.
+          grep -q 'closeSettingsXBtn' hvsrc/web/hallvalla-stage.html
+          grep -q 'closeHomeSettingsPanel' hvsrc/web/js/system/settings-events.js
+
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found'
+            exit 1
+          fi
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v196_BOT_FIX_TR_CLEAN
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v196_BOT_FIX_TR_CLEAN/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v196_BOT_FIX_TR_CLEAN.zip HallValla_REPO_COMPLETO_v196_BOT_FIX_TR_CLEAN
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v196_BOT_FIX_TR_CLEAN.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v196-BOT-FIX-TR-CLEAN
+          path: HallValla_REPO_COMPLETO_v196_BOT_FIX_TR_CLEAN.zip
+          retention-days: 2
+          if-no-files-found: error
