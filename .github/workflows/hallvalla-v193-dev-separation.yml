@@ -1,0 +1,91 @@
+name: HallValla v193 DEV separation
+
+on:
+  push:
+    branches:
+      - hallvalla-v193-dev-separation
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v193 DEV separation
+        run: python3 .hallvalla-v193-dev/patch.py hvsrc
+
+      - name: Validate production DEV contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do node --check "$f"; done
+
+          grep -q '"config/ui-canonical.js"' hvsrc/web/js/bootstrap-loader.js
+          grep -q '"dev/calibrators.js"' hvsrc/web/js/bootstrap-loader.js
+          grep -q 'HALLVALLA_UI_CANONICAL' hvsrc/web/js/config/ui-canonical.js
+          grep -q 'hallvallaExportCanonicalUiDraft' hvsrc/web/js/dev/calibrators.js
+          grep -q '20260919.193' hvsrc/web/js/bootstrap-loader.js
+
+          ! grep -q 'function initFieldStatBadgesTuner' hvsrc/web/js/system/settings-events.js
+          ! grep -q 'function initBattleVisualSizeTuner' hvsrc/web/js/system/settings-events.js
+          ! grep -q 'function initFieldBoardTuner' hvsrc/web/js/system/settings-events.js
+          ! grep -q 'function initBattleClockTuner' hvsrc/web/js/system/settings-events.js
+          ! grep -q 'function initHvMissionsLayoutTuner' hvsrc/web/js/system/settings-events.js
+
+          grep -q 'function initFieldStatBadgesTuner' hvsrc/web/js/dev/calibrators.js
+          grep -q 'function initBattleVisualSizeTuner' hvsrc/web/js/dev/calibrators.js
+          grep -q 'function initFieldBoardTuner' hvsrc/web/js/dev/calibrators.js
+          grep -q 'function initBattleClockTuner' hvsrc/web/js/dev/calibrators.js
+          grep -q 'function initHvMissionsLayoutTuner' hvsrc/web/js/dev/calibrators.js
+
+          # Production uses canonical values and only DEV may read visual localStorage overlays.
+          grep -q '__HALLVALLA_DEV_TOOLS__!==true)return{...FIELD_BOARD_DEFAULTS}' hvsrc/web/js/core/boot-config.js
+          grep -q '__HALLVALLA_DEV_TOOLS__!==true)return defaults' hvsrc/web/js/system/settings-events.js
+          grep -q '__HALLVALLA_DEV_TOOLS__!==true)return {...BATTLE_VISUAL_SIZE_DEFAULTS}' hvsrc/web/js/system/settings-events.js
+
+          # The proven v192/v191 universal layout is not modified in this phase.
+          git -C hvsrc diff --exit-code HEAD -- web/js/layout/universal-runtime.js
+
+          # DEV file must not be a production core part.
+          python3 - <<'PY'
+          from pathlib import Path
+          t=Path('hvsrc/web/js/bootstrap-loader.js').read_text(encoding='utf-8')
+          core=t.split('const CORE_PARTS = [',1)[1].split('];',1)[0]
+          assert 'dev/calibrators.js' not in core
+          feature=t.split('const FEATURE_PARTS',1)[1]
+          assert '"hvdev"' in feature and '"dev/calibrators.js"' in feature
+          print('DEV-only loader contract OK')
+          PY
+
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found'
+            exit 1
+          fi
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v193_DEV_SEPARADO
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v193_DEV_SEPARADO/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v193_DEV_SEPARADO.zip HallValla_REPO_COMPLETO_v193_DEV_SEPARADO
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v193_DEV_SEPARADO.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v193-DEV-SEPARADO
+          path: HallValla_REPO_COMPLETO_v193_DEV_SEPARADO.zip
+          retention-days: 2
+          if-no-files-found: error
