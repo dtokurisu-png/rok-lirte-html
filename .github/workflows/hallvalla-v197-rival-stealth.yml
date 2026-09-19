@@ -1,0 +1,74 @@
+name: HallValla v197 rival stealth
+
+on:
+  push:
+    branches:
+      - hallvalla-v197-bot-stealth
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v196 base fix
+        run: python3 .hallvalla-v196/patch.py hvsrc
+
+      - name: Apply v197 rival stealth
+        run: python3 .hallvalla-v197/patch.py hvsrc
+
+      - name: Validate v197
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do node --check "$f"; done
+
+          grep -q '20260919.197' hvsrc/web/js/bootstrap-loader.js
+          grep -q 'setMatchmakingSearchText("RIVAL ENCONTRADO")' hvsrc/web/js/features/pvp/index.js
+          grep -q 'function getPvpBotPublicName(profile){return String(profile?.name||"Guerrero");}' hvsrc/web/js/features/pvp/index.js
+
+          ! grep -q 'PREPARANDO RIVAL BOT' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'REINTENTANDO BOT' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'BOT NO DISPONIBLE' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'RIVAL BOT ENCONTRADO' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'BOT de respaldo' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'Rival BOT no inició' hvsrc/web/js/features/pvp/index.js
+
+          # v196 fixes stay present.
+          grep -q 'let randomSearchStartedAt=0' hvsrc/web/js/features/pvp/index.js
+          grep -q 'searchAge>=PVP_BOT_FALLBACK_MS' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'node.className="hallvalla-rt-status"' hvsrc/web/js/realtime/experimental.js
+
+          # Functional v195 clocks/board/DET remain intact.
+          grep -q 'initBattleClockTuner();' hvsrc/web/js/system/settings-events.js
+          grep -q '7BOARDCTRL1' hvsrc/web/js/system/settings-events.js
+          grep -q 'HallValla · Editor visual avanzado del modal DET' hvsrc/web/js/system/settings-events.js
+
+          git -C hvsrc diff --exit-code HEAD -- web/js/layout/universal-runtime.js
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v197_RIVAL_STEALTH
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v197_RIVAL_STEALTH/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v197_RIVAL_STEALTH.zip HallValla_REPO_COMPLETO_v197_RIVAL_STEALTH
+          cd ..
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v197-RIVAL-STEALTH
+          path: HallValla_REPO_COMPLETO_v197_RIVAL_STEALTH.zip
+          retention-days: 2
+          if-no-files-found: error
