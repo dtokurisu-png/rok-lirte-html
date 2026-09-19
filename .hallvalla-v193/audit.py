@@ -42,20 +42,20 @@ def find_end(s,start):
     return None
 
 all_text='\n'.join(txt(p) for p in js_files+css_files+html_files)
-ident_counts=collections.Counter(re.findall(r'[A-Za-z_$][\\w$]*',all_text))
+ident_counts=collections.Counter(re.findall(r'[A-Za-z_$][A-Za-z0-9_$]*',all_text))
 files=[];functions=[];symbols=collections.defaultdict(list)
 for p in js_files:
     rel=str(p.relative_to(ROOT));s=txt(p);decl=0;longn=0;tops=[]
-    for m in re.finditer(r'(?m)^([ \\t]*)(?:async[ \\t]+)?function[ \\t]+([A-Za-z_$][\\w$]*)[ \\t]*\\(',s):
+    for m in re.finditer(r'(?m)^([ \t]*)(?:async[ \t]+)?function[ \t]+([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*[(]',s):
         name=m.group(2);end=find_end(s,m.start())
         if end is None:continue
         sl=line_of(s,m.start());el=line_of(s,end);ln=el-sl+1
         functions.append({'file':rel,'name':name,'start':sl,'end':el,'lines':ln,'refs':ident_counts[name]})
         symbols[name].append((rel,sl,'function'));decl+=1
         if ln>=120:longn+=1
-    for m in re.finditer(r'(?m)^(?:const|let|var)[ \\t]+([A-Za-z_$][\\w$]*)',s):
+    for m in re.finditer(r'(?m)^(?:const|let|var)[ \t]+([A-Za-z_$][A-Za-z0-9_$]*)',s):
         name=m.group(1);symbols[name].append((rel,line_of(s,m.start()),'var'));tops.append(name)
-    files.append({'file':rel,'bytes':p.stat().st_size,'lines':s.count('\n')+1,'functions':decl,'long_functions':longn,'listeners':s.count('.addEventListener('),'dom':s.count('querySelector(')+s.count('querySelectorAll(')+s.count('getElementById('),'localStorage':s.count('localStorage'),'firebase_calls':len(re.findall(r'\\b(?:ref|get|set|update|onValue|runTransaction|remove)\\s*\\(',s)),'global_writes':len(re.findall(r'\\b(?:globalThis|window)\\.[A-Za-z_$][\\w$]*\\s*=',s)),'top_level_names':len(set(tops))})
+    files.append({'file':rel,'bytes':p.stat().st_size,'lines':s.count('\n')+1,'functions':decl,'long_functions':longn,'listeners':s.count('.addEventListener('),'dom':s.count('querySelector(')+s.count('querySelectorAll(')+s.count('getElementById('),'localStorage':s.count('localStorage'),'firebase_calls':len(re.findall(r'(?:ref|get|set|update|onValue|runTransaction|remove)[ \t]*[(]',s)),'global_writes':len(re.findall(r'\\b(?:globalThis|window)\\.[A-Za-z_$][\\w$]*\\s*=',s)),'top_level_names':len(set(tops))})
 
 long_functions=sorted([f for f in functions if f['lines']>=120],key=lambda x:-x['lines'])
 dead_funcs=sorted([f for f in functions if f['refs']==1],key=lambda x:(x['file'],x['start']))
@@ -68,7 +68,7 @@ duplicate_symbols.sort(key=lambda x:(-len(x['files']),x['name']))
 global_writes=collections.defaultdict(list)
 for p in js_files:
     rel=str(p.relative_to(ROOT));s=txt(p)
-    for m in re.finditer(r'\\b(?:globalThis|window)\\.([A-Za-z_$][\\w$]*)\\s*=',s):
+    for m in re.finditer(r'(?:globalThis|window)[.]([A-Za-z_$][A-Za-z0-9_$]*)[ \t]*=',s):
         global_writes[m.group(1)].append({'file':rel,'line':line_of(s,m.start())})
 global_collisions=[{'name':k,'writes':v} for k,v in global_writes.items() if len(set(x['file'] for x in v))>1]
 global_collisions.sort(key=lambda x:(-len(x['writes']),x['name']))
