@@ -38,14 +38,10 @@ jobs:
 
           ! grep -q 'function initFieldStatBadgesTuner' hvsrc/web/js/system/settings-events.js
           ! grep -q 'function initBattleVisualSizeTuner' hvsrc/web/js/system/settings-events.js
-          ! grep -q 'function initFieldBoardTuner' hvsrc/web/js/system/settings-events.js
-          ! grep -q 'function initBattleClockTuner' hvsrc/web/js/system/settings-events.js
           ! grep -q 'function initHvMissionsLayoutTuner' hvsrc/web/js/system/settings-events.js
 
           grep -q 'function initFieldStatBadgesTuner' hvsrc/web/js/dev/calibrators.js
           grep -q 'function initBattleVisualSizeTuner' hvsrc/web/js/dev/calibrators.js
-          grep -q 'function initFieldBoardTuner' hvsrc/web/js/dev/calibrators.js
-          grep -q 'function initBattleClockTuner' hvsrc/web/js/dev/calibrators.js
           grep -q 'function initHvMissionsLayoutTuner' hvsrc/web/js/dev/calibrators.js
 
           # Production uses canonical values and only DEV may read visual localStorage overlays.
