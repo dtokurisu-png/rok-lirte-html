@@ -69,6 +69,7 @@ jobs:
 
           python3 - <<'PY'
           from pathlib import Path
+          import re
           moved=[
             'changeFieldBoardDimensions','openFieldBoardTuner','initFieldBoardTuner',
             'openBattleClockTuner','initBattleClockTuner','startBattleClockDrag',
@@ -76,7 +77,8 @@ jobs:
           ]
           roots=[p for p in Path('hvsrc/web/js').rglob('*.js') if '/dev/' not in p.as_posix()]
           for name in moved:
-              hits=[str(p) for p in roots if name in p.read_text(encoding='utf-8',errors='ignore')]
+              rx=re.compile(r'(?<![A-Za-z0-9_$])'+re.escape(name)+r'(?![A-Za-z0-9_$])')
+              hits=[str(p) for p in roots if rx.search(p.read_text(encoding='utf-8',errors='ignore'))]
               if hits:
                   raise SystemExit(f'DEV symbol {name} still referenced by production JS: {hits}')
           print('No selected DEV editor symbols remain in production JS')
