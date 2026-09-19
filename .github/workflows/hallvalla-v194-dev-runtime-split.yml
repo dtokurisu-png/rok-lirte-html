@@ -1,0 +1,109 @@
+name: HallValla v194 DEV runtime split
+
+on:
+  push:
+    branches:
+      - hallvalla-v194-dev-runtime-split
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v194 split
+        run: python3 .hallvalla-v194/patch.py hvsrc
+
+      - name: Validate v194 architecture
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do
+            node --check "$f"
+          done
+
+          grep -q '20260919.194' hvsrc/web/js/bootstrap-loader.js
+          grep -q '"system/board-visual-runtime.js"' hvsrc/web/js/bootstrap-loader.js
+          grep -q '"system/battle-clock-runtime.js"' hvsrc/web/js/bootstrap-loader.js
+          grep -q '"system/det-runtime.js"' hvsrc/web/js/bootstrap-loader.js
+
+          grep -q '"dev/board-editor.js"' hvsrc/web/js/bootstrap-loader.js
+          grep -q '"dev/battle-clock-editor.js"' hvsrc/web/js/bootstrap-loader.js
+          grep -q '"dev/det-editor.js"' hvsrc/web/js/bootstrap-loader.js
+
+          grep -q 'directBaked' hvsrc/web/js/config/ui-canonical.js
+          grep -q 'hallvallaExportDetCanonicalDraft' hvsrc/web/js/dev/det-editor.js
+
+          ! grep -q '7BOARDCTRL1' hvsrc/web/js/system/settings-events.js
+          ! grep -q 'BATTLE_CLOCK_TUNER_DEFAULTS' hvsrc/web/js/system/settings-events.js
+          ! grep -q 'ensureHvDetLayoutTuner' hvsrc/web/js/system/settings-events.js
+          ! grep -q 'HV_DET_LAYOUT_TUNER_STORAGE_KEY' hvsrc/web/js/system/settings-events.js
+
+          ! grep -q 'localStorage' hvsrc/web/js/system/board-visual-runtime.js
+          ! grep -q 'localStorage' hvsrc/web/js/system/battle-clock-runtime.js
+          ! grep -q 'localStorage' hvsrc/web/js/system/det-runtime.js
+
+          python3 - <<'PY'
+          from pathlib import Path
+          loader=Path('hvsrc/web/js/bootstrap-loader.js').read_text(encoding='utf-8')
+          core=loader.split('const CORE_PARTS = [',1)[1].split('];',1)[0]
+          feature=loader.split('const FEATURE_PARTS',1)[1]
+          for name in ('dev/board-editor.js','dev/battle-clock-editor.js','dev/det-editor.js','dev/calibrators.js','dev/universal-layout-editor.js'):
+              assert name not in core, f'{name} leaked into production CORE_PARTS'
+              assert name in feature, f'{name} missing from DEV feature'
+          for name in ('system/board-visual-runtime.js','system/battle-clock-runtime.js','system/det-runtime.js'):
+              assert name in core, f'{name} missing from production CORE_PARTS'
+          print('DEV/PROD loader isolation OK')
+          PY
+
+          python3 - <<'PY'
+          from pathlib import Path
+          moved=[
+            'changeFieldBoardDimensions','openFieldBoardTuner','initFieldBoardTuner',
+            'openBattleClockTuner','initBattleClockTuner','startBattleClockDrag',
+            'ensureHvDetLayoutTuner','wireHvDetDirectEditorRoot','copyHvDetEditorJson'
+          ]
+          roots=[p for p in Path('hvsrc/web/js').rglob('*.js') if '/dev/' not in p.as_posix()]
+          for name in moved:
+              hits=[str(p) for p in roots if name in p.read_text(encoding='utf-8',errors='ignore')]
+              if hits:
+                  raise SystemExit(f'DEV symbol {name} still referenced by production JS: {hits}')
+          print('No selected DEV editor symbols remain in production JS')
+          PY
+
+          # v191/v192/v193 approved universal layout remains untouched.
+          git -C hvsrc diff --exit-code HEAD -- web/js/layout/universal-runtime.js
+
+          if find hvsrc -type f \( -iname '*.jks' -o -iname '*.keystore' -o -iname '*.p12' -o -iname '*.pfx' \) | grep -q .; then
+            echo 'ERROR: signing material found'
+            exit 1
+          fi
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v194_DEV_RUNTIME_SPLIT
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v194_DEV_RUNTIME_SPLIT/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v194_DEV_RUNTIME_SPLIT.zip HallValla_REPO_COMPLETO_v194_DEV_RUNTIME_SPLIT
+          cd ..
+          ls -lh HallValla_REPO_COMPLETO_v194_DEV_RUNTIME_SPLIT.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v194-DEV-RUNTIME-SPLIT
+          path: HallValla_REPO_COMPLETO_v194_DEV_RUNTIME_SPLIT.zip
+          retention-days: 2
+          if-no-files-found: error
