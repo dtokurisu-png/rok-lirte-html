@@ -1,0 +1,82 @@
+name: HallValla v198 matchmaking avatar
+
+on:
+  push:
+    branches:
+      - hallvalla-v198-matchmaking-avatar
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+
+      - name: Apply v196 bot/TR fixes
+        run: python3 .hallvalla-v196/patch.py hvsrc
+
+      - name: Apply v197 rival stealth
+        run: python3 .hallvalla-v197/patch.py hvsrc
+
+      - name: Apply v198 avatar UI
+        run: python3 .hallvalla-v198/patch.py hvsrc
+
+      - name: Validate v198
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for f in $(find hvsrc/web/js -type f -name '*.js'); do
+            node --check "$f"
+          done
+
+          grep -q '20260919.198' hvsrc/web/js/bootstrap-loader.js
+          grep -q 'matchmakingPlayerAvatar' hvsrc/web/hallvalla-stage.html
+          grep -q 'matchmakingOpponentAvatar' hvsrc/web/hallvalla-stage.html
+          grep -q 'hv-match-avatar-medallion' hvsrc/web/styles.css
+          grep -q 'hv-match-search-core' hvsrc/web/styles.css
+          grep -q 'const avatarId=side==="opponent"?"matchmakingOpponentAvatar":"matchmakingPlayerAvatar"' hvsrc/web/js/features/pvp/index.js
+
+          # No visible BOT disclosure.
+          ! grep -q 'PREPARANDO RIVAL BOT' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'RIVAL BOT ENCONTRADO' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'BOT de respaldo' hvsrc/web/js/features/pvp/index.js
+
+          # v196 behavior remains.
+          grep -q 'let randomSearchStartedAt=0' hvsrc/web/js/features/pvp/index.js
+          grep -q 'searchAge>=PVP_BOT_FALLBACK_MS' hvsrc/web/js/features/pvp/index.js
+          ! grep -q 'node.className="hallvalla-rt-status"' hvsrc/web/js/realtime/experimental.js
+
+          # v195 functional runtime remains.
+          grep -q 'initBattleClockTuner();' hvsrc/web/js/system/settings-events.js
+          grep -q '7BOARDCTRL1' hvsrc/web/js/system/settings-events.js
+          grep -q 'HallValla · Editor visual avanzado del modal DET' hvsrc/web/js/system/settings-events.js
+
+          # Approved universal layout unchanged.
+          git -C hvsrc diff --exit-code HEAD -- web/js/layout/universal-runtime.js
+
+      - name: Build complete repository ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p package/HallValla_REPO_COMPLETO_v198_MATCHMAKING_AVATAR
+          rsync -a --exclude='.git' hvsrc/ package/HallValla_REPO_COMPLETO_v198_MATCHMAKING_AVATAR/
+          cd package
+          zip -r -q ../HallValla_REPO_COMPLETO_v198_MATCHMAKING_AVATAR.zip HallValla_REPO_COMPLETO_v198_MATCHMAKING_AVATAR
+          cd ..
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-REPO-COMPLETO-v198-MATCHMAKING-AVATAR
+          path: HallValla_REPO_COMPLETO_v198_MATCHMAKING_AVATAR.zip
+          retention-days: 2
+          if-no-files-found: error
