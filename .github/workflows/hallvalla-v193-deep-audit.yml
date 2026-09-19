@@ -1,0 +1,27 @@
+name: HallValla v193 deep audit
+
+on:
+  push:
+    branches: [hallvalla-v193-deep-audit]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Elberlord/Hallvalla
+          ref: main
+          path: hvsrc
+      - name: Run v193 deep audit
+        run: python3 .hallvalla-v193/audit.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HallValla-v193-deep-audit
+          path: audit193/
+          retention-days: 2
