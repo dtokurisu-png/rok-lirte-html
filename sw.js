@@ -1,4 +1,4 @@
-const ROK_CACHE = 'rok-lite-v9-88-online-tiempo-real-audit';
+const ROK_CACHE = 'rok-lite-v9-89-mobile-bypass-auth-test';
 const ROK_SHELL = [
   './',
   './index.html',
@@ -34,9 +34,11 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  if (req.mode === 'navigate') {
+  // HTML y código deben buscarse en red antes de usar una copia local.
+  // Evita que Firebase Auth antiguo quede atascado en caché en móviles.
+  if (req.mode === 'navigate' || /\.(?:js|css|html)$/i.test(url.pathname)) {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'no-store' })
         .then(res => {
           const copy = res.clone();
           caches.open(ROK_CACHE).then(cache => cache.put(req, copy)).catch(() => {});
