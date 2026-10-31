@@ -43,6 +43,14 @@
   // menú, Biblioteca, PvB y Aventura desde móvil. PvP Online permanece bloqueado.
   // No equivale a protección de acceso del sitio: usar Cloudflare Access.
   const LOCAL_FILE_TEST_MODE = true;
+  // Ocultar el formulario de cuentas durante las pruebas web incluso si
+  // algún componente intenta hacerlo visible antes del inicio del menú.
+  if (LOCAL_FILE_TEST_MODE) {
+    const testStyle = document.createElement('style');
+    testStyle.id = 'rok-web-test-auth-bypass';
+    testStyle.textContent = '#accountAuthOverlay { display: none !important; visibility: hidden !important; pointer-events: none !important; }';
+    (document.head || document.documentElement).appendChild(testStyle);
+  }
   const ROOM_ROOT = 'rooms';
   const ROOM_CODE_LENGTH = 6;
   const SYNC_DEBOUNCE_MS = 90;
@@ -4060,7 +4068,8 @@
 
   function showAccountAuthOverlay(show = true) {
     if (!accountUi.overlay) cacheAccountUi();
-    const visible = Boolean(show);
+    // El acceso de prueba jamás debe reabrir el formulario de Firebase.
+    const visible = LOCAL_FILE_TEST_MODE ? false : Boolean(show);
     accountUi.overlay?.classList.toggle('visible', visible);
     accountUi.overlay?.setAttribute('aria-hidden', visible ? 'false' : 'true');
     document.body.classList.toggle('rok-account-locked', visible);
@@ -5706,5 +5715,10 @@
     auditLocalState: () => window.ROK_STATE_INTEGRITY?.audit?.(state, { repair: false }) || { ok: true, issues: [], warnings: [] },
   };
 
-  window.addEventListener('DOMContentLoaded', bindUi);
+  // Ejecutar también si el script acaba de cargarse tras DOMContentLoaded.
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', bindUi, { once: true });
+  } else {
+    bindUi();
+  }
 }());
