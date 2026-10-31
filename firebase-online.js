@@ -38,12 +38,11 @@
     || /^192\.168(?:\.\d{1,3}){2}$/.test(LOCAL_HOSTNAME)
     || /^172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2}$/.test(LOCAL_HOSTNAME)
   );
-  const LOCAL_FILE_TEST_MODE = (
-    window.location.protocol === 'file:'
-    || window.location.origin === 'null'
-    || !/^https?:$/i.test(String(window.location.protocol || ''))
-    || LOCAL_HTTP_TEST_HOST
-  );
+  // R.O.K. v9.56-web-test: acceso temporal SIN Firebase Authentication.
+  // Se reutiliza el modo offline existente también en HTTPS para probar
+  // menú, Biblioteca, PvB y Aventura desde móvil. PvP Online permanece bloqueado.
+  // No equivale a protección de acceso del sitio: usar Cloudflare Access.
+  const LOCAL_FILE_TEST_MODE = true;
   const ROOM_ROOT = 'rooms';
   const ROOM_CODE_LENGTH = 6;
   const SYNC_DEBOUNCE_MS = 90;
