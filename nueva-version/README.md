@@ -1,22 +1,35 @@
 # R.O.K. nueva versión — mismo repositorio
 
-La nueva implementación **no usa turnos**. Está separada del juego clásico en `version-anterior/`, mientras se conserva `game.js` de raíz para que R.O.K. Lite siga funcionando.
+Motor separado, combate continuo **sin turnos** y escena 3D nueva, dentro de `rok-lirte-html/nueva-version/`.
 
-## Carpetas
-
-- `frontend/` — interfaz de pruebas y recursos clasificados: `cartas/`, `escenarios/`, `personajes/`, `modelos-3d/`, `animaciones/`, `mecanicas/` y `efectos/`.
-- `backend/` — servidor Node.js con Socket.IO, sesiones y reloj maestro.
-- `motor/` — simulación continua, selección de objetivos, movimiento y combate autónomo.
-- `mecanicas/` — módulos para futuras habilidades, factores y poderes reutilizables.
-- `datos/json/` — cartas, Kasters y prototipos de invocación separados.
-- `compartido/` — protocolo público, solo datos y comandos permitidos.
-- `tests/` — validaciones automáticas.
-- `docs/` — arquitectura, auditoría y plan de implementación.
+| Carpeta | Uso |
+| --- | --- |
+| `frontend/` | Página de Aventura, renderizador Three.js y HUD de prueba |
+| `frontend/js/scene/` | Escenario, cámara, GLB, interpolación y FX; **solo visual** |
+| `frontend/recursos/modelos-3d/` | GLB locales y catálogo de recursos |
+| `frontend/recursos/animaciones/` | Espacio para clips Mixamo optimizados |
+| `frontend/recursos/cartas/` | Imágenes de cartas, tokens y marcos |
+| `frontend/recursos/escenarios/` | Mapas e imágenes de arenas |
+| `frontend/recursos/efectos/` | FX gráficos |
+| `frontend/recursos/interfaz/` | Iconos, menús y HUD |
+| `frontend/recursos/mecanicas/` | Iconografía de factores y habilidades |
+| `backend/` | Servidor Socket.IO con reloj autoritativo |
+| `motor/` | Objetivos, duelos melee, movimiento y ataque continuo |
+| `mecanicas/` | Registros para futuros poderes, habilidades, factores |
+| `datos/json/` | Definiciones de Kasters, encuentros e invocaciones |
+| `compartido/` | Protocolo público v3 |
+| `tests/` | Pruebas automáticas Node.js |
+| `docs/` | Documentación, límites y fases |
 
 ## Estado
 
-Etapa 2: el jugador solo **invoca**. Sus unidades se desplazan solas, eligen enemigo, cargan ataques en relojes individuales y combaten con 3 modos: `melee`, `range`, `distance`. Kiara invoca modelos de prueba automáticamente.
+- Etapa 1: estructura y archivo del viejo R.O.K. Lite.
+- Etapa 2: motor continuo autoritativo de prueba, sin turnos, con relojes individuales.
+- **Etapa 3: arena 3D con cámara y GLB, conectada a los estados/eventos del servidor**. La vista previa se abre desde GitHub Pages incluso sin backend.
+- Pendiente: modelos definitivos Kiara/Lioren, clips completos de animación, HUD flotante final, cartas, poderes, factores, optimización final y PvP.
 
-La interfaz web es un tablero **diagnóstico**, no el escenario 3D definitivo. La transferencia visual del tester es la próxima etapa. No se han integrado cartas reales ni poderes, y las estadísticas siguen siendo provisionales.
+Detalles y limitaciones: `docs/ETAPA_3.md`.
 
-GitHub Pages no ejecuta el backend. El proyecto incluye el servidor, pero aún es necesario alojarlo para probar el combate conectado por internet. **No necesitas instalar archivos locales para ver la web.**
+**La vieja versión se conserva en `version-anterior/` y sigue funcionando en la raíz.**
+
+Importante: para jugar el combate real en internet necesitamos desplegar el servidor Node.js. GitHub Pages no ejecuta el backend.

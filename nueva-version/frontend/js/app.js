@@ -1,151 +1,179 @@
-import {connectBackend,createAdventureSession,summonUnit,fetchCombatState,listenCombatSync} from './network.js';
+import {connectBackend,createAdventureSession,summonUnit,listenCombatSync} from './network.js';
+// UI orchestration: sin ataques ni calculos de reglas de combate.
 const $=id=>document.getElementById(id);
-let socket=null,encounter=null,session=null,state=null,inflight=false;
-const seen=new Set(),nodes=new Map();
-const status=$('statusText'),output=$('result'),dot=$('statusDot'),create=$('create'),connect=$('connect');
+let socket=null,encounter=null,session=null,state=null,scene=null,inflight=false;
+const seen=new Set();
+const status=$('statusText'),output=$('result'),dot=$('statusDot');
+const create=$('create'),connect=$('connect');
 const stage=document.createElement('section');
-stage.className='battle-stage';stage.hidden=true;
+stage.className='battle-stage stage-3d';
 stage.innerHTML=`
-<div class="stage-header"><div><small>SIMULACION CONTINUA · MOTOR AUTORITATIVO</small>
-<h2>Combate automático</h2><p>Invoca unidades. Ellas avanzan, eligen objetivos y combaten solas, sin turnos ni comandos de ataque.</p></div>
-<div id="combatSummary" class="combat-summary"></div></div>
-<div class="stage-layout">
-  <div id="combatBoard" class="continuous-board" aria-label="Mapa táctico de prueba. El escenario 3D llegará después.">
-    <div id="combatActors" class="combat-actors"></div>
-  </div>
+<div class="stage-header">
+  <div><small>R.O.K. · ESCENARIO TRIDIMENSIONAL</small>
+    <h2>Arena 3D · 9 × 18</h2>
+    <p>Gira la cámara, acerca y aleja. El combate solo responde al servidor, sin cálculo local.</p></div>
+  <div id="combatSummary" class="combat-summary">Vista previa — sin conexión al motor</div>
+</div>
+<div class="scene-toolbar" role="group" aria-label="Controles de cámara">
+  <button type="button" id="sceneReset">Cámara normal</button>
+  <button type="button" id="sceneFull">Arena completa</button>
+  <button type="button" id="sceneArcher">Cargar Arquera GLB (31,5 MB)</button>
+  <span id="sceneStatus" role="status">Preparando escena tridimensional…</span>
+</div>
+<div class="stage-layout stage-layout-3d">
+  <div class="scene-viewport" id="arena3d" aria-label="Escenario R.O.K. tridimensional de prueba"></div>
   <aside class="summon-panel">
-    <h3>Invocaciones de prueba</h3>
-    <p>El despliegue usa un breve tiempo de recuperación, independiente de los relojes de ataque. No hay coste de cartas todavía.</p>
+    <h3>Invocaciones</h3>
+    <p>Cuando haya servidor, invoca unidades; ellas avanzarán y combatirán solas.
+       La cámara y las animaciones no deciden daños ni resultados.</p>
     <div id="summonButtons" class="summon-buttons"></div>
-    <p id="summonFeedback" role="status">Sin invocaciones desplegadas.</p>
-    <h3>Eventos del servidor</h3>
+    <p id="summonFeedback" role="status">Aún no hay backend configurado.</p>
+    <h3>Eventos lógicos del servidor</h3>
     <ol id="combatLog" class="combat-log"></ol>
   </aside>
 </div>`;
-document.querySelector('.layout').appendChild(stage);
-const board=$('combatActors'),summary=$('combatSummary'),buttons=$('summonButtons'),feedback=$('summonFeedback'),log=$('combatLog');
-const label=event=>{
-  if(event.type==='unit.summoned')return (event.side===1?'Aliado':'Rival')+' invoca '+event.cardId;
-  if(event.type==='attack.preparing')return event.unitId+' prepara ataque '+event.combatMode;
-  if(event.type==='projectile.launched')return event.unitId+' dispara '+event.combatMode;
-  if(event.type==='unit.hit')return event.targetId+' recibe '+event.damage+' de daño ('+event.hp+' PV)';
-  if(event.type==='unit.defeated')return event.unitId+' derrotado';
-  if(event.type==='combat.finished')return event.winner===0?'Empate':('Victoria de '+(event.winner===1?'Lioren':'Kiara'));
-  return '';
-};
-function addEvents(events){
-  for(const event of events||[]){
+document.querySelector('.field').before(stage);
+const summary=$('combatSummary'),buttons=$('summonButtons');
+const feedback=$('summonFeedback'),log=$('combatLog');
+function message(value){output.textContent=value;}
+function updateInfo(next){
+  state=next;
+  const ally=next?.casters?.find(c=>c.side===1);
+  const enemy=next?.casters?.find(c=>c.side===2);
+  summary.textContent=next?.status==='finished'?
+    (next.winner===0?'Empate':next.winner===1?'Victoria de Lioren':'Victoria de Kiara'):
+    next?('Reloj '+(next.elapsedMs/1000).toFixed(1)+' s · Lioren '+(ally?.hp??'?')+
+      ' PV · Kiara '+(enemy?.hp??'?')+' PV'):'Vista previa — sin conexión al motor';
+  const active=socket?.connected&&!!session&&state?.status==='active'&&!inflight;
+  buttons.querySelectorAll('button').forEach(button=>{button.disabled=!active;});
+}
+function label(event){
+  switch(event.type){
+    case 'unit.summoned':return (event.side===1?'Aliado':'Rival')+' invoca '+event.cardId;
+    case 'attack.preparing':return event.unitId+' prepara '+event.combatMode;
+    case 'projectile.launched':return event.unitId+' dispara';
+    case 'unit.hit':return event.targetId+' recibe '+event.damage+' de daño ('+event.hp+' PV)';
+    case 'unit.defeated':return event.unitId+' derrotado';
+    case 'combat.finished':return event.winner===0?'Empate':('Victoria de '+(event.winner===1?'Lioren':'Kiara'));
+    default:return '';
+  }
+}
+function writeEvents(events=[]){
+  for(const event of events){
     if(seen.has(event.eventId))continue;
     seen.add(event.eventId);
-    if(seen.size>1000)seen.clear();
+    if(seen.size>1400)seen.clear();
     const text=label(event);
     if(!text)continue;
     const li=document.createElement('li');
     li.textContent='['+(event.timeMs/1000).toFixed(1)+'s] '+text;
     log.prepend(li);
   }
-  while(log.children.length>32)log.lastElementChild.remove();
+  while(log.children.length>28)log.lastElementChild.remove();
 }
-function snapshot(next){
-  if(!next||state && next.revision<state.revision)return;
-  state=next;stage.hidden=false;
-  const ally=state.casters.find(c=>c.side===1),enemy=state.casters.find(c=>c.side===2);
-  summary.textContent=state.status==='finished'
-    ? (state.winner===0?'Empate':state.winner===1?'Victoria de Lioren':'Victoria de Kiara')
-    : ('Tiempo '+(state.elapsedMs/1000).toFixed(1)+'s · Lioren '+ally.hp+'/'+ally.maxHp+
-      ' PV · Kiara '+enemy.hp+'/'+enemy.maxHp+' PV');
-  const activeIds=new Set();
-  for(const unit of [...state.casters,...state.units]){
-    const key=unit.id;activeIds.add(key);
-    let node=nodes.get(key);
-    if(!node){
-      node=document.createElement('div');node.className='battle-entity';
-      node.textContent=unit.role==='caster'?'K':(unit.combatMode==='melee'?'M':unit.combatMode==='range'?'R':'D');
-      node.title=unit.name||unit.cardId||unit.id;
-      board.appendChild(node);nodes.set(key,node);
-    }
-    node.className='battle-entity '+(unit.side===1?'friendly':'hostile')+
-      (unit.role==='caster'?' kaster':' invocation')+
-      (unit.stage==='preparing'?' preparing':'');
-    node.style.left=((unit.col+.5)/9*100)+'%';
-    node.style.top=((unit.row+.5)/18*100)+'%';
-    node.setAttribute('aria-label',node.title+' · '+unit.hp+' PV');
-    node.dataset.life=String(unit.hp);
-  }
-  for(const [id,node] of nodes)if(!activeIds.has(id)){node.remove();nodes.delete(id);}
-  const enabled=socket?.connected&&session&&state.status==='active'&&!inflight;
-  buttons.querySelectorAll('button').forEach(btn=>{btn.disabled=!enabled;});
+function updateSnapshot(next,events=[]){
+  if(!next||(state&&next.revision<state.revision))return;
+  scene?.setState(next,events);
+  updateInfo(next);writeEvents(events);
 }
-function message(text){output.textContent=text;}
-function makeSummonButtons(list){
+function makeSummonButtons(catalog=[]){
   buttons.replaceChildren();
-  for(const card of list){
-    const button=document.createElement('button');button.type='button';button.dataset.cardId=card.id;
-    const title=document.createElement('strong');title.textContent=card.name;
-    const desc=document.createElement('small');desc.textContent=
-      ({melee:'Cuerpo a cuerpo',range:'Rango',distance:'Distancia'})[card.combatMode]+
-      ' · alcance '+card.range+' · PV '+card.hp+' · daño '+card.damage;
-    button.append(title,desc);buttons.appendChild(button);
-    button.addEventListener('click',()=>{void summon(card.id);});
+  for(const item of catalog){
+    const btn=document.createElement('button');
+    btn.type='button';btn.dataset.cardId=item.id;
+    const title=document.createElement('strong');title.textContent=item.name;
+    const info=document.createElement('small');
+    const names={melee:'Cuerpo a cuerpo',range:'Rango',distance:'Distancia'};
+    info.textContent=(names[item.combatMode]||item.combatMode)+
+      ' · alcance '+item.range+' · PV '+item.hp+' · daño '+item.damage;
+    btn.append(title,info);buttons.appendChild(btn);
+    btn.addEventListener('click',()=>{void deploy(item.id);});
   }
+  updateInfo(state);
 }
-async function summon(cardId){
-  if(!state||!session||inflight)return;
-  inflight=true;snapshot(state);
+async function deploy(cardId){
+  if(!session||!socket?.connected||inflight)return;
+  inflight=true;updateInfo(state);
   try{
-    const reply=await summonUnit(socket,session.id,cardId);
-    if(reply?.ok){
-      addEvents(reply.events);snapshot(reply.state);
-      feedback.textContent='Invocada: '+cardId+'. El combate avanza automáticamente.';
-    }else feedback.textContent='No se pudo invocar: '+(reply?.error||'Error de servidor');
-  }catch(err){feedback.textContent='Error de conexion: '+String(err.message||err);}
-  finally{inflight=false;snapshot(state);}
+    const response=await summonUnit(socket,session.id,cardId);
+    if(response?.ok){
+      updateSnapshot(response.state,response.events);
+      feedback.textContent='Invocada '+cardId+' · La unidad actúa automáticamente.';
+    }else feedback.textContent='Orden rechazada: '+(response?.error||'error de servidor');
+  }catch(error){feedback.textContent='Conexión: '+String(error.message||error);}
+  finally{inflight=false;updateInfo(state);}
 }
-async function loadData(){
+async function loadEncounter(){
   try{
-    const paths=[
+    const urls=[
       new URL('../../datos/json/encuentros/kiara.json',import.meta.url),
       new URL('../../datos/json/kasters/kiara.json',import.meta.url),
       new URL('../../datos/json/kasters/lioren.json',import.meta.url)
     ];
-    const replies=await Promise.all(paths.map(url=>fetch(url)));
-    if(replies.some(r=>!r.ok))throw Error('No se pudieron cargar las definiciones');
-    const [e,rival,player]=await Promise.all(replies.map(r=>r.json()));
-    if(e.rivalCasterId!==rival.id||e.playerCasterId!==player.id)throw Error('Identificadores inconsistentes');
-    encounter=e;$('playerName').textContent=player.name;$('rivalName').textContent=rival.name;
-    status.textContent='Frontend listo · espera backend online';dot.classList.add('ok');
+    const replies=await Promise.all(urls.map(url=>fetch(url)));
+    if(replies.some(r=>!r.ok))throw Error('No se pudieron cargar los JSON');
+    const [value,rival,player]=await Promise.all(replies.map(r=>r.json()));
+    if(value.playerCasterId!==player.id||value.rivalCasterId!==rival.id)throw Error('Kasters inconsistentes');
+    encounter=value;
+    $('playerName').textContent=player.name;
+    $('rivalName').textContent=rival.name;
+    status.textContent='Definiciones cargadas · vista previa 3D disponible';
+    dot.classList.add('ok');
     if(socket?.connected)create.disabled=false;
-  }catch(err){status.textContent='No se pudo cargar el encuentro';message(String(err.message||err));}
+  }catch(error){status.textContent='Error de definiciones';message(String(error.message||error));}
+}
+function initScene(){
+  import('./scene/renderer.js').then(({Arena3D})=>{
+    scene=new Arena3D({mount:$('arena3d'),statusElement:$('sceneStatus')});
+    if(state&&session){scene.resetSession();scene.setState(state,[]);}
+    $('sceneReset').addEventListener('click',()=>scene?.resetCamera());
+    $('sceneFull').addEventListener('click',()=>scene?.fullCamera());
+    $('sceneArcher').addEventListener('click',async()=>{
+      const btn=$('sceneArcher');btn.disabled=true;
+      await scene.enableArcherModel();btn.textContent='Arquera GLB solicitada';
+    });
+  }).catch(error=>{
+    $('sceneStatus').textContent='WebGL o Three.js no disponible: '+String(error.message||error);
+    $('arena3d').classList.add('scene-unavailable');
+    $('arena3d').textContent='No se pudo iniciar el renderizador 3D. El motor de combate permanece independiente.';
+  });
 }
 connect.addEventListener('click',async()=>{
   const url=$('serverUrl').value.trim();
-  if(!url){message('Especifica la dirección de un backend desplegado.');return;}
-  connect.disabled=true;create.disabled=true;state=null;session=null;
-  for(const node of nodes.values())node.remove();nodes.clear();stage.hidden=true;seen.clear();
-  socket?.disconnect();socket=null;
+  if(!url){message('Necesitamos la dirección del backend desplegado para combatir.');return;}
+  connect.disabled=true;create.disabled=true;
+  if(socket){socket.disconnect();socket=null;}
+  session=null;state=null;seen.clear();log.replaceChildren();
+  scene?.resetSession();scene?.showPreview();
+  updateInfo(null);
   try{
     socket=await connectBackend(url);
     listenCombatSync(socket,packet=>{
       if(!session||packet.sessionId!==session.id)return;
-      addEvents(packet.events);snapshot(packet.state);
+      updateSnapshot(packet.state,packet.events);
     });
     socket.on('disconnect',()=>{
-      create.disabled=true;buttons.querySelectorAll('button').forEach(b=>b.disabled=true);
-      message('Conexion interrumpida. La sesion no puede continuar.');
+      create.disabled=true;
+      buttons.querySelectorAll('button').forEach(b=>b.disabled=true);
+      message('Conexión perdida: la simulación no puede continuar.');
+      $('sceneStatus').textContent='Sin servidor · última posición recibida congelada';
     });
     create.disabled=!encounter;
-    message('Backend conectado. Puedes iniciar el combate continuo.');
-  }catch(err){message('Conexion fallida: '+String(err.message||err));}
+    message('Servidor conectado. Puedes iniciar el combate continuo.');
+  }catch(error){message('Conexión fallida: '+String(error.message||error));}
   finally{connect.disabled=false;}
 });
 create.addEventListener('click',async()=>{
   create.disabled=true;
   try{
     session=await createAdventureSession(socket,encounter.id);
-    seen.clear();log.replaceChildren();makeSummonButtons(session.summonCatalog);
-    snapshot(session);feedback.textContent='Elige una invocacion para desplegarla.';
-    message('Combate iniciado. El servidor mantiene el reloj; no hay turnos.');
-  }catch(err){message('No se pudo iniciar: '+String(err.message||err));}
+    seen.clear();log.replaceChildren();
+    scene?.resetSession();
+    updateSnapshot(session,[]);
+    makeSummonButtons(session.summonCatalog);
+    feedback.textContent='Selecciona una invocación. Las unidades combatirán por sí mismas.';
+    message('Combate iniciado. Toda la simulación se ejecuta en el servidor.');
+  }catch(error){message('No se pudo iniciar: '+String(error.message||error));}
   finally{create.disabled=!socket?.connected||!encounter;}
 });
-loadData();
+initScene();void loadEncounter();

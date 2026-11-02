@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "source": "rok-3d-test",
+  "note": "Farolera: prioridad al GLB local importado automáticamente desde el tester, con respaldo temporal en su GitHub Pages. Arquera 31,5 MB: descarga opcional en escritorio hasta disponer de archivo optimizado.",
+  "models": [
+    {
+      "id": "farolera",
+      "format": "glb",
+      "url": "https://dtokurisu-png.github.io/rok-3d-test/chiara_idle.glb",
+      "bytes": 4901316,
+      "load": "initial",
+      "clips": "idle",
+      "localPath": "farolera/chiara_idle.glb",
+      "fallbackUrl": "https://dtokurisu-png.github.io/rok-3d-test/chiara_idle.glb"
+    },
+    {
+      "id": "arquera",
+      "format": "glb",
+      "url": "https://dtokurisu-png.github.io/rok-3d-test/ARQUERA%20DEL%20DECIERTO%20GLTF.glb",
+      "bytes": 31530904,
+      "load": "optional-desktop",
+      "clips": "idle"
+    }
+  ],
+  "placeholderCasters": true
+}
