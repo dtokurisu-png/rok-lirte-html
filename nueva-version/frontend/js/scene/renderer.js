@@ -83,7 +83,16 @@ export class Arena3D {
       casters:[
         {id:'lioren',name:'Lioren',side:1,role:'caster',row:16,col:4,hp:14,maxHp:14},
         {id:'kasterKiaraWater',name:'Kiara',side:2,role:'caster',row:1,col:4,hp:8,maxHp:8}
-      ],units:[],projectiles:[]
+      ],
+      // Muestra estática del escenario y modelos, sin IA, daño ni reloj local.
+      units:[
+        {id:'preview-shield-ally',name:'Farolera (vista previa)',side:1,role:'summon',
+          row:13,col:3,hp:7,maxHp:7,stage:'idle',visualModel:'shield',cardId:'shield'},
+        {id:'preview-archer-ally',name:'Arquera (vista previa)',side:1,role:'summon',
+          row:13,col:5,hp:3,maxHp:3,stage:'idle',visualModel:'archer',cardId:'archer'},
+        {id:'preview-mana-enemy',name:'Farolera rival (vista previa)',side:2,role:'summon',
+          row:4,col:5,hp:5,maxHp:5,stage:'idle',visualModel:'mana',cardId:'mana'}
+      ],projectiles:[]
     });
   }
   resetSession(){
