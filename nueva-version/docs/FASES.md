@@ -1,10 +1,10 @@
-# Plan de R.O.K. nuevo
+# Migración R.O.K.
 
-- **Etapa 1 (hecha):** un solo repositorio, archivo legacy, recursos organizados, capas de código y contrato de sesión.
-- **Etapa 2 (motor prototipo):** validación de acciones en backend, movimiento, turnos, daño, victoria, IA y pruebas. Ver `ETAPA_2.md`.
-- **Etapa 3:** escenario 3D/Three.js, cámaras y modelos del tester como representación de eventos de motor.
-- **Etapa 4:** HUD flotante, nuevos Kasters, cartas, habilidades, efectos y factores modulares.
-- **Etapa 5:** optimización de modelos y texturas para móviles.
-- **Etapa 6:** backend persistente y PvP autoritativo con autenticación y recuperación.
+- Etapa 1: un solo repositorio, archivo de legado y separación de frontend, backend, motor y contenido.
+- **Etapa 2 corregida:** reloj continuo por servidor, invocación manual y comportamiento automático (movimiento, ataque, IA, cadencias, duelos 1v1). No hay turnos. Ver `ETAPA_2.md`.
+- Etapa 3: representar el motor continuo con Three.js y animaciones del tester; retirar la simulación local del tester.
+- Etapa 4: HUD flotante, movimiento de Kasters, Spellbooks, poderes y factores separados.
+- Etapa 5: optimizar GLB y texturas para móviles.
+- Etapa 6: persistencia, sesiones recuperables y PvP real autoritativo.
 
-Nada en `version-anterior/`, `game.js`, `style.css` ni `firebase-online.js` del directorio original se ha reescrito.
+El R.O.K. Lite clásico y sus partidas existentes siguen intactos.

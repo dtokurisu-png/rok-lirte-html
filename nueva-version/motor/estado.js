@@ -1,46 +1,35 @@
-import { ARENA, isInsideArena } from './reglas.js';
-
-function readStats(definition) {
-  const stats = definition?.stats || {};
-  const get = (key, min, max) => {
-    const number = Number(stats[key]);
-    if (!Number.isInteger(number) || number < min || number > max)
-      throw new Error('Estadistica invalida: ' + definition?.id + '.' + key);
-    return number;
-  };
+import { ARENA } from './reglas.js';
+import { validateSummonTemplates } from './unidades.js';
+const numbers = (v, min, max) => Number.isFinite(v) && v >= min && v <= max;
+function caster(def, side) {
+  if (!def?.id || !numbers(Number(def?.stats?.life),1,10000)) throw Error('Kaster sin vida valida');
+  const hp = Number(def.stats.life);
+  return {id:def.id,side,role:'caster',name:def.name,row:side===1?16:1,
+    col:4,hp,maxHp:hp};
+}
+export function createAdventureInitialState(encounter, player, rival, catalog) {
+  if (encounter?.mode !== 'adventure' || encounter?.playerCasterId !== player?.id ||
+      encounter?.rivalCasterId !== rival?.id || !encounter?.arenaId) throw Error('Encuentro invalido');
+  validateSummonTemplates(catalog);
   return {
-    maxHp: get('life', 1, 10000),
-    damage: get('attack', 1, 1000),
-    range: get('range', 1, 18),
-    movement: get('movement', 1, 18)
+    mode:'adventure', ruleset:'continuous-prototype-v1',status:'active',
+    encounterId:encounter.id,arena:{...ARENA,id:encounter.arenaId},
+    elapsedMs:0,tickSerial:0,revision:0,winner:null,
+    casters:[caster(player,1),caster(rival,2)],units:[],projectiles:[],
+    summonCatalog:catalog.map(({id,name,combatMode,hp,damage,range,speed,periodMs,windupMs,projectileSpeed,spawnCol,visualModel})=>
+      ({id,name,combatMode,hp,damage,range,speed,periodMs,windupMs,projectileSpeed,spawnCol,visualModel})),
+    nextEntityId:1,lastSummonMs:{1:-10000,2:-10000},
+    bot:{nextSummonAtMs:1000,serial:0},eventSerial:0
   };
 }
-export function createAdventureInitialState(encounter, player, rival) {
-  if (!encounter || !player || !rival ||
-      encounter.mode !== 'adventure' || encounter.playerCasterId !== player.id ||
-      encounter.rivalCasterId !== rival.id || !encounter.id || !encounter.arenaId)
-    throw new Error('Encuentro inconsistente.');
-  const playerStats = readStats(player), rivalStats = readStats(rival);
-  const spawn = [
-    { id: player.id, side: 1, row: 16, col: 4, ...playerStats },
-    { id: rival.id, side: 2, row: 1, col: 4, ...rivalStats }
-  ];
-  if (spawn.some(unit => !isInsideArena(unit.row, unit.col))) throw new Error('Posicion inicial invalida');
-  return {
-    mode: 'adventure', status: 'active', encounterId: encounter.id,
-    ruleset: 'rok-next-prototype-v1',
-    arena: { ...ARENA, id: encounter.arenaId },
-    revision: 0, turn: { side: 1, number: 1, actionsRemaining: 2 },
-    winner: null,
-    casters: spawn.map(unit => ({ ...unit, hp: unit.maxHp }))
-  };
-}
-// Vista publica explicita: el cliente nunca obtiene las colecciones privadas de sesiones.
 export function projectAdventureState(state) {
-  return {
-    mode: state.mode, status: state.status, encounterId: state.encounterId,
-    ruleset: state.ruleset, arena: { ...state.arena },
-    revision: state.revision, turn: { ...state.turn }, winner: state.winner,
-    casters: state.casters.map(unit => ({ ...unit }))
+  const {mode,ruleset,status,encounterId,arena,elapsedMs,tickSerial,revision,winner,casters,units,projectiles,summonCatalog}=state;
+  return {mode,ruleset,status,encounterId,arena:{...arena},elapsedMs,tickSerial,revision,winner,
+    casters:casters.map(c=>({...c})),units:units.map(({id,cardId,name,side,combatMode,row,col,hp,maxHp,
+      range,damage,stage,targetId,duelId,attackReadyAtMs,attackReleaseAtMs,visualModel})=>
+      ({id,cardId,name,side,combatMode,row,col,hp,maxHp,range,damage,stage,targetId,duelId,attackReadyAtMs,attackReleaseAtMs,visualModel})),
+    projectiles:projectiles.map(({id,sourceId,targetId,side,row,col,impactAtMs,combatMode})=>
+      ({id,sourceId,targetId,side,row,col,impactAtMs,combatMode})),
+    summonCatalog:summonCatalog.map(({id,name,combatMode,range,hp,damage,visualModel})=>({id,name,combatMode,range,hp,damage,visualModel}))
   };
 }

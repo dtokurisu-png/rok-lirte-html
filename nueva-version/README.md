@@ -1,37 +1,22 @@
-# Nueva versión de R.O.K. (mismo repositorio)
+# R.O.K. nueva versión — mismo repositorio
 
-No se creó otro repositorio ni se reemplazó `game.js`. El juego antiguo permanece en la raíz y archivado en `version-anterior/`.
+La nueva implementación **no usa turnos**. Está separada del juego clásico en `version-anterior/`, mientras se conserva `game.js` de raíz para que R.O.K. Lite siga funcionando.
 
-## Organización
+## Carpetas
 
-| Carpeta | Responsabilidad |
-| --- | --- |
-| `frontend/` | Interfaz web, HUD, futura escena Three.js y recursos gráficos |
-| `frontend/js/` | Red y presentación, **sin reglas de combate** |
-| `frontend/recursos/cartas/` | Arte de cartas, tokens y marcos |
-| `frontend/recursos/escenarios/` | Fondos y arenas |
-| `frontend/recursos/personajes/` | Kasters e ilustraciones |
-| `frontend/recursos/modelos-3d/` | GLB optimizados (pendientes de migración) |
-| `frontend/recursos/animaciones/` | Clips de animación (pendientes de migración) |
-| `frontend/recursos/efectos/` | Recursos visuales de hechizos y efectos |
-| `frontend/recursos/mecanicas/` | Iconos de poderes, factores y cualidades |
-| `frontend/recursos/interfaz/` | HUD, menús e indicadores |
-| `backend/` | Servidor Node.js y sesiones autoritativas |
-| `motor/` | Estado de combate, turnos, movimiento, daño, ataque, IA |
-| `mecanicas/` | Registros separados de poderes, factores y habilidades (aún vacíos) |
-| `datos/json/` | Definiciones de Kasters, cartas y encuentros |
-| `compartido/` | Protocolo v2 entre frontend y backend |
-| `tests/` | Pruebas automatizadas Node.js |
-| `docs/` | Arquitectura y plan |
+- `frontend/` — interfaz de pruebas y recursos clasificados: `cartas/`, `escenarios/`, `personajes/`, `modelos-3d/`, `animaciones/`, `mecanicas/` y `efectos/`.
+- `backend/` — servidor Node.js con Socket.IO, sesiones y reloj maestro.
+- `motor/` — simulación continua, selección de objetivos, movimiento y combate autónomo.
+- `mecanicas/` — módulos para futuras habilidades, factores y poderes reutilizables.
+- `datos/json/` — cartas, Kasters y prototipos de invocación separados.
+- `compartido/` — protocolo público, solo datos y comandos permitidos.
+- `tests/` — validaciones automáticas.
+- `docs/` — arquitectura, auditoría y plan de implementación.
 
-## Etapa 2
+## Estado
 
-Motor prototipo por turnos implementado y conectado a una cuadrícula de prueba del frontend.
-**No es todavía el combate final de R.O.K.** Consulta `docs/ETAPA_2.md` para las reglas provisionales y límites.
+Etapa 2: el jugador solo **invoca**. Sus unidades se desplazan solas, eligen enemigo, cargan ataques en relojes individuales y combaten con 3 modos: `melee`, `range`, `distance`. Kiara invoca modelos de prueba automáticamente.
 
-## Publicación
+La interfaz web es un tablero **diagnóstico**, no el escenario 3D definitivo. La transferencia visual del tester es la próxima etapa. No se han integrado cartas reales ni poderes, y las estadísticas siguen siendo provisionales.
 
-El frontend puede abrirse desde la ruta de GitHub Pages `/nueva-version/frontend/`.
-El backend necesita desplegarse en alojamiento Node.js; **GitHub Pages no puede ejecutar un servidor**. Hasta desplegarlo, los botones de combate permanecen desconectados. El nuevo juego no está listo para PvP.
-
-La raíz `index.html`, `game.js` y `assets/` se mantienen para no romper el sitio antiguo. Los 399 recursos categorizados están en `nueva-version/frontend/recursos/`.
+GitHub Pages no ejecuta el backend. El proyecto incluye el servidor, pero aún es necesario alojarlo para probar el combate conectado por internet. **No necesitas instalar archivos locales para ver la web.**

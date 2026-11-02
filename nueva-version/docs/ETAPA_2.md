@@ -1,43 +1,35 @@
-# Etapa 2 — Motor de combate autoritativo (prototipo)
+# Etapa 2 corregida — Combate continuo, sin turnos
 
-La nueva versión vive en **el repositorio existente** `rok-lirte-html`, carpeta `nueva-version/`.
+## Motivo del cambio
 
-## Implementado
+La primera implementación por turnos fue **incorrecta** respecto al diseño. Se eliminó del motor activo. El código de aquella prueba se archivó en `version-anterior/prototipo-por-turnos/` para consulta.
 
-- Servidor de sesiones y protección de propiedad por conexión. Una sesión ajena no admite acciones.
-- Estado inicial del combate Lioren vs Kiara y cuadrícula lógica de 9x18.
-- Turnos alternos, 2 acciones por turno; mover, atacar, terminar turno.
-- Movimiento en 8 direcciones con búsqueda de ruta y comprobación de casillas ocupadas.
-- Ataque básico determinista que reduce PV y resuelve la victoria al llegar a cero.
-- IA simple del rival ejecutada exclusivamente por el backend.
-- Eventos lógicos serializados: `unit.moved`, `unit.attacked`, `turn.started`, `combat.finished`.
-- Numeración de revisión, detección de revisiones antiguas e idempotencia por `actionId`.
-- Protocolo v2 para iniciar sesión, consultar estado y emitir acciones.
-- Cuadrícula web de prueba que **solo presenta** las respuestas del backend; no calcula daño ni movimiento.
-- Pruebas automatizadas con Node.js (sin dependencias externas para el núcleo).
+## Diseño vigente
 
-## Reglas provisionales (NO canon definitivo)
+- Reloj continuo en el backend: un paso de 100 ms de tiempo simulado, sin turnos.
+- El jugador **solo invoca**; las invocaciones seleccionan objetivos, caminan y atacan automáticamente.
+- Tres modos de combate: `melee` (cuerpo a cuerpo), `range` (rango medio) y `distance` (larga distancia).
+- Preparación/cadencia por unidad, no reloj global de ataque; duelos de cuerpo a cuerpo con reserva 1v1.
+- Una segunda unidad no puede reclamar a un rival reservado: busca otro o ataca al Kaster enemigo.
+- Los ataques a distancia generan proyectiles lógicos que impactan tras un tiempo de vuelo.
+- Los eventos del motor describen `unit.summoned`, `unit.moved`, `attack.preparing`, `projectile.launched`, `unit.hit`, `unit.defeated` y `combat.finished`.
+- Las animaciones del tester serán conectadas a los eventos en la Etapa 3; el motor **no** lee ni escribe el DOM.
+- El backend lleva sesiones y valida comandos; el frontend nunca decide daño.
 
-- 2 acciones por turno; cada movimiento/ataque consume 1.
-- Una acción de movimiento permite hasta `movement` casillas por una ruta válida.
-- Un ataque básico causa daño fijo igual al parámetro `attack`.
-- Alcance por distancia máxima entre diferencias de fila y columna (Chebyshev).
-- Lioren: 14 PV, ataque 2, alcance 3, movilidad 3 (valores extraídos de la ficha visual antigua).
-- Kiara: 8 PV, ataque 1, alcance 2 (heredados); movilidad 2 elegida **solo para el prototipo**.
-- Los factores, la defensa, la precisión, cartas, invocaciones y poderes **NO** se han implementado todavía.
-- La IA de Kiara solo acerca al personaje y usa el ataque básico.
-- Sin efectos visuales ni Three.js; esa integración será otra etapa.
+## Referencias leídas
 
-## Seguridad y límites
+`rok-3d-test/arena-25d.html`: `ATTACK_PROFILES`, `selectCombatTarget`, `reserveSummonDuel`, `updateDuel`, `updateCast`.
+`rok-lirte-html/game.js`: `COMBAT_MODE_DB`, valores de cadencia y movimiento en tiempo real (`REALTIME_TIMING_TUNING_DEFAULTS`), mecanismos de ataques automáticos.
 
-- El frontend no puede fijar el daño, la vida, el jugador activo ni alterar el estado del motor.
-- La sesión pertenece al socket que la crea; otro cliente recibe `session-not-found`.
-- Estados y eventos salen de una copia del estado de juego, no del objeto interno de sesión.
-- Acciones duplicadas devuelven la respuesta anterior, sin ejecutar nuevamente el daño.
-- Las sesiones viven en memoria, un máximo de 100, caducan a la hora, se eliminan al desconectarse.
-- No hay autenticación de cuentas, reconexión de sesiones, persistencia ni PvP reales aún.
-- El backend no está desplegado: GitHub Pages **NO ejecuta Node.js**. La UI quedará visible pero el combate requiere desplegar el servidor en hosting.
+## Advertencias
 
-## Próxima etapa
-
-Integrar el renderizador Three.js sin copiar las reglas de combate del tester. El servidor seguirá siendo la única autoridad.
+- Perfil de prototipos en `datos/json/invocaciones/prototipos.json`: Farolera Escudo 2 s, Farolera Maná 2 s, Arquera 3 s; variantes de alcance observadas en el tester.
+- Se añadió **Guardia de prueba** (`melee-vanguard`) para verificar combate cuerpo a cuerpo; su modelo visual aún es provisional.
+- Kiara invoca automáticamente un modelo cada 5 s. Es una prueba, NO su IA de Aventura definitiva.
+- Sin Spellbooks verdaderos, recursos, costes, efectos especiales, estado oculto, precisión, defensa, hechizos ni otros sistemas de R.O.K. todavía.
+- Los Kasters están fijos en la cuadrícula mientras desarrollamos su movimiento y modelos.
+- Las posiciones son lógicas continuas; el frontend muestra solo un tablero diagnóstico hasta integrar Three.js.
+- Un despliegue nuevo tiene recuperación provisional de 1.5 s y límite de 5 invocaciones vivas por lado.
+- Sin backend desplegado, GitHub Pages no puede ejecutar el combate. El juego no simula daños locales.
+- El servidor mantiene sesiones en RAM y las invalida al desconectar. La persistencia y reconexión quedan pendientes.
+- Los proyectiles lógicos siguen la identidad del objetivo: aún no tienen evasión/cobertura ni colisión física avanzada.

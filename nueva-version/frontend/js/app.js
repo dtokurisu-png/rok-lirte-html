@@ -1,122 +1,106 @@
-import { connectBackend, createAdventureSession, sendCombatAction, fetchCombatState } from './network.js';
+import {connectBackend,createAdventureSession,summonUnit,fetchCombatState,listenCombatSync} from './network.js';
 const $=id=>document.getElementById(id);
-const result=$('result'),status=$('statusText'),dot=$('statusDot');
-let connection=null,encounter=null,session=null,state=null,selected=null,busy=false;
+let socket=null,encounter=null,session=null,state=null,inflight=false;
+const seen=new Set(),nodes=new Map();
+const status=$('statusText'),output=$('result'),dot=$('statusDot'),create=$('create'),connect=$('connect');
 const stage=document.createElement('section');
-stage.className='battle-stage';
-stage.hidden=true;
+stage.className='battle-stage';stage.hidden=true;
 stage.innerHTML=`
-  <div class="stage-header">
-    <div><small>ARENA DE PRUEBAS · REGLAS EN EL SERVIDOR</small><h2>Combate lógico 9 × 18</h2>
-    <p>Por turno: 2 acciones. Mover y atacar consumen una acción cada una. Esta no es todavía la arena 3D.</p></div>
-    <div id="combatSummary" role="status"></div>
+<div class="stage-header"><div><small>SIMULACION CONTINUA · MOTOR AUTORITATIVO</small>
+<h2>Combate automático</h2><p>Invoca unidades. Ellas avanzan, eligen objetivos y combaten solas, sin turnos ni comandos de ataque.</p></div>
+<div id="combatSummary" class="combat-summary"></div></div>
+<div class="stage-layout">
+  <div id="combatBoard" class="continuous-board" aria-label="Mapa táctico de prueba. El escenario 3D llegará después.">
+    <div id="combatActors" class="combat-actors"></div>
   </div>
-  <div class="stage-layout">
-    <div id="combatBoard" class="combat-board" role="grid" aria-label="Cuadrícula de combate">
-    </div>
-    <div class="stage-aside">
-      <strong>Comandos</strong><p id="combatSelection">Elige una casilla.</p>
-      <div class="stage-buttons">
-        <button id="combatMove" type="button">Mover a casilla</button>
-        <button id="combatAttack" type="button">Atacar objetivo</button>
-        <button id="combatEnd" type="button">Terminar turno</button>
-        <button id="combatSync" type="button">Sincronizar</button>
-      </div>
-      <h3>Eventos del servidor</h3><ol id="combatLog" class="combat-log"></ol>
-    </div>
-  </div>`;
+  <aside class="summon-panel">
+    <h3>Invocaciones de prueba</h3>
+    <p>El despliegue usa un breve tiempo de recuperación, independiente de los relojes de ataque. No hay coste de cartas todavía.</p>
+    <div id="summonButtons" class="summon-buttons"></div>
+    <p id="summonFeedback" role="status">Sin invocaciones desplegadas.</p>
+    <h3>Eventos del servidor</h3>
+    <ol id="combatLog" class="combat-log"></ol>
+  </aside>
+</div>`;
 document.querySelector('.layout').appendChild(stage);
-const board=$('combatBoard'),summary=$('combatSummary'),selection=$('combatSelection'),log=$('combatLog');
-const move=$('combatMove'),attack=$('combatAttack'),end=$('combatEnd'),sync=$('combatSync');
-function message(text){result.textContent=text;}
-function eventText(e){
-  if(e.type==='unit.moved')return e.actorId+' se mueve a ('+e.to.row+', '+e.to.col+').';
-  if(e.type==='unit.attacked')return e.actorId+' inflige '+e.damage+' a '+e.targetId+' (PV '+e.hp+').';
-  if(e.type==='turn.started')return 'Turno '+e.number+' · '+(e.side===1?'Lioren':'Kiara')+'.';
-  if(e.type==='combat.finished')return 'Combate terminado: gana '+(e.winner===1?'Lioren':'Kiara')+'.';
-  return e.type;
-}
+const board=$('combatActors'),summary=$('combatSummary'),buttons=$('summonButtons'),feedback=$('summonFeedback'),log=$('combatLog');
+const label=event=>{
+  if(event.type==='unit.summoned')return (event.side===1?'Aliado':'Rival')+' invoca '+event.cardId;
+  if(event.type==='attack.preparing')return event.unitId+' prepara ataque '+event.combatMode;
+  if(event.type==='projectile.launched')return event.unitId+' dispara '+event.combatMode;
+  if(event.type==='unit.hit')return event.targetId+' recibe '+event.damage+' de daño ('+event.hp+' PV)';
+  if(event.type==='unit.defeated')return event.unitId+' derrotado';
+  if(event.type==='combat.finished')return event.winner===0?'Empate':('Victoria de '+(event.winner===1?'Lioren':'Kiara'));
+  return '';
+};
 function addEvents(events){
-  for(const e of events||[]){
-    const item=document.createElement('li');
-    item.textContent=eventText(e);
-    log.prepend(item);
+  for(const event of events||[]){
+    if(seen.has(event.eventId))continue;
+    seen.add(event.eventId);
+    if(seen.size>1000)seen.clear();
+    const text=label(event);
+    if(!text)continue;
+    const li=document.createElement('li');
+    li.textContent='['+(event.timeMs/1000).toFixed(1)+'s] '+text;
+    log.prepend(li);
   }
-  while(log.children.length>25)log.lastElementChild.remove();
+  while(log.children.length>32)log.lastElementChild.remove();
 }
-function renderState(next){
-  state=next;
-  if(!state){stage.hidden=true;return;}
-  stage.hidden=false;
+function snapshot(next){
+  if(!next||state && next.revision<state.revision)return;
+  state=next;stage.hidden=false;
   const ally=state.casters.find(c=>c.side===1),enemy=state.casters.find(c=>c.side===2);
-  const playable=state.status==='active'&&state.turn.side===1&&!busy;
   summary.textContent=state.status==='finished'
-    ? ('Victoria: '+(state.winner===1?'Lioren':'Kiara')+' · Revisión '+state.revision)
-    : ('Turno '+state.turn.number+' · Acciones '+state.turn.actionsRemaining+
-      ' · Lioren '+ally.hp+'/'+ally.maxHp+' PV · Kiara '+enemy.hp+'/'+enemy.maxHp+' PV');
-  const frag=document.createDocumentFragment();
-  for(let row=0;row<state.arena.rows;row++)for(let col=0;col<state.arena.columns;col++){
-    const unit=state.casters.find(c=>c.hp>0&&c.row===row&&c.col===col);
-    const b=document.createElement('button');
-    b.type='button';
-    b.className='combat-cell'+(unit?(unit.side===1?' ally':' enemy'):'')+
-      (selected&&selected.row===row&&selected.col===col?' selected':'');
-    b.dataset.row=String(row);b.dataset.col=String(col);
-    b.setAttribute('role','gridcell');
-    b.setAttribute('aria-label',unit?
-      (unit.side===1?'Lioren':'Kiara')+', fila '+row+', columna '+col:
-      'Fila '+row+', columna '+col);
-    b.textContent=unit?(unit.side===1?'L':'K'):'';
-    b.title='Fila '+row+', columna '+col+(unit?' · '+unit.id:'');
-    frag.appendChild(b);
-  }
-  board.replaceChildren(frag);
-  const chosen=selected&&state.casters.find(c=>c.row===selected.row&&c.col===selected.col&&c.hp>0);
-  selection.textContent=selected?
-    ('Casilla ('+selected.row+', '+selected.col+')'+(chosen?' · '+chosen.id:'')):
-    'Elige una casilla en la cuadrícula.';
-  move.disabled=!playable||!selected||!!chosen;
-  attack.disabled=!playable||!chosen||chosen.side!==2;
-  end.disabled=!playable;
-  sync.disabled=!connection?.connected||busy;
-}
-board.addEventListener('click',e=>{
-  const button=e.target.closest('button[data-row]');
-  if(!button||!state)return;
-  selected={row:Number(button.dataset.row),col:Number(button.dataset.col)};
-  renderState(state);
-});
-async function action(command){
-  if(!connection||!session||!state||busy)return;
-  busy=true;renderState(state);
-  try{
-    const reply=await sendCombatAction(connection,session.id,state.revision,command);
-    if(!reply?.ok){
-      if(reply?.state)renderState(reply.state);
-      message('El servidor rechazó la acción: '+(reply?.error||'error'));
-      return;
+    ? (state.winner===0?'Empate':state.winner===1?'Victoria de Lioren':'Victoria de Kiara')
+    : ('Tiempo '+(state.elapsedMs/1000).toFixed(1)+'s · Lioren '+ally.hp+'/'+ally.maxHp+
+      ' PV · Kiara '+enemy.hp+'/'+enemy.maxHp+' PV');
+  const activeIds=new Set();
+  for(const unit of [...state.casters,...state.units]){
+    const key=unit.id;activeIds.add(key);
+    let node=nodes.get(key);
+    if(!node){
+      node=document.createElement('div');node.className='battle-entity';
+      node.textContent=unit.role==='caster'?'K':(unit.combatMode==='melee'?'M':unit.combatMode==='range'?'R':'D');
+      node.title=unit.name||unit.cardId||unit.id;
+      board.appendChild(node);nodes.set(key,node);
     }
-    renderState(reply.state);
-    addEvents(reply.events);
-    message('Acción validada por el backend · Revisión '+reply.state.revision+'.');
-  }catch(error){message('Error de comunicación: '+String(error.message||error));}
-  finally{busy=false;renderState(state);}
+    node.className='battle-entity '+(unit.side===1?'friendly':'hostile')+
+      (unit.role==='caster'?' kaster':' invocation')+
+      (unit.stage==='preparing'?' preparing':'');
+    node.style.left=((unit.col+.5)/9*100)+'%';
+    node.style.top=((unit.row+.5)/18*100)+'%';
+    node.setAttribute('aria-label',node.title+' · '+unit.hp+' PV');
+    node.dataset.life=String(unit.hp);
+  }
+  for(const [id,node] of nodes)if(!activeIds.has(id)){node.remove();nodes.delete(id);}
+  const enabled=socket?.connected&&session&&state.status==='active'&&!inflight;
+  buttons.querySelectorAll('button').forEach(btn=>{btn.disabled=!enabled;});
 }
-move.addEventListener('click',()=>{if(selected)void action({type:'move',row:selected.row,col:selected.col});});
-attack.addEventListener('click',()=>{
-  if(!selected||!state)return;
-  const opponent=state.casters.find(c=>c.side===2&&c.row===selected.row&&c.col===selected.col&&c.hp>0);
-  if(opponent)void action({type:'attack',targetId:opponent.id});
-});
-end.addEventListener('click',()=>void action({type:'endTurn'}));
-sync.addEventListener('click',async()=>{
-  if(!connection||!session||busy)return;
+function message(text){output.textContent=text;}
+function makeSummonButtons(list){
+  buttons.replaceChildren();
+  for(const card of list){
+    const button=document.createElement('button');button.type='button';button.dataset.cardId=card.id;
+    const title=document.createElement('strong');title.textContent=card.name;
+    const desc=document.createElement('small');desc.textContent=
+      ({melee:'Cuerpo a cuerpo',range:'Rango',distance:'Distancia'})[card.combatMode]+
+      ' · alcance '+card.range+' · PV '+card.hp+' · daño '+card.damage;
+    button.append(title,desc);buttons.appendChild(button);
+    button.addEventListener('click',()=>{void summon(card.id);});
+  }
+}
+async function summon(cardId){
+  if(!state||!session||inflight)return;
+  inflight=true;snapshot(state);
   try{
-    const reply=await fetchCombatState(connection,session.id);
-    if(reply.ok){renderState(reply.state);message('Estado sincronizado con el servidor.');}
-    else message('No se pudo sincronizar: '+(reply.error||'error'));
-  }catch(error){message('Error al sincronizar: '+String(error.message||error));}
-});
+    const reply=await summonUnit(socket,session.id,cardId);
+    if(reply?.ok){
+      addEvents(reply.events);snapshot(reply.state);
+      feedback.textContent='Invocada: '+cardId+'. El combate avanza automáticamente.';
+    }else feedback.textContent='No se pudo invocar: '+(reply?.error||'Error de servidor');
+  }catch(err){feedback.textContent='Error de conexion: '+String(err.message||err);}
+  finally{inflight=false;snapshot(state);}
+}
 async function loadData(){
   try{
     const paths=[
@@ -124,41 +108,44 @@ async function loadData(){
       new URL('../../datos/json/kasters/kiara.json',import.meta.url),
       new URL('../../datos/json/kasters/lioren.json',import.meta.url)
     ];
-    const responses=await Promise.all(paths.map(url=>fetch(url)));
-    if(responses.some(response=>!response.ok))throw new Error('Definiciones JSON no disponibles.');
-    const [e,rival,player]=await Promise.all(responses.map(response=>response.json()));
-    if(e.rivalCasterId!==rival.id||e.playerCasterId!==player.id)throw new Error('Los Kasters no coinciden.');
+    const replies=await Promise.all(paths.map(url=>fetch(url)));
+    if(replies.some(r=>!r.ok))throw Error('No se pudieron cargar las definiciones');
+    const [e,rival,player]=await Promise.all(replies.map(r=>r.json()));
+    if(e.rivalCasterId!==rival.id||e.playerCasterId!==player.id)throw Error('Identificadores inconsistentes');
     encounter=e;$('playerName').textContent=player.name;$('rivalName').textContent=rival.name;
-    status.textContent='Datos cargados · Motor de combate en el backend';
-    dot.classList.add('ok');
-    if(connection?.connected)$('create').disabled=false;
-  }catch(error){status.textContent='Error al cargar definiciones';message(String(error.message||error));}
+    status.textContent='Frontend listo · espera backend online';dot.classList.add('ok');
+    if(socket?.connected)create.disabled=false;
+  }catch(err){status.textContent='No se pudo cargar el encuentro';message(String(err.message||err));}
 }
-$('connect').addEventListener('click',async()=>{
+connect.addEventListener('click',async()=>{
   const url=$('serverUrl').value.trim();
-  if(!url){message('Especifica la dirección del servidor Node.js desplegado.');return;}
-  $('connect').disabled=true;$('create').disabled=true;
-  if(connection){connection.disconnect();connection=null;}
-  state=null;session=null;renderState(null);
+  if(!url){message('Especifica la dirección de un backend desplegado.');return;}
+  connect.disabled=true;create.disabled=true;state=null;session=null;
+  for(const node of nodes.values())node.remove();nodes.clear();stage.hidden=true;seen.clear();
+  socket?.disconnect();socket=null;
   try{
-    connection=await connectBackend(url);
-    $('create').disabled=!encounter;
-    message('Backend conectado: ya puedes crear un combate de prueba.');
-    connection.on('disconnect',()=>{
-      $('create').disabled=true;renderState(null);
-      message('Se perdió la conexión. La sesión en memoria ya no está disponible.');
+    socket=await connectBackend(url);
+    listenCombatSync(socket,packet=>{
+      if(!session||packet.sessionId!==session.id)return;
+      addEvents(packet.events);snapshot(packet.state);
     });
-  }catch(error){message('Conexión fallida: '+String(error.message||error));}
-  finally{$('connect').disabled=false;}
+    socket.on('disconnect',()=>{
+      create.disabled=true;buttons.querySelectorAll('button').forEach(b=>b.disabled=true);
+      message('Conexion interrumpida. La sesion no puede continuar.');
+    });
+    create.disabled=!encounter;
+    message('Backend conectado. Puedes iniciar el combate continuo.');
+  }catch(err){message('Conexion fallida: '+String(err.message||err));}
+  finally{connect.disabled=false;}
 });
-$('create').addEventListener('click',async()=>{
-  $('create').disabled=true;
+create.addEventListener('click',async()=>{
+  create.disabled=true;
   try{
-    session=await createAdventureSession(connection,encounter.id);
-    selected=null;log.replaceChildren();
-    renderState(session);
-    message('Partida creada en el backend. Selecciona una casilla y usa los botones.');
-  }catch(error){message(String(error.message||error));}
-  finally{$('create').disabled=!connection?.connected||!encounter;}
+    session=await createAdventureSession(socket,encounter.id);
+    seen.clear();log.replaceChildren();makeSummonButtons(session.summonCatalog);
+    snapshot(session);feedback.textContent='Elige una invocacion para desplegarla.';
+    message('Combate iniciado. El servidor mantiene el reloj; no hay turnos.');
+  }catch(err){message('No se pudo iniciar: '+String(err.message||err));}
+  finally{create.disabled=!socket?.connected||!encounter;}
 });
 loadData();
