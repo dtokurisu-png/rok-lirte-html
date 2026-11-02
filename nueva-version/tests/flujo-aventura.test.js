@@ -91,6 +91,10 @@ test('el puente conserva el VS hasta el handoff y transmite la selección real',
   });
   assert.equal(x.intro.classList.contains('active'),false);
   assert.equal(x.overlay.classList.contains('is-open'),true);
+  assert.equal(x.overlay.classList.contains('is-ready'),false);
+  x.listeners.get('window:message')({
+    origin:'https://example.com',source:x.frame.contentWindow,data:{type:'rok:arena:displayed'}
+  });
   assert.equal(x.overlay.classList.contains('is-ready'),true);
   const start=x.sent.find(e=>e.data.type==='rok:arena:start');
   assert.ok(start);

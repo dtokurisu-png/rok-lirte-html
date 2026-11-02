@@ -76,7 +76,6 @@
     }, 12000);
     if (frameReady && waiting) {
       send('rok:arena:start', waiting);
-      overlay.classList.add('is-ready');
     }
   }
   function exitArena() {
@@ -119,8 +118,10 @@
       if (errorTimer) {clearTimeout(errorTimer);errorTimer = null;}
       if (waiting && overlay?.classList.contains('is-open')) {
         send('rok:arena:start', waiting);
-        overlay.classList.add('is-ready');
       }
+    } else if (event.data?.type === 'rok:arena:displayed') {
+      // Esperar al escenario y a los Kasters seleccionados, sin mostrar el preview generico.
+      if (waiting && overlay?.classList.contains('is-open')) overlay.classList.add('is-ready');
     } else if (event.data?.type === 'rok:arena:exit') {
       exitArena();
     } else if (event.data?.type === 'rok:arena:loading') {

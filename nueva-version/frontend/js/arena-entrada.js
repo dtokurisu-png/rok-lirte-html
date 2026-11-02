@@ -67,6 +67,7 @@ function displaySelection(detail){
   scene.setState(previewFor(detail));
   scene.resetCamera();
   status('Escenario cargado');
+  parentMessage('rok:arena:displayed');
 }
 async function beginBattle(detail){
   endSession(!session);
