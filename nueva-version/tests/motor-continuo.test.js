@@ -51,9 +51,10 @@ test('duelo melee 1v1: segunda invocación busca caster y no invade la reserva',
  s=advance(s,15).state;
  s=summon(s,2,'melee-vanguard').state;
  const one=s.units.find(u=>u.side===1),enemy=s.units.find(u=>u.side===2);
+ // Forzar proximidad: el tester elige el objetivo mas cercano, incluso si es el Kaster.
+ enemy.row=one.row-1;enemy.col=one.col;
  assert.equal(targetFor(s,one).id,enemy.id);
  assert.equal(one.duelId,enemy.id);
- s=advance(s,15).state;
  const second=summon(s,1,'melee-vanguard');
  assert.equal(second.ok,true);
  const free=second.state.units.find(u=>u.side===1&&u.id!==one.id);
@@ -90,9 +91,11 @@ test('victoria producida por el motor sin animación ni input de daño',()=>{
 });
 test('las unidades muertas liberan su duelo',()=>{
  const s=fresh(),a=summon(s,1,'melee-vanguard').state;
+ a.bot.nextSummonAtMs=999999;
  let b=advance(a,15).state;
  b=summon(b,2,'melee-vanguard').state;
  const ally=b.units.find(u=>u.side===1),enemy=b.units.find(u=>u.side===2);
+ enemy.row=ally.row-1;enemy.col=ally.col;
  targetFor(b,ally);assert.equal(enemy.duelId,ally.id);
  enemy.hp=0;maintainDuels(b);assert.equal(ally.duelId,null);
 });
