@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "kasterKiaraWater",
+  "name": "Kiara, Décima Aprendiz de Enigma",
+  "level": 1,
+  "element": "agua",
+  "stats": {
+    "attack": 1,
+    "life": 8,
+    "defense": 1,
+    "range": 2,
+    "precision": 4
+  },
+  "status": "draft",
+  "source": "game.js / ADVENTURE_WATER_ENCOUNTERS"
+}

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "enigma-apprentice",
+  "mode": "adventure",
+  "arenaId": "kiara",
+  "playerCasterId": "lioren",
+  "rivalCasterId": "kasterKiaraWater",
+  "status": "draft",
+  "grid": {
+    "columns": 9,
+    "rows": 18
+  }
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08151b">
+<title>R.O.K. — Nueva versión · Etapa 1</title>
+<link rel="stylesheet" href="./css/app.css">
+<script type="module" src="./js/app.js"></script></head>
+<body>
+<header class="top"><div class="brand"><span class="sigil">R</span><span>R.O.K. <small>NUEVA VERSIÓN</small></span></div><a href="../../index.html" class="legacy">Volver a R.O.K. Lite</a></header>
+<main class="layout">
+<section class="hero"><div class="eyebrow">ARQUITECTURA NUEVA · ETAPA 1</div><h1>El combate empieza aquí.</h1><p>Cliente visual separado del motor y del servidor. Esta pantalla es una vista de preparación; las reglas de combate y los modelos 3D se integrarán en las próximas etapas.</p><div class="status"><span id="statusDot" class="dot"></span><strong id="statusText">Comprobando definiciones…</strong></div></section>
+<section class="field" aria-label="Encuentro de Aventura">
+<div class="field-header"><span>AVENTURA / REGIÓN AGUA</span><strong>ENCUENTRO 01</strong></div>
+<div class="arena"><img src="./recursos/escenarios/arenas/previews/kiara.webp" alt="Vista previa de la arena de Kiara"><div class="arena-caption">Escenario de Kiara · vista previa 2D existente</div></div>
+<div class="fighters">
+<article class="fighter"><img src="./recursos/personajes/kasters/adventure/player/default-player-kaster.png" alt="Ilustración provisional de Lioren"><div><small>KASTER ALIADO</small><h2 id="playerName">Lioren</h2><p>Definición en preparación</p></div></article>
+<div class="vs">VS</div>
+<article class="fighter rival"><img src="./recursos/personajes/kasters/adventure/casters/enigma-apprentice.png" alt="Arte de Kiara"><div><small>KASTER RIVAL</small><h2 id="rivalName">Kiara</h2><p>Décima Aprendiz de Enigma</p></div></article>
+</div></section>
+<aside class="control"><h2>Conexión al motor</h2><p class="sub">GitHub Pages muestra el frontend. Para crear una sesión real necesitamos el backend desplegado en un servidor Node.js.</p><label for="serverUrl">Dirección del backend (cuando esté desplegado)</label><input id="serverUrl" type="url" placeholder="https://servidor.rok.example" autocomplete="url"><button id="connect" type="button">Conectar servidor</button><button id="create" type="button" disabled>Crear sesión de Aventura</button><div id="result" class="result" role="status" aria-live="polite">No hay servidor configurado. Las partidas estarán disponibles al desplegar el backend.</div><div class="small-note">Sin simulación falsa: el cliente nunca decide daño, movimiento ni victoria.</div></aside>
+</main>
+<footer><span>R.O.K. · Arquitectura independiente · Protocolo v1</span><span>Original conservado en <a href="../../version-anterior/index.html">versión anterior</a></span></footer>
+</body></html>
