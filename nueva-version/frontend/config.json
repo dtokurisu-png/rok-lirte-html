@@ -1,0 +1,4 @@
+{
+  "backendUrl": "",
+  "note": "URL HTTPS del servidor R.O.K. cuando se despliegue. Vacío = solo vista previa de la arena; nunca simula combate local."
+}

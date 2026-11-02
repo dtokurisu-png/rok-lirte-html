@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#061722">
+<title>R.O.K. — Arena de Aventura</title>
+<link rel="stylesheet" href="./css/arena-entrada.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script>
+<script type="module" src="./js/arena-entrada.js"></script>
+</head>
+<body>
+<main id="adventure-arena">
+  <div id="sceneMount" aria-label="Escenario tridimensional de Aventura"></div>
+  <header id="arenaTopbar">
+    <button id="exitArena" type="button" aria-label="Volver a la preparación de combate">‹ Volver</button>
+    <div class="arena-match">
+      <span class="arena-kicker">R.O.K. · AVENTURA</span>
+      <strong id="matchTitle">Preparando escenario…</strong>
+      <span id="arenaName">Arena 3D</span>
+    </div>
+    <span id="connectionStatus" role="status">Cargando entorno 3D</span>
+  </header>
+  <div class="arena-toolbar" role="group" aria-label="Controles de la cámara">
+    <button id="cameraReset" type="button">Cámara</button>
+    <button id="cameraFull" type="button">Vista completa</button>
+  </div>
+  <div class="arena-info" id="arenaNotice" role="status">
+    Se conservará la selección de R.O.K. Lite. Sin servidor activo se mostrará el escenario, no un combate simulado.
+  </div>
+  <div id="sceneStatus" class="arena-scene-status" aria-live="polite">Cargando recursos visuales…</div>
+</main>
+</body>
+</html>

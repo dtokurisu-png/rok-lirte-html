@@ -1,35 +1,20 @@
-# R.O.K. nueva versión — mismo repositorio
+# Nueva arquitectura de R.O.K. — dentro del mismo repositorio
 
-Motor separado, combate continuo **sin turnos** y escena 3D nueva, dentro de `rok-lirte-html/nueva-version/`.
+El sistema de **Aventura reutiliza la navegación original** del R.O.K. Lite: selección de región y Kaster, preparación, Spellbook, VS y cuenta atrás. La página inicial sigue siendo `/index.html`.
 
-| Carpeta | Uso |
-| --- | --- |
-| `frontend/` | Página de Aventura, renderizador Three.js y HUD de prueba |
-| `frontend/js/scene/` | Escenario, cámara, GLB, interpolación y FX; **solo visual** |
-| `frontend/recursos/modelos-3d/` | GLB locales y catálogo de recursos |
-| `frontend/recursos/animaciones/` | Espacio para clips Mixamo optimizados |
-| `frontend/recursos/cartas/` | Imágenes de cartas, tokens y marcos |
-| `frontend/recursos/escenarios/` | Mapas e imágenes de arenas |
-| `frontend/recursos/efectos/` | FX gráficos |
-| `frontend/recursos/interfaz/` | Iconos, menús y HUD |
-| `frontend/recursos/mecanicas/` | Iconografía de factores y habilidades |
-| `backend/` | Servidor Socket.IO con reloj autoritativo |
-| `motor/` | Objetivos, duelos melee, movimiento y ataque continuo |
-| `mecanicas/` | Registros para futuros poderes, habilidades, factores |
-| `datos/json/` | Definiciones de Kasters, encuentros e invocaciones |
-| `compartido/` | Protocolo público v3 |
-| `tests/` | Pruebas automáticas Node.js |
-| `docs/` | Documentación, límites y fases |
+El puente mínimo `frontend/js/adventure-bridge.js` responde a la función preexistente `ROK_ADVENTURE_START_BATTLE(payload)`. Tras el VS abre `frontend/arena.html`, que presenta la escena 3D y muestra el encuentro/arena seleccionados. Volver regresa a la misma preparación sin tocar progreso.
 
-## Estado
+## Organización técnica
 
-- Etapa 1: estructura y archivo del viejo R.O.K. Lite.
-- Etapa 2: motor continuo autoritativo de prueba, sin turnos, con relojes individuales.
-- **Etapa 3: arena 3D con cámara y GLB, conectada a los estados/eventos del servidor**. La vista previa se abre desde GitHub Pages incluso sin backend.
-- Pendiente: modelos definitivos Kiara/Lioren, clips completos de animación, HUD flotante final, cartas, poderes, factores, optimización final y PvP.
+- `frontend/js/scene/`: cámara, escenario, GLB y efectos **solo visuales**.
+- `frontend/recursos/`: imágenes, modelos 3D y futuras animaciones organizadas.
+- `frontend/arena.html`: vista de combate que usa el flujo original.
+- `frontend/index.html`: **banco de pruebas técnico heredado**, no entrada de juego.
+- `backend/`: Node.js con sesiones autoritativas.
+- `motor/`: combate automático continuo, sin turnos.
+- `mecanicas/`: registros futuros de factores, poderes y habilidades.
+- `datos/json/`: definición de encuentros, cartas y Kasters.
+- `compartido/`: contrato de comunicación Socket.IO.
+- `tests/`: pruebas automatizadas del motor y de la navegación.
 
-Detalles y limitaciones: `docs/ETAPA_3.md`.
-
-**La vieja versión se conserva en `version-anterior/` y sigue funcionando en la raíz.**
-
-Importante: para jugar el combate real en internet necesitamos desplegar el servidor Node.js. GitHub Pages no ejecuta el backend.
+**Actualmente el backend público no está configurado.** Al terminar el VS podrás ver la arena 3D, pero el combate seguirá pendiente. No se ejecutan reglas en el navegador. Consulta `docs/ETAPA_4_FLUJO.md`.

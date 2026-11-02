@@ -58,6 +58,9 @@ export class Arena3D {
     });
   }
   setStatus(value){if(this.status)this.status.textContent=value;}
+  setArenaArt(imageUrl){
+    if(this.root?.userData?.setArenaArt)this.root.userData.setArenaArt(imageUrl);
+  }
   resetCamera(){
     this.controls.target.set(0,.4,0);
     this.camera.position.set(0,this.mobile?16:14,this.mobile?26:22);

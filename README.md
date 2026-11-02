@@ -1,13 +1,14 @@
-# R.O.K. Lite — mismo repositorio
+# R.O.K. Lite — juego original y nueva arquitectura en un solo repositorio
 
-El juego clásico se conserva **sin cambios** y también está archivado en `version-anterior/`.
+**Abre el juego desde [index.html](./index.html), como siempre.** La navegación original de Aventura se conserva: región, Kaster, preparación, VS, cartas destacadas, cuenta 3‑2‑1 y, desde ahora, transición a la arena 3D.
 
-- [Abrir R.O.K. Lite](./index.html) — versión clásica publicada.
-- [Nueva versión](./nueva-version/frontend/index.html) — frontend separado, preparado para el motor continuo.
-- [Estructura](./nueva-version/README.md) — módulos y recursos.
-- [Etapa 2 corregida](./nueva-version/docs/ETAPA_2.md) — combate **sin turnos**, con invocaciones automáticas, duelos 1v1, tres modos de alcance y relojes propios.
-- [Prototipo antiguo por turnos (descartado)](./version-anterior/prototipo-por-turnos/) — se conserva para referencia, no se ejecuta.
+- [Aventura: documentación del enlace original → arena nueva](./nueva-version/docs/ETAPA_4_FLUJO.md).
+- [Arena 3D](./nueva-version/frontend/arena.html) — componente visual conectado al recorrido original; no es un menú independiente.
+- [Motor continuo](./nueva-version/docs/ETAPA_2.md) — simulación sin turnos, autoritativa en backend.
+- [Versión anterior archivada](./version-anterior/index.html) — respaldo de las pantallas y reglas antiguas.
 
-Los 399 recursos de arte heredados están organizados bajo `nueva-version/frontend/recursos/`. Se mantienen rutas `assets/` y archivos raíz hasta la migración segura.
+La carpeta `nueva-version/frontend/index.html` se mantiene **solo como banco de pruebas técnico** del desarrollo anterior. La ruta de juego para el usuario sigue siendo `/index.html`.
 
-**Importante:** GitHub Pages puede publicar el cliente, pero el combate autoritativo necesita un servidor Node.js desplegado. El backend está escrito dentro del repositorio, aún **no está alojado** en un servicio público.
+`game.js`, los modales y las pantallas originales no se han reescrito. El archivo principal `index.html` carga un pequeño puente adicional. La escena puede abrirse sin backend en **modo visual**. Para ejecutar un combate real hace falta desplegar el backend Node.js y establecer su URL en `nueva-version/frontend/config.json`.
+
+Todos los cambios siguen en este mismo repositorio.

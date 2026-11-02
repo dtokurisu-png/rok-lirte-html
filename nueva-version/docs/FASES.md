@@ -1,10 +1,9 @@
-# Fases del nuevo R.O.K. — un repositorio
+# Migración de R.O.K. — conservar lo que ya funciona
 
-- Etapa 1: separar frontend, backend, motor, definiciones y archivo legacy.
-- Etapa 2: motor continuo sin turnos, invocaciones autónomas, relojes individuales, tres tipos de combate.
-- **Etapa 3: renderizador 3D separado, cámara libre, arena del tester 9x18 y GLB con carga diferida; eventos procedentes del backend.**
-- Etapa 4: nuevos modelos de Kiara y Lioren, animaciones, HUD flotante definitivo y movimiento de Kasters.
-- Etapa 5: compresión y empaquetado de modelos GLB, texturas y animaciones para móviles.
-- Etapa 6: alojamiento de backend, persistencia, reconexión y PvP autoritativo.
+- Etapa 1: un único repositorio, archivo legacy y capas frontend/backend/motor.
+- Etapa 2: combate autoritativo continuo sin turnos; invocaciones, objetivos y relojes individuales.
+- Etapa 3: Three.js y GLB separados del motor, escenario del tester 9×18.
+- **Etapa 4 (transición):** reutilizar íntegramente las pantallas de Aventura del R.O.K. original; al terminar su VS y cuenta atrás, abrir la arena 3D de la versión nueva, con botón para regresar a preparación.
+- Etapas siguientes: desplegar backend, integrar Spellbooks con el motor, Kasters definitivos, animaciones, HUD y optimización.
 
-**No se copia el motor de pelea propio del tester.** La arena solo visualiza eventos.
+La ruta principal es `index.html`. La página de pruebas `nueva-version/frontend/index.html` no reemplaza la interfaz anterior. Ver `docs/ETAPA_4_FLUJO.md`.

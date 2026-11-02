@@ -33,10 +33,23 @@ export function buildArena(scene){
   art.scale.set(1.80,1.25,1); // ancho y largo independientes como en el tester.
   root.add(art);
   const texLoader=new THREE.TextureLoader();
-  texLoader.load(image.href,texture=>{
-    texture.colorSpace=THREE.SRGBColorSpace;
-    art.material.map=texture;art.material.needsUpdate=true;
-  },undefined,()=>{root.remove(art);art.geometry.dispose();art.material.dispose();});
+  let artRequest=0;
+  // El escenario real lo decide la selección existente de Aventura, no una arena fija.
+  root.userData.setArenaArt=(url)=>{
+    const requested=++artRequest;
+    const nextUrl=typeof url==='string' && url ? url : image.href;
+    texLoader.load(nextUrl,texture=>{
+      if(requested!==artRequest){texture.dispose();return;}
+      texture.colorSpace=THREE.SRGBColorSpace;
+      const previous=art.material.map;
+      art.material.map=texture;art.material.needsUpdate=true;
+      art.visible=true;
+      if(previous && previous!==texture)previous.dispose();
+    },undefined,()=>{
+      if(requested===artRequest)art.visible=Boolean(art.material.map);
+    });
+  };
+  root.userData.setArenaArt(image.href);
   const points=[];
   for(let i=0;i<=W;i++){
     const x=i-W/2;points.push(x,.045,-D/2,x,.045,D/2);
