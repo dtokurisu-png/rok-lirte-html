@@ -1,42 +1,37 @@
-# R.O.K. — nueva arquitectura, mismo repositorio
+# Nueva versión de R.O.K. (mismo repositorio)
 
-## Dónde está cada cosa
+No se creó otro repositorio ni se reemplazó `game.js`. El juego antiguo permanece en la raíz y archivado en `version-anterior/`.
 
-| Carpeta | Función |
+## Organización
+
+| Carpeta | Responsabilidad |
 | --- | --- |
-| `frontend/` | Sitio web visible desde GitHub Pages |
-| `frontend/js/` | JavaScript del cliente, sin reglas de combate |
-| `frontend/css/` | Estilos de interfaz |
-| `frontend/recursos/cartas/` | Ilustraciones, fichas y marcos de cartas |
-| `frontend/recursos/escenarios/` | Mapas y arenas |
-| `frontend/recursos/personajes/` | Artes y referencias de Kasters |
-| `frontend/recursos/modelos-3d/` | Modelos GLB, aún pendientes de optimización/importación |
-| `frontend/recursos/animaciones/` | Animaciones y manifiestos, aún pendientes |
-| `frontend/recursos/efectos/` | Ilustraciones para efectos visuales |
-| `frontend/recursos/mecanicas/` | Iconos de factores, habilidades, cualidades, armas |
-| `frontend/recursos/interfaz/` | Menús, HUD e indicadores |
-| `frontend/recursos/tienda/` | Artes de tienda |
-| `frontend/recursos/otros/` | Recursos sin clasificación semántica definitiva |
-| `backend/` | Servidor Node.js / Socket.IO, sin lógica del navegador |
-| `motor/` | Estado, reglas generales y, en el futuro, resolución del combate |
-| `mecanicas/` | Factores, poderes y habilidades reutilizables |
-| `datos/json/` | Definiciones de Kasters, encuentros, cartas y datos históricos |
-| `compartido/` | Contratos de mensajes compartidos cliente/servidor |
-| `tests/` | Pruebas de módulos sin motor gráfico |
-| `docs/` | Documentación técnica y plan de migración |
+| `frontend/` | Interfaz web, HUD, futura escena Three.js y recursos gráficos |
+| `frontend/js/` | Red y presentación, **sin reglas de combate** |
+| `frontend/recursos/cartas/` | Arte de cartas, tokens y marcos |
+| `frontend/recursos/escenarios/` | Fondos y arenas |
+| `frontend/recursos/personajes/` | Kasters e ilustraciones |
+| `frontend/recursos/modelos-3d/` | GLB optimizados (pendientes de migración) |
+| `frontend/recursos/animaciones/` | Clips de animación (pendientes de migración) |
+| `frontend/recursos/efectos/` | Recursos visuales de hechizos y efectos |
+| `frontend/recursos/mecanicas/` | Iconos de poderes, factores y cualidades |
+| `frontend/recursos/interfaz/` | HUD, menús e indicadores |
+| `backend/` | Servidor Node.js y sesiones autoritativas |
+| `motor/` | Estado de combate, turnos, movimiento, daño, ataque, IA |
+| `mecanicas/` | Registros separados de poderes, factores y habilidades (aún vacíos) |
+| `datos/json/` | Definiciones de Kasters, cartas y encuentros |
+| `compartido/` | Protocolo v2 entre frontend y backend |
+| `tests/` | Pruebas automatizadas Node.js |
+| `docs/` | Arquitectura y plan |
 
-## Qué está listo
+## Etapa 2
 
-- Nueva estructura y aislamiento de capas.
-- 399 imágenes previas clasificadas en el directorio nuevo mediante referencias a sus objetos Git, sin volver a subir los binarios.
-- Nuevo frontend estático para inspeccionar la preparación del encuentro Kiara vs. Lioren.
-- Protocolo inicial y backend de **creación de sesiones preparatorias**.
-- Archivo independiente de la versión vieja en `version-anterior/`.
+Motor prototipo por turnos implementado y conectado a una cuadrícula de prueba del frontend.
+**No es todavía el combate final de R.O.K.** Consulta `docs/ETAPA_2.md` para las reglas provisionales y límites.
 
-## Qué NO está hecho
+## Publicación
 
-- El backend todavía NO está desplegado en un servidor. GitHub Pages no puede ejecutar Node.js.
-- No se ejecutan todavía ataques, invocaciones ni otros resultados de combate.
-- Los modelos del tester aún no se han trasladado a GLB optimizados.
-- La ficha de Lioren es provisional; falta completar estadísticas, cartas y animaciones.
-- El R.O.K. Lite actual permanece conectado a sus rutas existentes: se desconectará durante un cambio de versión probado, no de golpe.
+El frontend puede abrirse desde la ruta de GitHub Pages `/nueva-version/frontend/`.
+El backend necesita desplegarse en alojamiento Node.js; **GitHub Pages no puede ejecutar un servidor**. Hasta desplegarlo, los botones de combate permanecen desconectados. El nuevo juego no está listo para PvP.
+
+La raíz `index.html`, `game.js` y `assets/` se mantienen para no romper el sitio antiguo. Los 399 recursos categorizados están en `nueva-version/frontend/recursos/`.

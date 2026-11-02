@@ -5,9 +5,11 @@
   "arenaId": "kiara",
   "playerCasterId": "lioren",
   "rivalCasterId": "kasterKiaraWater",
-  "status": "draft",
+  "status": "prototype",
+  "ruleset": "rok-next-prototype-v1",
   "grid": {
     "columns": 9,
     "rows": 18
-  }
+  },
+  "note": "Combate de prueba autoritativo por turnos, sin cartas ni poderes. No reemplaza el canon de combate de R.O.K."
 }

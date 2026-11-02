@@ -1,10 +1,10 @@
-# Plan de migración
+# Plan de R.O.K. nuevo
 
-- Etapa 1: estructura única en el repositorio, archivo legacy, recursos clasificados, protocolo y servidor preparatorio.
-- Etapa 2: reglas autoritativas de movimiento, turnos, ataques, factores y condiciones de victoria en el backend, con pruebas.
-- Etapa 3: mover el escenario y renderizador Three.js del tester a `frontend/` sin su simulador de combate.
-- Etapa 4: importar los modelos de Kiara y Lioren y construir el HUD flotante.
-- Etapa 5: optimizar GLB, texturas y cargas para móviles.
-- Etapa 6: PvP con servidor autoritativo, sincronización, reconciliación y seguridad.
+- **Etapa 1 (hecha):** un solo repositorio, archivo legacy, recursos organizados, capas de código y contrato de sesión.
+- **Etapa 2 (motor prototipo):** validación de acciones en backend, movimiento, turnos, daño, victoria, IA y pruebas. Ver `ETAPA_2.md`.
+- **Etapa 3:** escenario 3D/Three.js, cámaras y modelos del tester como representación de eventos de motor.
+- **Etapa 4:** HUD flotante, nuevos Kasters, cartas, habilidades, efectos y factores modulares.
+- **Etapa 5:** optimización de modelos y texturas para móviles.
+- **Etapa 6:** backend persistente y PvP autoritativo con autenticación y recuperación.
 
-La raíz seguirá funcionando con la versión anterior hasta que el nuevo motor pueda sustituirla de manera segura. La migración de todas las rutas antiguas no está terminada.
+Nada en `version-anterior/`, `game.js`, `style.css` ni `firebase-online.js` del directorio original se ha reescrito.

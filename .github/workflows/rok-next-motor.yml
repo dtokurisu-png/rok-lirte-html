@@ -1,0 +1,23 @@
+name: R.O.K. Next - pruebas del motor
+on:
+  push:
+    paths:
+      - "nueva-version/**"
+      - ".github/workflows/rok-next-motor.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Comprobar sintaxis y motor
+        run: |
+          node --check nueva-version/motor/combate.js
+          node --check nueva-version/backend/src/index.js
+          node --check nueva-version/frontend/js/app.js
+          node --test nueva-version/tests/*.test.js

@@ -9,8 +9,10 @@
     "life": 8,
     "defense": 1,
     "range": 2,
-    "precision": 4
+    "precision": 4,
+    "movement": 2
   },
-  "status": "draft",
-  "source": "game.js / ADVENTURE_WATER_ENCOUNTERS"
+  "status": "prototype",
+  "source": "version-anterior/game.js / ADVENTURE_WATER_ENCOUNTERS",
+  "notes": "Movimiento 2 es parametro provisional de prueba. Defensa y precision se conservan como datos pero NO se aplican aun: solo ataque basico determinista."
 }

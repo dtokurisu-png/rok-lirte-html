@@ -1,34 +1,24 @@
-# Arquitectura del nuevo R.O.K. (Etapa 1)
+# Arquitectura R.O.K. Next — Etapa 2
 
 ```
-frontend/       Cliente web: DOM / HUD / futuro Three.js
-     |
-     | Socket.IO y API (solo solicitudes y vistas autorizadas)
-     v
-backend/        Servidor Node.js: autoridad y sesiones
-     |  -> motor/        reglas generales y estado
-     |  -> mecanicas/    factores, poderes, habilidades
-     |  -> datos/json/   Kasters, encuentros, cartas
-     |
-compartido/     Protocolo público, importable por ambos extremos
+frontend/ (HTML, CSS, JavaScript de UI)
+      |
+      | Socket.IO, protocolo v2, comandos / instantaneas
+      v
+backend/ (Node.js, sesiones, autentica por socket, limita solicitudes)
+      | --> motor/ (estado, movimiento, combate, IA, sin DOM)
+      | --> mecanicas/ (factores, poderes, habilidades: registros futuros)
+      | --> datos/json/ (Kasters, encuentros, cartas)
+      |
+compartido/ (solo eventos y validadores de mensajes publicos)
 ```
 
-## Restricciones
-
-1. `motor/` nunca importará módulos de `frontend/`, elementos DOM ni Three.js.
-2. El frontend nunca decidirá daño, alcance, recursos, muerte ni resultados de acciones.
-3. Los efectos visuales serán respuesta a eventos del servidor, no responsables de la resolución.
-4. La primera cuadrícula lógica es 9 columnas x 18 filas. Cámara y animaciones son libres.
-5. El servidor define y valida las sesiones; más adelante se añadirán autenticación, reglas PvP autoritativas, secuencias de eventos y persistencia.
-6. Los sistemas heredados son referencias, no dependencias activas del nuevo motor.
-
-## Publicación
-
-GitHub Pages aloja `nueva-version/frontend/` como página estática. Node.js requiere un hosting de backend aparte, pero su código vive en el **mismo repositorio**, en `nueva-version/backend/`. La página no simula una conexión que todavía no existe.
-
-## Estrategia de archivo y recursos
-
-`version-anterior/` contiene la versión legacy completa y sus rutas relativas.
-El directorio `nueva-version/frontend/recursos/` organiza copias referenciadas por SHA de los 399 assets actuales. Conservamos `assets/` en la raíz como puente de compatibilidad con el juego publicado. Estas rutas solo se retirarán al verificar la migración de sus referencias en HTML, CSS y JavaScript.
-
-Los dos GLB grandes y los FBX de desarrollo están en el laboratorio `rok-3d-test`; se incorporarán al directorio nuevo únicamente después de preparar versiones optimizadas.
+- El frontend dibuja una cuadrícula **de prueba**; el servidor determina los resultados.
+- Los eventos `unit.moved`, `unit.attacked`, `turn.started` y `combat.finished` son solo descripciones lógicas; nunca reproducen ni calculan animaciones.
+- El backend comprueba propiedad de sesión, versión, secuencia y acciones válidas.
+- La IA del rival ejecuta órdenes a través del mismo motor, sin poderes especiales.
+- Los módulos del motor no importan Three.js, DOM, Socket.IO ni Firebase.
+- Esta etapa usa reglas provisionales; `docs/ETAPA_2.md` documenta lo que falta.
+- El servidor aún necesita hosting externo, porque GitHub Pages es estático.
+- No se ha tocado el código existente de `game.js`, `firebase-online.js` o `style.css`.
+- El archivo original sigue en `version-anterior/`; las rutas de raíz se mantienen temporalmente para no romper R.O.K. Lite.

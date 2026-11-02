@@ -8,7 +8,7 @@
 <body>
 <header class="top"><div class="brand"><span class="sigil">R</span><span>R.O.K. <small>NUEVA VERSIÓN</small></span></div><a href="../../index.html" class="legacy">Volver a R.O.K. Lite</a></header>
 <main class="layout">
-<section class="hero"><div class="eyebrow">ARQUITECTURA NUEVA · ETAPA 1</div><h1>El combate empieza aquí.</h1><p>Cliente visual separado del motor y del servidor. Esta pantalla es una vista de preparación; las reglas de combate y los modelos 3D se integrarán en las próximas etapas.</p><div class="status"><span id="statusDot" class="dot"></span><strong id="statusText">Comprobando definiciones…</strong></div></section>
+<section class="hero"><div class="eyebrow">MOTOR DE COMBATE · ETAPA 2</div><h1>Primer combate autoritativo.</h1><p>Cliente visual separado del motor y del servidor. Esta pantalla es una vista de preparación; el servidor ya resuelve turnos, movimiento, ataque y victoria. La arena 3D llegará en la Etapa 3.</p><div class="status"><span id="statusDot" class="dot"></span><strong id="statusText">Comprobando definiciones…</strong></div></section>
 <section class="field" aria-label="Encuentro de Aventura">
 <div class="field-header"><span>AVENTURA / REGIÓN AGUA</span><strong>ENCUENTRO 01</strong></div>
 <div class="arena"><img src="./recursos/escenarios/arenas/previews/kiara.webp" alt="Vista previa de la arena de Kiara"><div class="arena-caption">Escenario de Kiara · vista previa 2D existente</div></div>
@@ -17,7 +17,7 @@
 <div class="vs">VS</div>
 <article class="fighter rival"><img src="./recursos/personajes/kasters/adventure/casters/enigma-apprentice.png" alt="Arte de Kiara"><div><small>KASTER RIVAL</small><h2 id="rivalName">Kiara</h2><p>Décima Aprendiz de Enigma</p></div></article>
 </div></section>
-<aside class="control"><h2>Conexión al motor</h2><p class="sub">GitHub Pages muestra el frontend. Para crear una sesión real necesitamos el backend desplegado en un servidor Node.js.</p><label for="serverUrl">Dirección del backend (cuando esté desplegado)</label><input id="serverUrl" type="url" placeholder="https://servidor.rok.example" autocomplete="url"><button id="connect" type="button">Conectar servidor</button><button id="create" type="button" disabled>Crear sesión de Aventura</button><div id="result" class="result" role="status" aria-live="polite">No hay servidor configurado. Las partidas estarán disponibles al desplegar el backend.</div><div class="small-note">Sin simulación falsa: el cliente nunca decide daño, movimiento ni victoria.</div></aside>
+<aside class="control"><h2>Conexión al motor</h2><p class="sub">GitHub Pages muestra el frontend. Para jugar el combate de prueba necesitamos desplegar el backend Node.js. GitHub Pages no ejecuta Node.js.</p><label for="serverUrl">Dirección del backend (cuando esté desplegado)</label><input id="serverUrl" type="url" placeholder="https://servidor.rok.example" autocomplete="url"><button id="connect" type="button">Conectar servidor</button><button id="create" type="button" disabled>Iniciar combate de prueba</button><div id="result" class="result" role="status" aria-live="polite">No hay backend desplegado. El combate de prueba no se puede ejecutar solo desde GitHub Pages.</div><div class="small-note">Reglas provisionales del prototipo: 2 acciones por turno, ataque determinista. Las cartas y poderes aún no intervienen.</div></aside>
 </main>
-<footer><span>R.O.K. · Arquitectura independiente · Protocolo v1</span><span>Original conservado en <a href="../../version-anterior/index.html">versión anterior</a></span></footer>
+<footer><span>R.O.K. · Motor separado · Protocolo v2</span><span>Original conservado en <a href="../../version-anterior/index.html">versión anterior</a></span></footer>
 </body></html>
