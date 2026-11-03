@@ -23,8 +23,8 @@ async function query(socket,event,data){
   if(!socket?.connected)throw Error('Sin conexion al servidor');
   return socket.timeout(7000).emitWithAck(event,data);
 }
-export async function createAdventureSession(socket,encounterId){
-  const response=await query(socket,EVENTS.CREATE_SESSION,{encounterId});
+export async function createAdventureSession(socket,encounterId,playerSpellbookCardIds=[]){
+  const response=await query(socket,EVENTS.CREATE_SESSION,{encounterId,playerSpellbookCardIds});
   if(!response?.ok)throw Error(response?.error||'No se pudo crear combate');
   return response.session;
 }
