@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "updated": "2026-11-03",
-  "status": "canonical copies established; original public URLs retained pending reference-by-reference migration",
+  "status": "CANONICAL_IMAGE_PATHS_ACTIVE",
   "policy": "Do not delete original paths until all consumers have moved and tests pass.",
   "entries": [
     {
@@ -879,5 +879,18 @@
       "canonical": "assets/images/cards/characters/tokens/yasugana-hattori-token.png",
       "sha": "1136b9d6b106837f7b73f446d398c848e912820b"
     }
-  ]
+  ],
+  "referencesMigrated": {
+    "commit": "dab177d428341aeed5232f4c7ae2645cf529acac",
+    "sourceFiles": 8,
+    "literalUrlReferences": 439,
+    "validation": "GitHub Actions migration completed successfully; all mapped sources and targets match original Git SHA"
+  },
+  "legacyCompatibility": {
+    "mode": "retain original paths as Git blob aliases",
+    "reason": "Previously saved decks, profiles, IndexedDB/localStorage or external URLs may still request old paths; removing without client data migration could break images",
+    "currentCodeUsesCanonicalPaths": true,
+    "rootOriginalFilesPendingDeletion": false,
+    "notes": "No new art should be added to legacy paths; old aliases intentionally retained."
+  }
 }
