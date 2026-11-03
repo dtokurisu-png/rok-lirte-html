@@ -39,3 +39,9 @@ Mientras el usuario prepara los modelos y animaciones de Kiara/Lioren en el test
 2. Leer `ARCHITECTURE.md`, `INTEGRATION_ROADMAP.md` y `DECISIONS.md`.
 3. Revisar `CHANGELOG_DEV.md` y `nueva-version/docs/ETAPA_4_FLUJO.md`.
 4. Contrastar la documentación con el código actual antes de modificarlo; registrar los resultados y actualizar estos archivos con cada cambio.
+
+## Trabajo paralelo de backend (2026-11-02, fase de pruebas)
+- Se añadió `nueva-version/tests/integracion-sesiones.test.js`: comprueba arena 9×18, avance continuo de 100 ms, invocación, rechazo de campos de daño enviados por cliente, autoridad de sesiones por dueño, idempotencia de acciones y emisión de snapshots.
+- Pruebas **escritas pero NO ejecutadas en este entorno**; falta instalar dependencias y correr `npm test` desde `nueva-version/backend`. No se han tocado la navegación, el renderizador ni las animaciones.
+- Los IDs del Spellbook original sí llegan al puente, pero el servidor actualmente recibe solo `encounterId`; el catálogo de invocaciones es de prueba. La adaptación real requiere un mapeo explícito de IDs y reglas antes de habilitar mecánicas.
+- Estado de la integración de modelos: usuario preparando Kiara y Lioren con clips adicionales. No asumir recursos terminados.
