@@ -1,0 +1,51 @@
+name: Finish image URL migration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/migrate-image-references.yml'
+      - 'scripts/migrate-image-references.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rok-image-path-migration
+  cancel-in-progress: false
+
+jobs:
+  migrate-image-references:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Rewrite literal image references safely
+        run: node scripts/migrate-image-references.mjs
+      - name: Verify syntactic diff
+        run: git diff --check
+      - name: Verify all mapped images and active URLs
+        run: node scripts/migrate-image-references.mjs --verify
+      - name: Commit only migrated source files
+        run: |
+          if test -z "$(git status --porcelain)"; then
+            echo 'No source changes required'
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- game.js style.css index.html firebase-online.js \
+            nueva-version/frontend/js/adventure-bridge.js \
+            nueva-version/frontend/js/ui/spellbook-hud.js \
+            nueva-version/tests/flujo-aventura.test.js sw.js
+          git commit -m "refactor(assets): migrate 439 image URLs to canonical folders"
+          git push origin HEAD:main
