@@ -1,7 +1,8 @@
 // Entrada del escenario de Aventura. La navegación y el VS pertenecen a game.js (R.O.K. Lite).
 // Este archivo nunca genera acciones, daños o resultados locales.
 import {Arena3D} from './scene/renderer.js';
-import {connectBackend,createAdventureSession,listenCombatSync} from './network.js';
+import {connectBackend,createAdventureSession,summonUnit,listenCombatSync} from './network.js';
+import {createSpellbookHUD} from './ui/spellbook-hud.js';
 
 const $ = id => document.getElementById(id);
 const origin = window.location.origin;
@@ -9,6 +10,11 @@ let scene = null, payload = null, socket = null, session = null;
 let attempt = 0, configuredBackend = '', warmConnection = null;
 const notice = $('arenaNotice'), connectionStatus = $('connectionStatus');
 const sceneStatus = $('sceneStatus');
+const spellbookHUD=createSpellbookHUD({mount:$('spellbookHud'),onSummon:async cardId=>{
+  if(!socket?.connected||!session?.id)return {ok:false,error:'session-not-active'};
+  const result=await summonUnit(socket,session.id,cardId);
+  return result;
+}});
 function status(text) { connectionStatus.textContent = text; }
 function inform(text) { notice.textContent = text; }
 function parentMessage(type,message) {
@@ -44,8 +50,10 @@ void prepareConnection();
 function endSession(keepPrepared=false){
   attempt++;
   session=null;
+  spellbookHUD.setSession(false);
   if(!keepPrepared){
     socket?.disconnect();socket=null;warmConnection=null;
+    spellbookHUD.setConnection(false);
   }
 }
 function previewFor(detail){
@@ -63,6 +71,10 @@ function displaySelection(detail){
   $('matchTitle').textContent=(detail.playerName||'Lioren')+'  VS  '+(detail.rivalName||'Kiara');
   $('arenaName').textContent=detail.arenaName||'Arena de Aventura';
   scene.resetSession();
+  spellbookHUD.setDeck(detail.playerSpellbookCardIds);
+  spellbookHUD.setSession(false);
+  spellbookHUD.setState(null);
+  spellbookHUD.setMessage('Se conserva el Spellbook de Aventura. Las cartas pendientes de adaptar aparecen desactivadas.');
   scene.setArenaArt(detail.arenaImage);
   scene.setState(previewFor(detail));
   scene.resetCamera();
@@ -79,6 +91,7 @@ async function beginBattle(detail){
   if(!configuredBackend){
     status('Vista previa · sin servidor');
     inform('Llegaste a la arena desde el VS original. La escena está lista; todavía no hay backend público para iniciar el combate real.');
+    spellbookHUD.setMessage('Vista del mazo original · sin servidor de combate.');
     return;
   }
   if(detail.encounterId!=='enigma-apprentice'){
@@ -93,22 +106,29 @@ async function beginBattle(detail){
     if(!activeSocket)throw Error('No se pudo establecer la conexión con el backend');
     if(key!==attempt)return;
     socket=activeSocket;
+    spellbookHUD.setConnection(true);
     socket.on('disconnect',()=>{
       if(key!==attempt)return;
       status('Servidor desconectado');
+      spellbookHUD.setConnection(false);
+      spellbookHUD.setMessage('Conexión perdida. Las invocaciones quedan bloqueadas.');
       inform('Se interrumpió la conexión. La arena conserva la última posición recibida, sin continuar el combate localmente.');
     });
     listenCombatSync(socket,packet=>{
       if(key!==attempt||!session||packet.sessionId!==session.id)return;
       scene.setState(packet.state,packet.events);
+      spellbookHUD.setState(packet.state);
       if(packet.state.status==='finished'){
         status('Combate finalizado');
         inform('Resultado recibido del servidor. Recompensas y Spellbooks definitivos aún no están integrados.');
       }
     });
-    const newSession=await createAdventureSession(socket,detail.encounterId);
+    const newSession=await createAdventureSession(socket,detail.encounterId,detail.playerSpellbookCardIds);
     if(key!==attempt)return;
     session=newSession;
+    spellbookHUD.setSession(true);
+    spellbookHUD.setState(session);
+    spellbookHUD.setMessage('Puedes invocar las cartas equipadas y adaptadas. Las demás permanecen pendientes.');
     scene.resetSession();
     scene.setState(session);
     status('Servidor conectado');
@@ -116,6 +136,8 @@ async function beginBattle(detail){
   }catch(error){
     if(key!==attempt)return;
     socket?.disconnect();socket=null;
+    spellbookHUD.setConnection(false);
+    spellbookHUD.setMessage('Servidor no disponible. Invocaciones desactivadas.');
     status('Servidor no disponible');
     inform('Se abrió la arena, pero no fue posible crear la sesión: '+String(error.message||error).slice(0,160)+'. La vista es solamente visual.');
   }
@@ -123,6 +145,8 @@ async function beginBattle(detail){
 function resetView(){
   endSession();
   payload=null;
+  spellbookHUD.setDeck([]);
+  spellbookHUD.setState(null);
   status('Vista previa');
   inform('Selecciona Combatir desde la preparación existente de R.O.K.');
   scene?.resetSession();
