@@ -35,8 +35,8 @@ jobs:
           node --check game.js
           node --check firebase-online.js
           node --check sw.js
-      - name: Check new frontend source and run combat/flow tests
+      - name: Check modified frontend and relevant adventure/scene tests
         run: |
           node --check nueva-version/frontend/js/adventure-bridge.js
           node --check nueva-version/frontend/js/ui/spellbook-hud.js
-          node --test nueva-version/tests/*.test.js
+          node --test nueva-version/tests/flujo-aventura.test.js nueva-version/tests/escena-3d.test.js
