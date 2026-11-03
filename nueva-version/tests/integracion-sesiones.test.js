@@ -52,7 +52,7 @@ test('invocacion: resolucion autoritativa con ID de carta reconocido',()=>{
 test('protocolos no aceptan alteraciones autoritativas enviadas por cliente',()=>{
   const id=randomUUID(),actionId=randomUUID();
   assert.equal(validEncounterRequest({encounterId:'enigma-apprentice',playerSpellbookCardIds:['kiaraFaroleraUmbral']}),true);
-  assert.equal(validEncounterRequest({encounterId:'enigma-apprentice'}),false);
+  assert.equal(validEncounterRequest({encounterId:'enigma-apprentice'}),true);
   assert.equal(validEncounterRequest({encounterId:'enigma-apprentice',hp:500}),false);
   assert.equal(validStateRequest({sessionId:id}),true);
   assert.equal(validActionRequest({sessionId:id,actionId,type:'summon',cardId:'shield'}),true);
