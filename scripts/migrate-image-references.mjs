@@ -5,7 +5,7 @@
  * Canonical asset sha1 is validated against the manifest BEFORE edits.
  */
 import {createHash} from 'node:crypto';
-import {readFile,writeFile,stat} from 'node:fs/promises';
+import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -30,7 +30,7 @@ for(const entry of entries){
   const originalPath=path.resolve(ROOT,entry.source);
   const [original,canonical]=await Promise.all([readFile(originalPath),readFile(canonicalPath)]);
   if(!original.equals(canonical))throw Error('Copied image differs from original: '+entry.source);
-  const sha=createHash('sha1').update('blob '+canonical.length+'\\0').update(canonical).digest('hex');
+  const sha=createHash('sha1').update('blob '+canonical.length+String.fromCharCode(0)).update(canonical).digest('hex');
   if(sha!==entry.sha)throw Error('Git blob hash mismatch: '+entry.canonical);
 }
 const plan=[];let total=0;
