@@ -6,7 +6,7 @@ const MAX_CARDS = 30;
 const validId = value => typeof value === 'string' && /^[a-zA-Z][a-zA-Z0-9_-]{0,79}$/.test(value);
 export function createSpellbookHUD({mount,onSummon}) {
   if(!mount)throw Error('Contenedor HUD inexistente');
-  let cardIds=[], connected=false, sessionActive=false, busy=false, statusText='Esperando Spellbook';
+  let cardIds=[], cardDetails=new Map(), connected=false, sessionActive=false, busy=false, statusText='Esperando Spellbook';
   let lastState=null;
   const heading=document.createElement('div');
   heading.className='spellbook-heading';
@@ -31,16 +31,17 @@ export function createSpellbookHUD({mount,onSummon}) {
       const item=document.createElement('button');
       item.type='button';item.className='spellbook-action';
       const definition=SUPPORTED.get(id);
+      const detail=cardDetails.get(id);
       const usable=Boolean(definition && connected && sessionActive && !busy && lastState?.status==='active');
       item.disabled=!usable;
       item.title=!definition?'Carta pendiente de adaptar al motor continuo':
         !connected?'Requiere backend conectado':!sessionActive?'Sin sesión de combate':definition.note;
-      if(definition?.art) {
+      if(detail?.image || definition?.art) {
         const art=document.createElement('img');
-        art.src=new URL(definition.art,import.meta.url).href;art.alt='';art.loading='lazy';
-        item.append(art);
+        art.src=detail?.image||new URL(definition.art,import.meta.url).href;
+        art.alt='';art.loading='lazy';item.append(art);
       }
-      const name=document.createElement('span');name.textContent=definition?.name||id;item.append(name);
+      const name=document.createElement('span');name.textContent=detail?.name||definition?.name||id;item.append(name);
       const extra=document.createElement('small');
       extra.textContent=(copiesCount>1?'×'+copiesCount+' · ':'')+
         (!definition?'Pendiente':!connected?'Sin servidor':!sessionActive?'En espera':'Invocar');
@@ -61,7 +62,16 @@ export function createSpellbookHUD({mount,onSummon}) {
   }
   render();
   return {
-    setDeck(ids) {cardIds=Array.isArray(ids)?ids.filter(validId).slice(0,MAX_CARDS):[];render();},
+    setDeck(ids,details=[]) {
+      cardIds=Array.isArray(ids)?ids.filter(validId).slice(0,MAX_CARDS):[];
+      cardDetails=new Map((Array.isArray(details)?details:[])
+        .filter(card=>card && validId(card.id) && cardIds.includes(card.id))
+        .map(card=>[card.id,{
+          name:String(card.name||card.id).slice(0,140),
+          image:typeof card.image==='string' && card.image.startsWith(location.origin+'/')?card.image:''
+        }]));
+      render();
+    },
     setConnection(value) {connected=Boolean(value);if(!connected)sessionActive=false;render();},
     setSession(value) {sessionActive=Boolean(value);render();},
     setState(state) {lastState=state;render();},
