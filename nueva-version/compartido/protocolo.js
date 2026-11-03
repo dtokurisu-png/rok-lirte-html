@@ -25,5 +25,5 @@ export function validActionRequest(payload){
   return Boolean(exact(payload,['sessionId','actionId','type','cardId']) &&
     uuid(payload.sessionId) && typeof payload.actionId==='string' &&
     /^[a-zA-Z0-9_-]{8,80}$/.test(payload.actionId) && payload.type==='summon' &&
-    typeof payload.cardId==='string' && /^[a-z][a-z0-9-]{0,48}$/.test(payload.cardId));
+    typeof payload.cardId==='string' && /^[a-zA-Z][a-zA-Z0-9_-]{0,79}$/.test(payload.cardId));
 }
