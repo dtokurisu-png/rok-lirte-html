@@ -9,6 +9,8 @@ const encounter=read('../../datos/json/encuentros/kiara.json');
 const player=read('../../datos/json/kasters/lioren.json');
 const rival=read('../../datos/json/kasters/kiara.json');
 const catalog=read('../../datos/json/invocaciones/prototipos.json').units;
+const adapted=read('../../datos/json/invocaciones/legado-adaptado.json').units;
+const combatCatalog=[...catalog,...adapted];
 const port=Number(process.env.PORT||3001);
 const allowedOrigins=(process.env.ROK_ALLOWED_ORIGIN||'https://dtokurisu-png.github.io')
   .split(',').map(s=>s.trim()).filter(Boolean);
@@ -36,7 +38,7 @@ io.on('connection',socket=>{
     if(!socket.data.ready)return ack({ok:false,error:'protocol-required'});
     if(!validEncounterRequest(payload))return ack({ok:false,error:'invalid-payload'});
     if(payload.encounterId!==encounter.id)return ack({ok:false,error:'unknown-encounter'});
-    try{ack(createSession(socket.id,encounter,player,rival,catalog));}
+    try{ack(createSession(socket.id,encounter,player,rival,combatCatalog,payload.playerSpellbookCardIds));}
     catch(err){console.error('[ROK create]',err);ack({ok:false,error:'server-error'});}
   });
   socket.on(EVENTS.GET_STATE,(payload,ack)=>{
