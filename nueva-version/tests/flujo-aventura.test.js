@@ -87,7 +87,7 @@ test('el puente conserva el VS hasta el handoff y transmite la selección real',
     rivalCaster:{label:'Kiara seleccionada'},
     playerCaster:{label:'Lioren elegido'},
     playerSpellbookCardIds:['carta-a','carta-b'],
-    arena:{id:'kiara',label:'Arena seleccionada',image:'assets/arena.webp'}
+    arena:{id:'kiara',label:'Arena seleccionada',image:'assets/images/arenas/backgrounds/arena.webp'}
   });
   assert.equal(x.intro.classList.contains('active'),false);
   assert.equal(x.overlay.classList.contains('is-open'),true);
@@ -101,7 +101,7 @@ test('el puente conserva el VS hasta el handoff y transmite la selección real',
   assert.equal(start.data.payload.playerName,'Lioren elegido');
   assert.equal(start.data.payload.rivalName,'Kiara seleccionada');
   assert.equal(start.data.payload.arenaId,'kiara');
-  assert.equal(start.data.payload.arenaImage,'https://example.com/rok-lirte-html/assets/arena.webp');
+  assert.equal(start.data.payload.arenaImage,'https://example.com/rok-lirte-html/assets/images/arenas/backgrounds/arena.webp');
   assert.equal(start.data.payload.playerSpellbookCardIds.length,2);
 });
 test('volver cierra el escenario sin resetear el progreso original',()=>{
@@ -109,7 +109,7 @@ test('volver cierra el escenario sin resetear el progreso original',()=>{
   x.window.ROK_ADVENTURE_START_BATTLE({
     mode:'adventure',encounterId:'enigma-apprentice',
     playerCaster:{label:'Lioren'},rivalCaster:{label:'Kiara'},
-    arena:{image:'assets/arena.webp'}
+    arena:{image:'assets/images/arenas/backgrounds/arena.webp'}
   });
   x.listeners.get('window:message')({
     origin:'https://example.com',source:x.frame.contentWindow,data:{type:'rok:arena:exit'}

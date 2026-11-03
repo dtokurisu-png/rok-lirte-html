@@ -1,6 +1,6 @@
 // HUD de enlace de cartas existentes: ningún daño ni lógica de combate local.
 const SUPPORTED = new Map([
-  ['kiaraFaroleraUmbral', {name:'Farolera del Umbral',art:'../../../../assets/kiara/farolera-del-umbral-token.png',note:'Ataque básico adaptado; poder pendiente'}]
+  ['kiaraFaroleraUmbral', {name:'Farolera del Umbral',art:'../../../../assets/images/cards/summons/kiara/farolera-del-umbral-token.png',note:'Ataque básico adaptado; poder pendiente'}]
 ]);
 const MAX_CARDS = 30;
 const validId = value => typeof value === 'string' && /^[a-zA-Z][a-zA-Z0-9_-]{0,79}$/.test(value);

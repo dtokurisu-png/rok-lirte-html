@@ -6,7 +6,7 @@ const ROK_SHELL = [
   './rok-layout-scale.js?v=rok-v9-88-online-tiempo-real-audit',
   './game.js?v=rok-v9-88-online-tiempo-real-audit',
   './firebase-online.js?v=rok-v9-88-online-tiempo-real-audit',
-  './assets/kast-cell-icon.jpg',
+  './assets/images/ui/spellbook/kast-cell-icon.jpg',
   './assets/pwa/rok-icon-192.png',
   './assets/pwa/rok-icon-512.png'
 ];

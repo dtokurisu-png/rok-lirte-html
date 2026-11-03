@@ -78,7 +78,7 @@ const KIARA_NO_REACTION_WINDOW_MS = 3000;
 const KIARA_REGRESA_CARD_ID = 'spellKiaraRegresa';
 const KIARA_UMBRAL_FUGAZ_CARD_ID = 'spellKiaraUmbralFugaz';
 const UMBRAL_FUGAZ_DURATION_PHASES = 20;
-const UMBRAL_FUGAZ_PORTAL_ASSET = 'assets/kiara/spell-umbral-fugaz.png';
+const UMBRAL_FUGAZ_PORTAL_ASSET = 'assets/images/cards/spells/kiara/spell-umbral-fugaz.png';
 const EMBOSCADA_CARD_ID = 'spellEmboscada';
 const EMBOSCADA_RADIUS = 3;
 const LONG_NIGHT_DURATION_PHASES = 20;
@@ -1297,7 +1297,7 @@ const EXTRA_ATTACK_FACTOR_ICON_ASSET = 'assets/factors/factor-ataque-extra.png';
 const ATTACK_SPEED_FACTOR_ICON_ASSET = 'assets/factors/factor-atacar-primero.svg';
 
 const CATALYST_DOMAIN_ID = 'catalizadora';
-const CATALYST_SKIN_ASSET = 'assets/card-skin-catalyst.png';
+const CATALYST_SKIN_ASSET = 'assets/images/cards/skins/card-skin-catalyst.png';
 
 function isCatalystCard(card) {
   return !!(card && (card.isCatalyst === true || card.catalyst === true || card.domain?.elementId === CATALYST_DOMAIN_ID || card.domain?.universal === true));
@@ -1319,11 +1319,11 @@ const RESTORE_ICON_INLINE_SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewB
 
 
 const DOMAIN_CARD_BACKGROUND_ASSETS = {
-  agua: 'assets/card-bg-water-domain.png',
-  oscuridad: 'assets/card-bg-darkness.jpg',
-  luz: 'assets/card-bg-light-domain.webp',
-  fuego: 'assets/card-bg-fire-domain.webp',
-  catalizadora: 'assets/card-bg-darkness.jpg',
+  agua: 'assets/images/cards/backgrounds/card-bg-water-domain.png',
+  oscuridad: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+  luz: 'assets/images/cards/backgrounds/card-bg-light-domain.webp',
+  fuego: 'assets/images/cards/backgrounds/card-bg-fire-domain.webp',
+  catalizadora: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
 };
 
 const DOMINION_COLOR_PALETTE = Object.freeze({
@@ -1384,7 +1384,7 @@ const DOMAIN_THEME_DB = {
     glow: 'rgba(255,120,220,.42)',
     costIcon: 'assets/cost-icons/cost-random.png',
     skinImage: CATALYST_SKIN_ASSET,
-    bgImage: 'assets/card-bg-darkness.jpg',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
     spectrum: true,
   },
   oscuridad: {
@@ -1397,8 +1397,8 @@ const DOMAIN_THEME_DB = {
     accent: getDominionPrimaryColor('oscuridad'),
     glow: 'rgba(84,0,255,.62)',
     costIcon: 'assets/cost-icons/cost-darkness.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    bgImage: 'assets/element-card-bg.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
   },
   luz: {
     id: 'luz',
@@ -1410,7 +1410,7 @@ const DOMAIN_THEME_DB = {
     accent: getDominionPrimaryColor('luz'),
     glow: 'rgba(215,168,3,.72)',
     costIcon: 'assets/cost-icons/cost-light.png',
-    skinImage: 'assets/card-skin-light.png',
+    skinImage: 'assets/images/cards/skins/card-skin-light.png',
     bgImage: 'assets/domain/domain-element-light.webp',
     elementArt: 'assets/domain/domain-element-light.webp',
     attributeArt: 'assets/domain/domain-attribute-revelation.png',
@@ -1425,7 +1425,7 @@ const DOMAIN_THEME_DB = {
     accent: getDominionPrimaryColor('fuego'),
     glow: 'rgba(255,0,0,.62)',
     costIcon: 'assets/cost-icons/cost-fire.png',
-    skinImage: 'assets/card-skin-fire.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
     bgImage: 'assets/domain/domain-element-fire.png',
     elementArt: 'assets/domain/domain-element-fire.png',
     attributeArt: 'assets/domain/domain-attribute-destruction.svg',
@@ -1438,24 +1438,24 @@ const CASTER_VISUAL_ASSET_DB = {
     name: 'Hattori Hanzo',
     domainId: 'oscuridad',
     cardId: 'kasterHanzoDark',
-    artImage: 'assets/caster-hanzo.png',
-    tokenImage: 'assets/caster-hanzo.png',
+    artImage: 'assets/images/cards/casters/caster-hanzo.png',
+    tokenImage: 'assets/images/cards/casters/caster-hanzo.png',
   },
   tokugawaLight: {
     id: 'tokugawaLight',
     name: 'Ieyasu Tokugawa',
     domainId: 'luz',
     cardId: 'kasterTokugawaLight',
-    artImage: 'assets/tokugawa-light-art.webp',
-    tokenImage: 'assets/tokugawa-light-token.webp',
+    artImage: 'assets/images/cards/characters/illustrations/tokugawa-light-art.webp',
+    tokenImage: 'assets/images/cards/characters/tokens/tokugawa-light-token.webp',
   },
   kiaraWater: {
     id: 'kiaraWater',
     name: 'Kiara, Décima Aprendiz de Enigma',
     domainId: 'agua',
     cardId: 'kasterKiaraWater',
-    artImage: 'assets/kiara/kiara-decima-aprendiz-enigma-art.png',
-    tokenImage: 'assets/adventure/casters/enigma-apprentice.png',
+    artImage: 'assets/images/cards/casters/kiara/kiara-decima-aprendiz-enigma-art.png',
+    tokenImage: 'assets/images/cards/casters/portraits/enigma-apprentice.png',
   },
 };
 
@@ -1468,8 +1468,8 @@ const CASTER_LIBRARY = {
     domainId: 'oscuridad',
     attributeId: 'misterio',
     attributeLabel: 'Misterio',
-    artImage: 'assets/caster-hanzo.png',
-    tokenImage: 'assets/caster-hanzo.png',
+    artImage: 'assets/images/cards/casters/caster-hanzo.png',
+    tokenImage: 'assets/images/cards/casters/caster-hanzo.png',
     stats: { atk: 2, def: CASTER_DEFENSE_VALUE, life: 12, maxLife: 12, mov: 2, pureBase: 0, pureCadence: 2, pureMax: 8 },
   },
   tokugawaLight: {
@@ -1480,8 +1480,8 @@ const CASTER_LIBRARY = {
     domainId: 'luz',
     attributeId: 'revelacion',
     attributeLabel: 'Revelación',
-    artImage: 'assets/tokugawa-light-art.webp',
-    tokenImage: 'assets/tokugawa-light-token.webp',
+    artImage: 'assets/images/cards/characters/illustrations/tokugawa-light-art.webp',
+    tokenImage: 'assets/images/cards/characters/tokens/tokugawa-light-token.webp',
     stats: { atk: 2, def: CASTER_DEFENSE_VALUE, life: 15, maxLife: 15, mov: 2, pureBase: 0, pureCadence: 2, pureMax: 8 },
   },
   kiaraWater: {
@@ -1492,8 +1492,8 @@ const CASTER_LIBRARY = {
     domainId: 'agua',
     attributeId: 'conocimiento',
     attributeLabel: 'Conocimiento',
-    artImage: 'assets/kiara/kiara-decima-aprendiz-enigma-art.png',
-    tokenImage: 'assets/adventure/casters/enigma-apprentice.png',
+    artImage: 'assets/images/cards/casters/kiara/kiara-decima-aprendiz-enigma-art.png',
+    tokenImage: 'assets/images/cards/casters/portraits/enigma-apprentice.png',
     stats: { atk: 1, def: 1, life: 8, maxLife: 8, mov: 2, pureBase: 0, pureCadence: 2, pureMax: 6, startingSpecialCounters: 0 },
   },
 };
@@ -1517,11 +1517,11 @@ function getCasterCompactDisplayName(caster, fallback = 'Kaster') {
   return def?.shortName || card?.shortName || caster?.shortName || def?.name || caster?.name || fallback;
 }
 
-function getCasterTokenImage(caster, fallback = 'assets/caster-hanzo.png') {
+function getCasterTokenImage(caster, fallback = 'assets/images/cards/casters/caster-hanzo.png') {
   return caster?.customAvatarUrl || getCasterDefinition(caster)?.tokenImage || caster?.tokenImage || fallback;
 }
 
-function getCasterArtImage(caster, fallback = 'assets/caster-hanzo.png') {
+function getCasterArtImage(caster, fallback = 'assets/images/cards/casters/caster-hanzo.png') {
   return caster?.customAvatarUrl || getCasterDefinition(caster)?.artImage || caster?.artImage || fallback;
 }
 
@@ -1810,9 +1810,9 @@ function getPlayerDomainTheme(playerId) {
 }
 
 const GUARDIAN_DOMAIN_ASSETS = {
-  agua: 'assets/guardian-water.png',
-  oscuridad: 'assets/guardian-darkness.png',
-  luz: 'assets/guardian-light.webp',
+  agua: 'assets/images/cards/guardians/guardian-water.png',
+  oscuridad: 'assets/images/cards/guardians/guardian-darkness.png',
+  luz: 'assets/images/cards/guardians/guardian-light.webp',
 };
 
 function getGuardianAssetForPlayer(playerId) {
@@ -2420,7 +2420,7 @@ function removeGoemonLegendaryAfterimageNode(node, duration = 120) {
 
 function createGoemonLegendaryAfterimageFx(unit, row, col) {
   if (!unit) return null;
-  const tokenSrc = CARD_LIBRARY[unit.cardId]?.tokenImage || 'assets/ichikawa-goemon-token.png';
+  const tokenSrc = CARD_LIBRARY[unit.cardId]?.tokenImage || 'assets/images/cards/characters/tokens/ichikawa-goemon-token.png';
   const from = getCellViewportCenter(row, col);
   if (!from) return null;
   const liveNode = document.querySelector(`.unit.invocation[data-unit-id="${unit.id}"]`);
@@ -2744,58 +2744,58 @@ const EXTRACTION_CARDS_PER_PHASE = 3;
 const ELEMENT_PRIMARY_RATIO_DUAL = 0.6;
 
 const EXTRACTION_DEFS = [
-  { id: 'x1', count: 1, deckCopies: 60, artImage: 'assets/element-x1.png', bgImage: 'assets/element-card-bg.webp', skinImage: 'assets/card-skin-darkness.png' },
+  { id: 'x1', count: 1, deckCopies: 60, artImage: 'assets/images/cards/elements/element-x1.png', bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp', skinImage: 'assets/images/cards/skins/card-skin-darkness.png' },
 ];
 
 const ELEMENT_EXTRACTION_ASSETS = {
   oscuridad: {
-    bgImage: 'assets/element-card-bg.webp',
-    skinImage: 'assets/card-skin-darkness.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
     arts: {
-      x1: 'assets/element-darkness-x1.png',
-      x2: 'assets/element-darkness-x2.webp',
-      x3: 'assets/element-darkness-x3.webp',
-      x4: 'assets/element-darkness-x4.png',
+      x1: 'assets/images/cards/elements/element-darkness-x1.png',
+      x2: 'assets/images/cards/elements/element-darkness-x2.webp',
+      x3: 'assets/images/cards/elements/element-darkness-x3.webp',
+      x4: 'assets/images/cards/elements/element-darkness-x4.png',
     },
   },
   luz: {
-    bgImage: 'assets/element-card-bg.webp',
-    skinImage: 'assets/card-skin-light.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-light.png',
     arts: {
-      x1: 'assets/element-light-x1.png',
-      x2: 'assets/element-light-x2.webp',
-      x3: 'assets/element-light-x3.webp',
-      x4: 'assets/element-light-x4.webp',
+      x1: 'assets/images/cards/elements/element-light-x1.png',
+      x2: 'assets/images/cards/elements/element-light-x2.webp',
+      x3: 'assets/images/cards/elements/element-light-x3.webp',
+      x4: 'assets/images/cards/elements/element-light-x4.webp',
     },
   },
   fuego: {
-    bgImage: 'assets/element-card-bg-fire.png',
-    skinImage: 'assets/card-skin-fire.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg-fire.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
     arts: {
-      x1: 'assets/element-fire-x1.png',
-      x2: 'assets/element-fire-x2.png',
-      x3: 'assets/element-fire-x3.webp',
-      x4: 'assets/element-fire-x4.png',
+      x1: 'assets/images/cards/elements/element-fire-x1.png',
+      x2: 'assets/images/cards/elements/element-fire-x2.png',
+      x3: 'assets/images/cards/elements/element-fire-x3.webp',
+      x4: 'assets/images/cards/elements/element-fire-x4.png',
     },
   },
   agua: {
-    bgImage: 'assets/element-card-bg.webp',
-    skinImage: 'assets/card-skin-water.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
     arts: {
-      x1: 'assets/element-water-x1.png',
-      x2: 'assets/element-water-x2.png',
-      x3: 'assets/element-water-x3.png',
-      x4: 'assets/element-water-x4.webp',
+      x1: 'assets/images/cards/elements/element-water-x1.png',
+      x2: 'assets/images/cards/elements/element-water-x2.png',
+      x3: 'assets/images/cards/elements/element-water-x3.png',
+      x4: 'assets/images/cards/elements/element-water-x4.webp',
     },
   },
   tierra: {
-    bgImage: 'assets/element-card-bg.webp',
-    skinImage: 'assets/card-skin-earth.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-earth.png',
     arts: {
-      x1: 'assets/element-earth-x1.png',
-      x2: 'assets/element-earth-x2.png',
-      x3: 'assets/element-earth-x3.webp',
-      x4: 'assets/element-earth-x4.webp',
+      x1: 'assets/images/cards/elements/element-earth-x1.png',
+      x2: 'assets/images/cards/elements/element-earth-x2.png',
+      x3: 'assets/images/cards/elements/element-earth-x3.webp',
+      x4: 'assets/images/cards/elements/element-earth-x4.webp',
     },
   },
 };
@@ -4248,8 +4248,8 @@ function createInfoEntityCard({ id, name, type, artImage, elementId = 'oscuridad
     cardType: type,
     cost: cost ? { [elementId]: cost } : {},
     artImage,
-    bgImage: 'assets/card-bg-darkness.jpg',
-    skinImage: skinSet?.skinImage || 'assets/card-skin-darkness.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    skinImage: skinSet?.skinImage || 'assets/images/cards/skins/card-skin-darkness.png',
     domain: { elementId, attributeId: DOMAIN_ART_DB[elementId]?.attributeId || 'mystery' },
   };
 }
@@ -4263,10 +4263,10 @@ const CARD_LIBRARY = {
     familyPosition: 'prefix',
     type: 'kaster',
     cardType: 'kaster',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/caster-hanzo.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/caster-hanzo.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/casters/caster-hanzo.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/casters/caster-hanzo.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: {},
     castPhases: 0,
@@ -4320,10 +4320,10 @@ const CARD_LIBRARY = {
     familyPosition: 'prefix',
     type: 'kaster',
     cardType: 'kaster',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/tokugawa-light-art.webp',
-    skinImage: 'assets/card-skin-light.png',
-    tokenImage: 'assets/tokugawa-light-token.webp',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/tokugawa-light-art.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-light.png',
+    tokenImage: 'assets/images/cards/characters/tokens/tokugawa-light-token.webp',
     domain: { elementId: 'luz', attributeId: 'revelacion' },
     cost: {},
     castPhases: 0,
@@ -4375,10 +4375,10 @@ const CARD_LIBRARY = {
     shortName: 'Kiara',
     type: 'kaster',
     cardType: 'kaster',
-    bgImage: 'assets/element-card-bg.webp',
-    artImage: 'assets/kiara/kiara-decima-aprendiz-enigma-art.png',
-    skinImage: 'assets/card-skin-water.png',
-    tokenImage: 'assets/adventure/casters/enigma-apprentice.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    artImage: 'assets/images/cards/casters/kiara/kiara-decima-aprendiz-enigma-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
+    tokenImage: 'assets/images/cards/casters/portraits/enigma-apprentice.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: {},
     castPhases: 0,
@@ -4429,10 +4429,10 @@ const CARD_LIBRARY = {
     shortName: 'Farolera del Umbral',
     type: 'invocation',
     cardType: 'invocation',
-    bgImage: 'assets/element-card-bg.webp',
-    artImage: 'assets/kiara/farolera-del-umbral-art.png',
-    skinImage: 'assets/card-skin-water.png',
-    tokenImage: 'assets/kiara/farolera-del-umbral-token.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    artImage: 'assets/images/cards/summons/kiara/farolera-del-umbral-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
+    tokenImage: 'assets/images/cards/summons/kiara/farolera-del-umbral-token.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: {},
     castPhases: 0,
@@ -4487,10 +4487,10 @@ const CARD_LIBRARY = {
     shortName: 'Seyran',
     type: 'invocation',
     cardType: 'invocation',
-    bgImage: 'assets/element-card-bg.webp',
-    artImage: 'assets/kiara/seyran-geometra-umbral-art.png',
-    skinImage: 'assets/card-skin-water.png',
-    tokenImage: 'assets/kiara/seyran-geometra-umbral-token.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    artImage: 'assets/images/cards/summons/kiara/seyran-geometra-umbral-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
+    tokenImage: 'assets/images/cards/summons/kiara/seyran-geometra-umbral-token.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 2, random: 1 },
     castPhases: 2,
@@ -4547,10 +4547,10 @@ const CARD_LIBRARY = {
     shortName: 'Nael',
     type: 'invocation',
     cardType: 'invocation',
-    bgImage: 'assets/element-card-bg.webp',
-    artImage: 'assets/kiara/nael-vigia-de-la-mente-art.png',
-    skinImage: 'assets/card-skin-water.png',
-    tokenImage: 'assets/kiara/nael-vigia-de-la-mente-token.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    artImage: 'assets/images/cards/summons/kiara/nael-vigia-de-la-mente-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
+    tokenImage: 'assets/images/cards/summons/kiara/nael-vigia-de-la-mente-token.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 2 },
     castPhases: 2,
@@ -4606,10 +4606,10 @@ const CARD_LIBRARY = {
     shortName: 'Edran',
     type: 'invocation',
     cardType: 'invocation',
-    bgImage: 'assets/element-card-bg.webp',
-    artImage: 'assets/kiara/edran-custodio-arcano-art.png',
-    skinImage: 'assets/card-skin-water.png',
-    tokenImage: 'assets/kiara/edran-custodio-arcano-token.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    artImage: 'assets/images/cards/summons/kiara/edran-custodio-arcano-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
+    tokenImage: 'assets/images/cards/summons/kiara/edran-custodio-arcano-token.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 2, random: 1 },
     castPhases: 2,
@@ -4668,10 +4668,10 @@ const CARD_LIBRARY = {
     shortName: 'Neru',
     type: 'invocation',
     cardType: 'invocation',
-    bgImage: 'assets/element-card-bg.webp',
-    artImage: 'assets/kiara/neru-susurro-umbral-art.png',
-    skinImage: 'assets/card-skin-water.png',
-    tokenImage: 'assets/kiara/neru-susurro-umbral-token.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    artImage: 'assets/images/cards/summons/kiara/neru-susurro-umbral-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
+    tokenImage: 'assets/images/cards/summons/kiara/neru-susurro-umbral-token.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 0 },
     castPhases: 0,
@@ -4729,10 +4729,10 @@ const CARD_LIBRARY = {
     shortName: 'Maeryn',
     type: 'invocation',
     cardType: 'invocation',
-    bgImage: 'assets/element-card-bg.webp',
-    artImage: 'assets/kiara/maeryn-arconte-de-la-mente-art.png',
-    skinImage: 'assets/card-skin-water.png',
-    tokenImage: 'assets/kiara/maeryn-arconte-de-la-mente-token.png',
+    bgImage: 'assets/images/cards/backgrounds/element-card-bg.webp',
+    artImage: 'assets/images/cards/summons/kiara/maeryn-arconte-de-la-mente-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
+    tokenImage: 'assets/images/cards/summons/kiara/maeryn-arconte-de-la-mente-token.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 4, random: 3 },
     castPhases: 3,
@@ -4796,10 +4796,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/kiara/spell-no.png',
-    spellIcon: 'assets/kiara/spell-no.png',
-    bgImage: 'assets/kiara/spell-no.png',
-    skinImage: 'assets/card-skin-water.png',
+    thumbnailImage: 'assets/images/cards/spells/kiara/spell-no.png',
+    spellIcon: 'assets/images/cards/spells/kiara/spell-no.png',
+    bgImage: 'assets/images/cards/spells/kiara/spell-no.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 1 },
     castPhases: 0,
@@ -4893,10 +4893,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/kiara/spell-umbral-fugaz.png',
-    spellIcon: 'assets/kiara/spell-umbral-fugaz.png',
-    bgImage: 'assets/kiara/spell-umbral-fugaz.png',
-    skinImage: 'assets/card-skin-water.png',
+    thumbnailImage: 'assets/images/cards/spells/kiara/spell-umbral-fugaz.png',
+    spellIcon: 'assets/images/cards/spells/kiara/spell-umbral-fugaz.png',
+    bgImage: 'assets/images/cards/spells/kiara/spell-umbral-fugaz.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 2 },
     castPhases: 2,
@@ -4961,10 +4961,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/kiara/spell-regresa.png',
-    spellIcon: 'assets/kiara/spell-regresa.png',
-    bgImage: 'assets/kiara/spell-regresa.png',
-    skinImage: 'assets/card-skin-water.png',
+    thumbnailImage: 'assets/images/cards/spells/kiara/spell-regresa.png',
+    spellIcon: 'assets/images/cards/spells/kiara/spell-regresa.png',
+    bgImage: 'assets/images/cards/spells/kiara/spell-regresa.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
     domain: { elementId: 'agua', attributeId: 'conocimiento' },
     cost: { agua: 2 },
     castPhases: 0,
@@ -5058,10 +5058,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'suffix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/kagero-art.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/kagero-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/kagero-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/kagero-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: {},
     castPhases: 0,
@@ -5112,10 +5112,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/naito-sutoka-art.webp',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/naito-sutoka-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/naito-sutoka-art.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/naito-sutoka-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 3, random: 2 },
     castPhases: 3,
@@ -5177,10 +5177,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/ojo-de-buho-token.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/ojo-de-buho-art.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/tokens/ojo-de-buho-token.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/illustrations/ojo-de-buho-art.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 3 },
     castPhases: 1,
@@ -5249,10 +5249,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/oda-no-kage-card.png',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/oda-no-kage-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/oda-no-kage-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/tokens/oda-no-kage-token.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 2, random: 1 },
     castPhases: 1,
@@ -5326,10 +5326,10 @@ const CARD_LIBRARY = {
     family: 'mercader',
     familyPosition: 'none',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/gioshonin-carta.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/gioshonin-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/gioshonin-carta.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/gioshonin-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 1 },
     castPhases: 3,
@@ -5385,10 +5385,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/yasugana-hattori-card.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/yasugana-hattori-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/yasugana-hattori-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/yasugana-hattori-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 3, random: 2 },
     castPhases: 1,
@@ -5446,10 +5446,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/saqueador-novato-card.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/saqueador-novato-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/saqueador-novato-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/saqueador-novato-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 1 },
     castPhases: 0,
@@ -5506,10 +5506,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/junkai-butai-1-card.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/junkai-butai-1-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/junkai-butai-1-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/junkai-butai-1-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: {},
     castPhases: 0,
@@ -5576,10 +5576,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/junkai-butai-2-card.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/junkai-butai-2-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/junkai-butai-2-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/junkai-butai-2-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 1 },
     castPhases: 0,
@@ -5666,10 +5666,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/ichikawa-goemon-card.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/ichikawa-goemon-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/ichikawa-goemon-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/ichikawa-goemon-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 3 },
     castPhases: 2,
@@ -5732,10 +5732,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/kurokagi-butai-3-card-v286.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/kurokagi-butai-3-token-v286.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/misc/kurokagi-butai-3-card-v286.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/kurokagi-butai-3-token-v286.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 3, random: 1 },
     castPhases: 2,
@@ -5801,10 +5801,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-kage-no-michi-bg.webp',
-    spellIcon: 'assets/spell-kage-no-michi-bg.webp',
-    bgImage: 'assets/spell-kage-no-michi-bg.webp',
-    skinImage: 'assets/card-skin-darkness.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-kage-no-michi-bg.webp',
+    spellIcon: 'assets/images/cards/spells/spell-kage-no-michi-bg.webp',
+    bgImage: 'assets/images/cards/spells/spell-kage-no-michi-bg.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 2 },
     castPhases: 1,
@@ -5903,10 +5903,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-despliegue-anticipado.webp',
-    spellIcon: 'assets/spell-despliegue-anticipado.webp',
-    bgImage: 'assets/spell-despliegue-anticipado.webp',
-    skinImage: 'assets/card-skin-fire.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-despliegue-anticipado.webp',
+    spellIcon: 'assets/images/cards/spells/spell-despliegue-anticipado.webp',
+    bgImage: 'assets/images/cards/spells/spell-despliegue-anticipado.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 2, random: 1 },
     castPhases: 2,
@@ -6001,10 +6001,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-carga-real.png',
-    spellIcon: 'assets/spell-carga-real.png',
-    bgImage: 'assets/spell-carga-real.png',
-    skinImage: 'assets/card-skin-fire.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-carga-real.png',
+    spellIcon: 'assets/images/cards/spells/spell-carga-real.png',
+    bgImage: 'assets/images/cards/spells/spell-carga-real.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 2, random: 1 },
     castPhases: 5,
@@ -6103,10 +6103,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-gloria-latente.webp',
-    spellIcon: 'assets/spell-gloria-latente.webp',
-    bgImage: 'assets/spell-gloria-latente.webp',
-    skinImage: 'assets/card-skin-light.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-gloria-latente.webp',
+    spellIcon: 'assets/images/cards/spells/spell-gloria-latente.webp',
+    bgImage: 'assets/images/cards/spells/spell-gloria-latente.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-light.png',
     domain: { elementId: 'luz', attributeId: 'gloria' },
     cost: { luz: 1 },
     castPhases: 3,
@@ -6186,10 +6186,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-tactica-de-guerra.png',
-    spellIcon: 'assets/spell-tactica-de-guerra.png',
-    bgImage: 'assets/spell-tactica-de-guerra.png',
-    skinImage: 'assets/card-skin-water.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-tactica-de-guerra.png',
+    spellIcon: 'assets/images/cards/spells/spell-tactica-de-guerra.png',
+    bgImage: 'assets/images/cards/spells/spell-tactica-de-guerra.png',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
     domain: { elementId: 'agua', attributeId: 'knowledge' },
     cost: {},
     dynamicCost: {
@@ -6292,10 +6292,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-emboscada.webp',
-    spellIcon: 'assets/spell-emboscada.webp',
-    bgImage: 'assets/spell-emboscada.webp',
-    skinImage: 'assets/card-skin-water.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-emboscada.webp',
+    spellIcon: 'assets/images/cards/spells/spell-emboscada.webp',
+    bgImage: 'assets/images/cards/spells/spell-emboscada.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
     domain: { elementId: 'agua', attributeId: 'knowledge' },
     cost: {},
     dynamicCost: {
@@ -6383,10 +6383,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-interceptar.webp',
-    spellIcon: 'assets/spell-interceptar.webp',
-    bgImage: 'assets/spell-interceptar.webp',
-    skinImage: 'assets/card-skin-water.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-interceptar.webp',
+    spellIcon: 'assets/images/cards/spells/spell-interceptar.webp',
+    bgImage: 'assets/images/cards/spells/spell-interceptar.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-water.png',
     domain: { elementId: 'agua', attributeId: 'knowledge' },
     cost: { agua: 2 },
     castPhases: 2,
@@ -6484,9 +6484,9 @@ const CARD_LIBRARY = {
     cardType: 'ability',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/ability-shirahadori.webp',
-    spellIcon: 'assets/ability-shirahadori.webp',
-    bgImage: 'assets/ability-shirahadori.webp',
+    thumbnailImage: 'assets/images/cards/abilities/ability-shirahadori.webp',
+    spellIcon: 'assets/images/cards/abilities/ability-shirahadori.webp',
+    bgImage: 'assets/images/cards/abilities/ability-shirahadori.webp',
     skinImage: CATALYST_SKIN_ASSET,
     domain: { elementId: 'catalizadora', attributeId: 'universal', universal: true },
     isCatalyst: true,
@@ -6569,10 +6569,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-nagayoru.webp',
-    spellIcon: 'assets/spell-nagayoru.webp',
-    bgImage: 'assets/spell-nagayoru.webp',
-    skinImage: 'assets/card-skin-darkness.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-nagayoru.webp',
+    spellIcon: 'assets/images/cards/spells/spell-nagayoru.webp',
+    bgImage: 'assets/images/cards/spells/spell-nagayoru.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 4, random: 2 },
     castPhases: 5,
@@ -6670,10 +6670,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-tentorou.webp',
-    spellIcon: 'assets/spell-tentorou.webp',
-    bgImage: 'assets/spell-tentorou.webp',
-    skinImage: 'assets/card-skin-light.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-tentorou.webp',
+    spellIcon: 'assets/images/cards/spells/spell-tentorou.webp',
+    bgImage: 'assets/images/cards/spells/spell-tentorou.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-light.png',
     domain: { elementId: 'luz', attributeId: 'proteccion' },
     cost: { luz: 2 },
     castPhases: 3,
@@ -6767,10 +6767,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-kouuten.webp',
-    spellIcon: 'assets/spell-kouuten.webp',
-    bgImage: 'assets/spell-kouuten.webp',
-    skinImage: 'assets/card-skin-fire.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-kouuten.webp',
+    spellIcon: 'assets/images/cards/spells/spell-kouuten.webp',
+    bgImage: 'assets/images/cards/spells/spell-kouuten.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 1 },
     castPhases: 2,
@@ -6863,10 +6863,10 @@ const CARD_LIBRARY = {
     cardType: 'spell',
     composition: 'backgroundSkin',
     usesArtLayer: false,
-    thumbnailImage: 'assets/spell-guren-gan.webp',
-    spellIcon: 'assets/spell-guren-gan.webp',
-    bgImage: 'assets/spell-guren-gan.webp',
-    skinImage: 'assets/card-skin-fire.png',
+    thumbnailImage: 'assets/images/cards/spells/spell-guren-gan.webp',
+    spellIcon: 'assets/images/cards/spells/spell-guren-gan.webp',
+    bgImage: 'assets/images/cards/spells/spell-guren-gan.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 4, random: 2 },
     castPhases: 5,
@@ -6959,10 +6959,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/akari-art.png',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/akari-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/akari-art.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/tokens/akari-token.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 2, random: 1 },
     castPhases: 2,
@@ -7015,10 +7015,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/kurayami-card.png',
-    skinImage: 'assets/card-skin-darkness.png',
-    tokenImage: 'assets/kurayami-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/kurayami-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
+    tokenImage: 'assets/images/cards/characters/tokens/kurayami-token.png',
     domain: { elementId: 'oscuridad', attributeId: 'misterio' },
     cost: { oscuridad: 4, random: 3 },
     castPhases: 2,
@@ -7083,10 +7083,10 @@ const CARD_LIBRARY = {
     family: 'ninja',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/minokage-no-kurai-card.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/minokage-no-kurai-card.png',
     skinImage: CATALYST_SKIN_ASSET,
-    tokenImage: 'assets/minokage-no-kurai-token.png',
+    tokenImage: 'assets/images/cards/characters/tokens/minokage-no-kurai-token.png',
     domain: { elementId: 'catalizadora', attributeId: 'universal', universal: true },
     isCatalyst: true,
     cost: { random: 5 },
@@ -7155,10 +7155,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/kaguya-carta.png',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/kaguya-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/kaguya-carta.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/tokens/kaguya-token.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     domainGrantedFactors: [{ id: 'burn', level: 2, source: 'domain', sourceType: 'domain', elementId: 'fuego' }],
     cost: { fuego: 2, random: 1 },
@@ -7210,10 +7210,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/nobunaga-carta.png',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/nobunaga-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/nobunaga-carta.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/tokens/nobunaga-token.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 3, random: 1 },
     castPhases: 5,
@@ -7267,10 +7267,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/karunobu-taicho-card.png',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/karunobu-taicho-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/karunobu-taicho-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/tokens/karunobu-taicho-token.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 2, random: 1 },
     castPhases: 3,
@@ -7338,10 +7338,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'none',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/takeda-shingen-card.png',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/takeda-shingen-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/takeda-shingen-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/tokens/takeda-shingen-token.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 3, random: 1 },
     castPhases: 2,
@@ -7399,10 +7399,10 @@ const CARD_LIBRARY = {
     family: 'ronin',
     familyPosition: 'none',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/miyamoto-musashi-card.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/miyamoto-musashi-card.png',
     skinImage: CATALYST_SKIN_ASSET,
-    tokenImage: 'assets/miyamoto-musashi-token.png',
+    tokenImage: 'assets/images/cards/characters/tokens/miyamoto-musashi-token.png',
     domain: { elementId: 'catalizadora', attributeId: 'universal', universal: true },
     isCatalyst: true,
     cost: { random: 7 },
@@ -7489,10 +7489,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/bushi-inquebrantable-card.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/bushi-inquebrantable-card.png',
     skinImage: CATALYST_SKIN_ASSET,
-    tokenImage: 'assets/bushi-inquebrantable-token.png',
+    tokenImage: 'assets/images/cards/characters/tokens/bushi-inquebrantable-token.png',
     domain: { elementId: 'catalizadora', attributeId: 'universal', universal: true },
     isCatalyst: true,
     cost: { random: 3 },
@@ -7554,10 +7554,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/bushi-iniciado-card.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/bushi-iniciado-card.png',
     skinImage: CATALYST_SKIN_ASSET,
-    tokenImage: 'assets/bushi-iniciado-token.png',
+    tokenImage: 'assets/images/cards/characters/tokens/bushi-iniciado-token.png',
     domain: { elementId: 'catalizadora', attributeId: 'universal', universal: true },
     isCatalyst: true,
     cost: { random: 1 },
@@ -7621,10 +7621,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/regente-kishimoto-card.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/regente-kishimoto-card.png',
     skinImage: CATALYST_SKIN_ASSET,
-    tokenImage: 'assets/regente-kishimoto-token.png',
+    tokenImage: 'assets/images/cards/characters/tokens/regente-kishimoto-token.png',
     domain: { elementId: 'catalizadora', attributeId: 'universal', universal: true },
     isCatalyst: true,
     cost: { random: 3 },
@@ -7687,10 +7687,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'none',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/o-sensei-ueshiba-card.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/o-sensei-ueshiba-card.png',
     skinImage: CATALYST_SKIN_ASSET,
-    tokenImage: 'assets/o-sensei-ueshiba-token.png',
+    tokenImage: 'assets/images/cards/characters/tokens/o-sensei-ueshiba-token.png',
     domain: { elementId: 'catalizadora', attributeId: 'universal', universal: true },
     isCatalyst: true,
     cost: { random: 3 },
@@ -7753,10 +7753,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/toyotomi-hideyoshi-token.webp',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/toyotomi-hideyoshi-art.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/tokens/toyotomi-hideyoshi-token.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/illustrations/toyotomi-hideyoshi-art.png',
     tokenDebugName: 'toyotomi-hideyoshi-art.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 2, random: 1 },
@@ -7811,10 +7811,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-darkness.jpg',
-    artImage: 'assets/bushi-card.png',
-    skinImage: 'assets/card-skin-fire.png',
-    tokenImage: 'assets/bushi-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-darkness.jpg',
+    artImage: 'assets/images/cards/characters/illustrations/bushi-card.png',
+    skinImage: 'assets/images/cards/skins/card-skin-fire.png',
+    tokenImage: 'assets/images/cards/characters/tokens/bushi-token.png',
     domain: { elementId: 'fuego', attributeId: 'destruccion' },
     cost: { fuego: 2 },
     castPhases: 1,
@@ -7871,10 +7871,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-light-domain.webp',
-    artImage: 'assets/shiro-no-bushi-card.webp',
-    skinImage: 'assets/card-skin-light.png',
-    tokenImage: 'assets/shiro-no-bushi-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-light-domain.webp',
+    artImage: 'assets/images/cards/characters/illustrations/shiro-no-bushi-card.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-light.png',
+    tokenImage: 'assets/images/cards/characters/tokens/shiro-no-bushi-token.png',
     domain: { elementId: 'luz', attributeId: 'revelacion' },
     cost: { luz: 4 },
     castPhases: 2,
@@ -7931,10 +7931,10 @@ const CARD_LIBRARY = {
     family: 'samurai',
     familyPosition: 'prefix',
     type: 'invocation',
-    bgImage: 'assets/card-bg-light-domain.webp',
-    artImage: 'assets/shinra-hitokiri-card.webp',
-    skinImage: 'assets/card-skin-light.png',
-    tokenImage: 'assets/shinra-hitokiri-token.png',
+    bgImage: 'assets/images/cards/backgrounds/card-bg-light-domain.webp',
+    artImage: 'assets/images/cards/characters/illustrations/shinra-hitokiri-card.webp',
+    skinImage: 'assets/images/cards/skins/card-skin-light.png',
+    tokenImage: 'assets/images/cards/characters/tokens/shinra-hitokiri-token.png',
     domain: { elementId: 'luz', attributeId: 'revelacion' },
     cost: { luz: 4, random: 2 },
     castPhases: 3,
@@ -10262,16 +10262,16 @@ function getElementSkinForCard(card, elementId = null) {
   if (isCatalystCard(card)) return card?.skinImage || CATALYST_SKIN_ASSET;
   const id = elementId || getCardElementId(card);
   const assetSet = ELEMENT_EXTRACTION_ASSETS[id];
-  return assetSet?.skinImage || card?.skinImage || 'assets/card-skin-darkness.png';
+  return assetSet?.skinImage || card?.skinImage || 'assets/images/cards/skins/card-skin-darkness.png';
 }
 
 function getElementBackgroundForCard(card, elementId = null) {
-  if (isCatalystCard(card)) return card?.bgImage || DOMAIN_CARD_BACKGROUND_ASSETS.catalizadora || 'assets/card-bg-darkness.jpg';
+  if (isCatalystCard(card)) return card?.bgImage || DOMAIN_CARD_BACKGROUND_ASSETS.catalizadora || 'assets/images/cards/backgrounds/card-bg-darkness.jpg';
   const typeId = getCardTypeId(card);
   const eligibleTypes = new Set(['invocation', 'kaster', 'structure']);
-  if (!eligibleTypes.has(typeId)) return card?.bgImage || 'assets/card-bg-darkness.jpg';
+  if (!eligibleTypes.has(typeId)) return card?.bgImage || 'assets/images/cards/backgrounds/card-bg-darkness.jpg';
   const id = elementId || getCardElementId(card);
-  return DOMAIN_CARD_BACKGROUND_ASSETS[id] || card?.bgImage || 'assets/card-bg-darkness.jpg';
+  return DOMAIN_CARD_BACKGROUND_ASSETS[id] || card?.bgImage || 'assets/images/cards/backgrounds/card-bg-darkness.jpg';
 }
 
 function getUnitElementId(playerId, unit) {
@@ -12751,8 +12751,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleOrdinary',
       name: 'Muestra de Rareza · Ordinaria',
       rarityId: 'ordinary',
-      thumbnailImage: 'assets/spell-gloria-latente.webp',
-      skinImage: 'assets/card-skin-light.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-gloria-latente.webp',
+      skinImage: 'assets/images/cards/skins/card-skin-light.png',
       elementId: 'luz',
       attributeId: 'equilibrio',
       cost: { luz: 1 },
@@ -12762,8 +12762,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleUncommon',
       name: 'Muestra de Rareza · Poco ordinaria',
       rarityId: 'uncommon',
-      thumbnailImage: 'assets/spell-tactica-de-guerra.png',
-      skinImage: 'assets/card-skin-water.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-tactica-de-guerra.png',
+      skinImage: 'assets/images/cards/skins/card-skin-water.png',
       elementId: 'agua',
       attributeId: 'estrategia',
       cost: { agua: 1 },
@@ -12773,8 +12773,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleExtraordinary',
       name: 'Muestra de Rareza · Extraordinaria',
       rarityId: 'extraordinary',
-      thumbnailImage: 'assets/spell-emboscada.webp',
-      skinImage: 'assets/card-skin-darkness.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-emboscada.webp',
+      skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
       elementId: 'oscuridad',
       attributeId: 'acecho',
       cost: { oscuridad: 1, agua: 1 },
@@ -12784,8 +12784,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleSingular',
       name: 'Muestra de Rareza · Singular',
       rarityId: 'singular',
-      thumbnailImage: 'assets/spell-nagayoru.webp',
-      skinImage: 'assets/card-skin-darkness.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-nagayoru.webp',
+      skinImage: 'assets/images/cards/skins/card-skin-darkness.png',
       elementId: 'oscuridad',
       attributeId: 'noche',
       cost: { oscuridad: 2 },
@@ -12795,8 +12795,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleInfrequent',
       name: 'Muestra de Rareza · Infrecuente',
       rarityId: 'infrequent',
-      thumbnailImage: 'assets/spell-kouuten.webp',
-      skinImage: 'assets/card-skin-fire.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-kouuten.webp',
+      skinImage: 'assets/images/cards/skins/card-skin-fire.png',
       elementId: 'fuego',
       attributeId: 'asalto',
       cost: { fuego: 2 },
@@ -12806,8 +12806,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleUnusual',
       name: 'Muestra de Rareza · Inhabitual',
       rarityId: 'unusual',
-      thumbnailImage: 'assets/spell-carga-real.png',
-      skinImage: 'assets/card-skin-light.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-carga-real.png',
+      skinImage: 'assets/images/cards/skins/card-skin-light.png',
       elementId: 'luz',
       attributeId: 'honor',
       cost: { luz: 2, fuego: 1 },
@@ -12817,8 +12817,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleStrange',
       name: 'Muestra de Rareza · Extraña',
       rarityId: 'strange',
-      thumbnailImage: 'assets/spell-interceptar.webp',
-      skinImage: 'assets/card-skin-water.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-interceptar.webp',
+      skinImage: 'assets/images/cards/skins/card-skin-water.png',
       elementId: 'agua',
       attributeId: 'artimaña',
       cost: { agua: 2, oscuridad: 1 },
@@ -12828,8 +12828,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleMythic',
       name: 'Muestra de Rareza · Mítica',
       rarityId: 'mythic',
-      thumbnailImage: 'assets/spell-guren-gan.webp',
-      skinImage: 'assets/card-skin-fire.png',
+      thumbnailImage: 'assets/images/cards/spells/spell-guren-gan.webp',
+      skinImage: 'assets/images/cards/skins/card-skin-fire.png',
       elementId: 'fuego',
       attributeId: 'cataclismo',
       cost: { fuego: 3, oscuridad: 1 },
@@ -12839,8 +12839,8 @@ function registerBoosterDebugSampleCards() {
       id: 'debugBoosterSampleLegendary',
       name: 'Muestra de Rareza · Legendaria',
       rarityId: 'legendary',
-      thumbnailImage: 'assets/kaguya-carta.png',
-      skinImage: 'assets/card-skin-light.png',
+      thumbnailImage: 'assets/images/cards/characters/illustrations/kaguya-carta.png',
+      skinImage: 'assets/images/cards/skins/card-skin-light.png',
       elementId: 'luz',
       attributeId: 'trascendencia',
       cost: { luz: 3, fuego: 1, agua: 1 },
@@ -21358,12 +21358,12 @@ const ADVENTURE_WORLD_ZONES = [
 const ROK_ARENA_REGISTRY = Object.freeze({
   classic: Object.freeze({
     id: 'classic', label: 'Arena Japonesa',
-    previewImage: 'assets/arenas/previews/japan.webp', battleImage: 'assets/arena.webp',
+    previewImage: 'assets/arenas/previews/japan.webp', battleImage: 'assets/images/arenas/backgrounds/arena.webp',
     pvp: true, adventure: false, tutorial: false,
   }),
   egypt: Object.freeze({
     id: 'egypt', label: 'Arena Egipcia',
-    previewImage: 'assets/arenas/previews/egypt.webp', battleImage: 'assets/arena-egipto.webp',
+    previewImage: 'assets/arenas/previews/egypt.webp', battleImage: 'assets/images/arenas/backgrounds/arena-egipto.webp',
     pvp: true, adventure: false, tutorial: false,
   }),
   kiara: Object.freeze({
@@ -21418,7 +21418,7 @@ const ADVENTURE_WATER_ENCOUNTERS = [
     gender: 'female',
     available: true,
     marker: { x: 58.5, y: 58.0 },
-    image: 'assets/adventure/casters/enigma-apprentice.png',
+    image: 'assets/images/cards/casters/portraits/enigma-apprentice.png',
     arenaId: 'kiara',
     domain: 'Agua · Conocimiento',
     domains: [
@@ -21475,7 +21475,7 @@ const ADVENTURE_WATER_ENCOUNTERS = [
     gender: 'male',
     available: true,
     marker: { x: 58.0, y: 15.7 },
-    image: 'assets/adventure/casters/kaelor-rompiente.png',
+    image: 'assets/images/cards/casters/portraits/kaelor-rompiente.png',
     arenaId: 'kaelor',
     domain: 'Agua · Conocimiento',
     domains: [
@@ -21532,7 +21532,7 @@ const ADVENTURE_WATER_ENCOUNTERS = [
     gender: 'none',
     available: true,
     marker: { x: 49.4, y: 34.5 },
-    image: 'assets/adventure/casters/sahrkel-oraculo-abisal.png',
+    image: 'assets/images/cards/casters/portraits/sahrkel-oraculo-abisal.png',
     arenaId: 'sahrkel',
     domain: 'Agua · Conocimiento',
     domains: [
@@ -21589,7 +21589,7 @@ const ADVENTURE_WATER_ENCOUNTERS = [
     gender: 'male',
     available: true,
     marker: { x: 52.0, y: 74.0 },
-    image: 'assets/adventure/casters/ilyan-marea-electrica.png',
+    image: 'assets/images/cards/casters/portraits/ilyan-marea-electrica.png',
     arenaId: 'ilyan',
     domain: 'Agua · Conocimiento + Rayo · Energía',
     domains: [
@@ -21648,7 +21648,7 @@ const ADVENTURE_WATER_ENCOUNTERS = [
     gender: 'male',
     available: true,
     marker: { x: 54.2, y: 89.2 },
-    image: 'assets/adventure/casters/aurek-sabio-belico.png',
+    image: 'assets/images/cards/casters/portraits/aurek-sabio-belico.png',
     arenaId: 'aurek',
     domain: 'Agua · Conocimiento + Luz · Revelación + Oscuridad · Misterio',
     domains: [
@@ -21705,7 +21705,7 @@ const ADVENTURE_PLAYER_CASTERS = [
     id: 'starter-player-kaster',
     label: 'Lioren',
     subtitle: 'Extractora · Sanadora',
-    image: 'assets/adventure/player/default-player-kaster.png',
+    image: 'assets/images/cards/casters/portraits/default-player-kaster.png',
     casterQualities: ['Extractor', 'Sanador'],
     raceId: '',
     raceLabel: 'Raza por definir',
@@ -21738,9 +21738,9 @@ const ADVENTURE_PLAYER_CASTERS = [
 ];
 
 const ADVENTURE_PREVIEW_INVOCATION_ART = [
-  'assets/invocation-art.png',
-  'assets/bushi-iniciado-token.png',
-  'assets/kaguya-token.png'
+  'assets/images/cards/summons/invocation-art.png',
+  'assets/images/cards/characters/tokens/bushi-iniciado-token.png',
+  'assets/images/cards/characters/tokens/kaguya-token.png'
 ];
 
 const adventureState = {
@@ -22411,7 +22411,7 @@ function getAdventureArenaConfig(encounter) {
     id: registered?.id || registryId || '',
     label: custom.label || registered?.label || fallbackLabel,
     previewImage: custom.previewImage || registered?.previewImage || 'assets/adventure/water-region-map.webp',
-    battleImage: custom.battleImage || registered?.battleImage || 'assets/arena.webp',
+    battleImage: custom.battleImage || registered?.battleImage || 'assets/images/arenas/backgrounds/arena.webp',
     previewFocusX: Number.isFinite(Number(custom.previewFocusX)) ? Number(custom.previewFocusX) : 50,
     previewFocusY: Number.isFinite(Number(custom.previewFocusY)) ? Number(custom.previewFocusY) : 50,
     battleFocusX: Number.isFinite(Number(custom.battleFocusX)) ? Number(custom.battleFocusX) : 50,
@@ -22888,7 +22888,7 @@ function getLoadoutCasterIntroData(loadout = null, fallbackName = 'Kaster') {
   return {
     card: casterCard,
     name: casterCard?.name || casterDef?.name || fallbackName,
-    image: casterDef?.tokenImage || casterCard?.tokenImage || casterDef?.artImage || casterCard?.artImage || 'assets/caster-hanzo.png',
+    image: casterDef?.tokenImage || casterCard?.tokenImage || casterDef?.artImage || casterCard?.artImage || 'assets/images/cards/casters/caster-hanzo.png',
     elementId: getCardElementId(casterCard),
     domainColors: domains,
     layoutKey: casterCard?.id ? `kaster:${casterCard.id}` : (casterDef?.cardId ? `kaster:${casterDef.cardId}` : ''),
@@ -23274,11 +23274,11 @@ function renderRpsChoiceCardMarkup(choice, playerId, options = {}) {
   const cardLabel = String(item.label || '').toUpperCase();
   return `<div class="rps-card rps-card-domain${hidden ? ' is-hidden' : ''}" style="--rps-primary:${palette.dominant};--rps-secondary:${palette.secondary}" data-rps-domain="${assets.elementId}">
     <div class="rps-card-core">
-      <img class="rps-card-layer rps-card-bgimg" src="${assets.bgImage}" alt="fondo ${assets.elementId}" onerror="this.onerror=null;this.src='assets/card-bg-darkness.jpg';">
+      <img class="rps-card-layer rps-card-bgimg" src="${assets.bgImage}" alt="fondo ${assets.elementId}" onerror="this.onerror=null;this.src='assets/images/cards/backgrounds/card-bg-darkness.jpg';">
       <div class="rps-card-art-shell">
         ${hidden ? '<div class="rps-card-question">?</div>' : `<img class="rps-card-layer rps-card-artimg" src="${item.image}" alt="${item.label}">`}
       </div>
-      <img class="rps-card-layer rps-card-skinimg" src="${assets.skinImage}" alt="skin ${assets.elementId}" onerror="this.onerror=null;this.src='assets/card-skin-darkness.png';">
+      <img class="rps-card-layer rps-card-skinimg" src="${assets.skinImage}" alt="skin ${assets.elementId}" onerror="this.onerror=null;this.src='assets/images/cards/skins/card-skin-darkness.png';">
       <div class="rps-card-titlebar">${cardLabel}</div>
     </div>
   </div>`;
@@ -28001,7 +28001,7 @@ function updateLibraryBuilderModeUi() {
     els.libraryBuilderCasterChip.disabled = !showCasterButton;
     if (showCasterButton) {
       const image = document.createElement('img');
-      image.src = caster.tokenImage || caster.artImage || 'assets/caster-hanzo.png';
+      image.src = caster.tokenImage || caster.artImage || 'assets/images/cards/casters/caster-hanzo.png';
       image.alt = caster.name || 'Kaster';
       const copy = document.createElement('span');
       copy.className = 'library-builder-caster-chip-copy';
@@ -29586,7 +29586,7 @@ function renderVisualDevCardList() {
       <div class="visual-dev-list visual-dev-card-list">
         ${cards.map(card => `
           <button type="button" class="visual-dev-item visual-dev-card-item ${selected?.id === card.id ? 'selected' : ''}" data-visual-dev-card="${card.id}">
-            <span class="visual-dev-card-mini"><img src="${card.tokenImage || card.artImage || 'assets/invocation-token.png'}" alt="${card.name}"></span>
+            <span class="visual-dev-card-mini"><img src="${card.tokenImage || card.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt="${card.name}"></span>
             <span>${card.name}</span>
           </button>`).join('')}
       </div>
@@ -29615,7 +29615,7 @@ function renderVisualDevInspector(group, card = null) {
       ]
     : group.sections || [];
   const iconContent = card
-    ? `<img src="${card.tokenImage || card.artImage || 'assets/invocation-token.png'}" alt="${card.name}">`
+    ? `<img src="${card.tokenImage || card.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt="${card.name}">`
     : group.icon;
   return `
     <div class="visual-dev-inspector">
@@ -29845,7 +29845,7 @@ const POWER_DB = {
     id: 'farolEnlazado',
     label: 'Farol Enlazado',
     name: 'Farol Enlazado',
-    icon: 'assets/kiara/farolera-del-umbral-lampara.png',
+    icon: 'assets/images/props/kiara/farolera-del-umbral-lampara.png',
     semanticBranches: [{ activation: 'active', categories: ['magic', 'virtual'], orientation: 'tactical', focuses: ['positioning', 'mobility'] }],
     activation: 'Activa · 2 etapas',
     category: 'Mágica · Estratégica · Portal · Estándar',
@@ -29861,7 +29861,7 @@ const POWER_DB = {
     id: 'dominacionMental',
     label: 'Dominación Mental',
     name: 'Dominación Mental',
-    icon: 'assets/kiara/maeryn-arconte-de-la-mente-token.png',
+    icon: 'assets/images/cards/summons/kiara/maeryn-arconte-de-la-mente-token.png',
     semanticBranches: [{ activation: 'active', category: 'psychic', orientation: 'control', focuses: ['domination'] }],
     activation: 'Activa',
     category: 'Psíquica · Control · Dominación',
@@ -29883,7 +29883,7 @@ const POWER_DB = {
     id: 'menteColectiva',
     label: 'Mente Colectiva',
     name: 'Mente Colectiva',
-    icon: 'assets/kiara/maeryn-arconte-de-la-mente-token.png',
+    icon: 'assets/images/cards/summons/kiara/maeryn-arconte-de-la-mente-token.png',
     semanticBranches: [{ activations: ['passive', 'trigger'], category: 'psychic', orientation: 'support', focuses: ['cooldown'] }],
     activation: 'Pasiva',
     category: 'Psíquica · Sinergia · Enfriamiento',
@@ -29901,7 +29901,7 @@ const POWER_DB = {
     id: 'supremaciaPsiquica',
     label: 'Supremacía Psíquica',
     name: 'Supremacía Psíquica',
-    icon: 'assets/kiara/maeryn-arconte-de-la-mente-token.png',
+    icon: 'assets/images/cards/summons/kiara/maeryn-arconte-de-la-mente-token.png',
     semanticBranches: [{ activation: 'passive', category: 'psychic', orientation: 'offensive', focuses: ['range', 'areaDamage'] }],
     activation: 'Pasiva',
     category: 'Psíquica · Ofensiva · Estado',
@@ -29938,7 +29938,7 @@ const POWER_DB = {
     id: 'saltoInstintivoUmbral',
     label: 'Salto Instintivo',
     name: 'Salto Instintivo',
-    icon: 'assets/kiara/neru-susurro-umbral-token.png',
+    icon: 'assets/images/cards/summons/kiara/neru-susurro-umbral-token.png',
     semanticBranches: [{ activations: ['reaction', 'passive'], categories: ['magic', 'virtual'], orientation: 'defensive', focuses: ['evasion', 'teleport'] }],
     activation: 'Reacción pasiva',
     category: 'Mágica · Reacción · Reposicionamiento',
@@ -29959,7 +29959,7 @@ const POWER_DB = {
     id: 'resonanciaConvergente',
     label: 'Resonancia Convergente',
     name: 'Resonancia Convergente',
-    icon: 'assets/kiara/edran-custodio-arcano-token.png',
+    icon: 'assets/images/cards/summons/kiara/edran-custodio-arcano-token.png',
     semanticBranches: [{ activations: ['passive', 'trigger'], categories: ['magic', 'psychic'], orientation: 'offensive', focuses: ['resonance', 'areaDamage'] }],
     activation: 'Pasiva',
     category: 'Mágica · Psíquica · Ofensiva · Acumulativa',
@@ -30020,7 +30020,7 @@ const POWER_DB = {
     id: 'distorsionEspacial',
     label: 'Distorsión Espacial',
     name: 'Distorsión Espacial',
-    icon: 'assets/kiara/seyran-geometra-umbral-token.png',
+    icon: 'assets/images/cards/summons/kiara/seyran-geometra-umbral-token.png',
     semanticBranches: [{ activation: 'active', categories: ['magic', 'virtual'], orientations: ['tactical', 'control'], focuses: ['displacement', 'positioning'] }],
     activation: 'Activa',
     category: 'Mágica · Estratégica · Posicionamiento · Estándar',
@@ -30041,7 +30041,7 @@ const POWER_DB = {
     id: 'geometriaInvasora',
     label: 'Geometría Invasora',
     name: 'Geometría Invasora',
-    icon: 'assets/kiara/seyran-geometra-umbral-art.png',
+    icon: 'assets/images/cards/summons/kiara/seyran-geometra-umbral-art.png',
     semanticBranches: [{ activation: 'passive', categories: ['magic', 'virtual'], orientation: 'offensive', focuses: ['precision', 'range'] }],
     activation: 'Pasiva',
     category: 'Mágica · Ofensiva · Posicional · Estándar',
@@ -30061,7 +30061,7 @@ const POWER_DB = {
     id: 'aprenderShirahadori',
     label: 'Permite aprender Shirahadori',
     name: 'Permite aprender Shirahadori',
-    icon: 'assets/ability-shirahadori.webp',
+    icon: 'assets/images/cards/abilities/ability-shirahadori.webp',
     activation: 'Habilidad',
     category: 'Técnica · Aprendizaje · Permanente',
     classification: { applicationModes: ['active'], applicationTags: ['technique', 'consumable'], natures: ['physical', 'virtual'], functionalCategories: ['defensive', 'learning', 'redirection'] },
@@ -30076,7 +30076,7 @@ const POWER_DB = {
     id: 'sombraClanOda',
     label: 'Sombra del clan Oda',
     name: 'Sombra del clan Oda',
-    icon: 'assets/oda-no-kage-token.png',
+    icon: 'assets/images/cards/characters/tokens/oda-no-kage-token.png',
     activation: 'Pasiva / Activa',
     category: 'Física · Vínculo · Estratégica · Estándar',
     classification: { applicationModes: ['passive', 'active'], applicationTags: ['standard'], natures: ['physical', 'virtual'], functionalCategories: ['execution', 'link', 'defensive', 'positioning'] },
@@ -30090,7 +30090,7 @@ const POWER_DB = {
     id: 'bukiUtsushi',
     label: 'Buki Utsushi',
     name: 'Buki Utsushi',
-    icon: 'assets/kurokagi-butai-3-token-v286.png',
+    icon: 'assets/images/cards/characters/tokens/kurokagi-butai-3-token-v286.png',
     activation: 'Disparador / Activa',
     category: 'Físico · Táctico · Desarmar',
     semanticBranches: [
@@ -30112,7 +30112,7 @@ const POWER_DB = {
     id: 'mercanciaDeGuerra',
     label: 'Mercancía de guerra',
     name: 'Mercancía de guerra',
-    icon: 'assets/gioshonin-token.png',
+    icon: 'assets/images/cards/characters/tokens/gioshonin-token.png',
     activation: 'Pasiva / Activa',
     category: 'Virtual · Ofensiva · Táctica · Estándar',
     classification: { applicationModes: ['passive', 'active'], applicationTags: ['cost', 'standard'], natures: ['virtual', 'tactical'], functionalCategories: ['support', 'recovery', 'equipment', 'resourceManagement'] },
@@ -30181,7 +30181,7 @@ const POWER_DB = {
     id: 'sabotajeApresurado',
     label: 'Sabotaje apresurado',
     name: 'Sabotaje apresurado',
-    icon: 'assets/saqueador-novato-token.png',
+    icon: 'assets/images/cards/characters/tokens/saqueador-novato-token.png',
     activation: 'Pasiva',
     category: 'Física · Estratégica · Estándar',
     classification: { applicationModes: ['passive'], applicationTags: ['standard'], natures: ['physical', 'tactical'], functionalCategories: ['concealment', 'sabotage', 'resourceManagement'] },
@@ -30195,7 +30195,7 @@ const POWER_DB = {
     id: 'shizukesaNoShiin',
     label: 'Shizukesa no Shi-in',
     name: 'Shizukesa no Shi-in',
-    icon: 'assets/kurayami-token.png',
+    icon: 'assets/images/cards/characters/tokens/kurayami-token.png',
     activation: 'Activa',
     category: 'Físico · Ofensivo · Daño',
     semanticBranches: [
@@ -30227,7 +30227,7 @@ const POWER_DB = {
     id: 'kurayamiNinjaAura',
     label: 'Shinobi no Kōshin',
     name: 'Shinobi no Kōshin',
-    icon: 'assets/kurayami-token.png',
+    icon: 'assets/images/cards/characters/tokens/kurayami-token.png',
     activation: 'Pasiva',
     category: 'Físico · Ofensivo · Velocidad / Precisión',
     semanticBranches: [
@@ -30245,7 +30245,7 @@ const POWER_DB = {
     id: 'densetsuNoSennyu',
     label: 'Densetsu no Sennyū',
     name: 'Densetsu no Sennyū',
-    icon: 'assets/ichikawa-goemon-token.png',
+    icon: 'assets/images/cards/characters/tokens/ichikawa-goemon-token.png',
     activation: 'Disparador',
     category: 'Virtual · Táctico · Movilidad',
     semanticBranches: [
@@ -30661,7 +30661,7 @@ const ABILITY_DB = {
     id: 'despliegueAnticipado',
     label: 'Despliegue anticipado',
     name: 'Despliegue anticipado',
-    icon: 'assets/spell-despliegue-anticipado.webp',
+    icon: 'assets/images/cards/spells/spell-despliegue-anticipado.webp',
     activation: 'Hechizo',
     category: 'Virtual · Táctica',
     classification: { applicationModes: ['active', 'continuous'], applicationTags: ['linked'], natures: ['virtual', 'tactical'], functionalCategories: ['support', 'costReduction', 'link'] },
@@ -30675,7 +30675,7 @@ const ABILITY_DB = {
     id: 'cargaReal',
     label: 'Carga Real',
     name: 'Carga Real',
-    icon: 'assets/spell-carga-real.png',
+    icon: 'assets/images/cards/spells/spell-carga-real.png',
     activation: 'Hechizo',
     classification: { applicationModes: ['active'], applicationTags: ['instant'], natures: ['physical', 'tactical'], functionalCategories: ['offensive', 'control', 'displacement', 'area'] },
     semanticBranches: [{ activation: 'active', categories: ['physical', 'tactical'], orientations: ['offensive', 'control'], focuses: ['areaDamage', 'displacement', 'stun'] }],
@@ -36513,7 +36513,7 @@ async function playFarolLanternThrowFx(playerId, unit, row, col) {
   lamp.style.left = `${from.x}%`;
   lamp.style.top = `${from.y}%`;
   lamp.style.setProperty('--farol-portal-color', color);
-  lamp.innerHTML = '<img src="assets/kiara/farolera-del-umbral-lampara.png" alt="">';
+  lamp.innerHTML = '<img src="assets/images/props/kiara/farolera-del-umbral-lampara.png" alt="">';
   layer.appendChild(lamp);
 
   const midpointX = from.x + ((to.x - from.x) * .5);
@@ -36830,7 +36830,7 @@ function renderFarolPortals() {
     if (!lamp) {
       lamp = document.createElement('span');
       lamp.className = 'farol-portal-lantern';
-      lamp.innerHTML = '<img src="assets/kiara/farolera-del-umbral-lampara.png" alt="">';
+      lamp.innerHTML = '<img src="assets/images/props/kiara/farolera-del-umbral-lampara.png" alt="">';
       wrapper.appendChild(lamp);
     }
     lamp.style.left = `${destination.x}%`;
@@ -37180,7 +37180,7 @@ function beginHattoriAbilitySelection(playerId, options = {}) {
       button.type = 'button';
       button.className = 'hattori-ability-unit';
       button.classList.toggle('selected', selected.has(String(unit.id)));
-      button.innerHTML = `<img src="${card?.tokenImage || card?.artImage || 'assets/invocation-token.png'}" alt=""><span>${card?.name || 'Invocación'}</span><small>${coordLabel(unit.row, unit.col)}</small>`;
+      button.innerHTML = `<img src="${card?.tokenImage || card?.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt=""><span>${card?.name || 'Invocación'}</span><small>${coordLabel(unit.row, unit.col)}</small>`;
       button.addEventListener('click', event => {
         stopTargetMenuEvent(event);
         const key = String(unit.id);
@@ -37381,7 +37381,7 @@ function beginTokugawaAbilitySelection(playerId) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'tokugawa-ability-unit';
-    button.innerHTML = `<img src="${card?.tokenImage || card?.artImage || 'assets/invocation-token.png'}" alt=""><span>${card?.name || 'Invocación'}</span><small>${coordLabel(unit.row, unit.col)} · Vida ${Number(unit.hp ?? card?.stats?.life ?? 0)}/${Number(unit.maxHp ?? card?.stats?.life ?? 0)}</small>`;
+    button.innerHTML = `<img src="${card?.tokenImage || card?.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt=""><span>${card?.name || 'Invocación'}</span><small>${coordLabel(unit.row, unit.col)} · Vida ${Number(unit.hp ?? card?.stats?.life ?? 0)}/${Number(unit.maxHp ?? card?.stats?.life ?? 0)}</small>`;
     button.addEventListener('click', event => {
       stopTargetMenuEvent(event);
       state.tokugawaAbilitySelectionActive = false;
@@ -37411,7 +37411,7 @@ async function animateTokugawaNexusTransfer(playerId, unit, fromCell, toCell, op
   flyer.style.left = `${from.x}px`;
   flyer.style.top = `${from.y}px`;
   flyer.style.setProperty('--tokugawa-transfer-color', color);
-  flyer.innerHTML = `<img src="${card?.tokenImage || card?.artImage || 'assets/invocation-token.png'}" alt="${card?.name || 'Invocación'}"><span></span>`;
+  flyer.innerHTML = `<img src="${card?.tokenImage || card?.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt="${card?.name || 'Invocación'}"><span></span>`;
   document.body.appendChild(flyer);
   await animateCss(flyer, [
     { left: `${from.x}px`, top: `${from.y}px`, transform: 'translate(-50%, -50%) scale(.86)', opacity: .25, filter: `drop-shadow(0 0 3px ${color})` },
@@ -37639,7 +37639,7 @@ function openKurokagiWeaponSwitchMenu(playerId, unitId) {
     <section class="kurokagi-weapon-modal-card">
       <button type="button" class="kurokagi-weapon-modal-close" data-action="cancel" aria-label="Cerrar">×</button>
       <div class="kurokagi-weapon-modal-header">
-        <img src="assets/kurokagi-butai-3-token-v286.png" alt="Kurokage">
+        <img src="assets/images/cards/characters/tokens/kurokagi-butai-3-token-v286.png" alt="Kurokage">
         <div>
           <span>EQUIPAMIENTO</span>
           <h3>Cambiar de arma</h3>
@@ -37718,7 +37718,7 @@ function openKurokagiWeaponMenu(playerId, unitId) {
     <section class="kurokagi-weapon-modal-card kurokagi-power-action-card">
       <button type="button" class="kurokagi-weapon-modal-close" data-action="cancel" aria-label="Cerrar">×</button>
       <div class="kurokagi-weapon-modal-header">
-        <img src="assets/kurokagi-butai-3-token-v286.png" alt="Kurokage">
+        <img src="assets/images/cards/characters/tokens/kurokagi-butai-3-token-v286.png" alt="Kurokage">
         <div>
           <span>PODER ACTIVO</span>
           <h3>Buki Utsushi</h3>
@@ -37727,7 +37727,7 @@ function openKurokagiWeaponMenu(playerId, unitId) {
       </div>
       <div class="kurokagi-weapon-modal-options">
         <button type="button" class="kurokagi-weapon-option" data-kurokagi-power-action="pickup" ${canPickup ? '' : 'disabled'}>
-          <img src="assets/kurokagi-butai-3-token-v286.png" alt="Buki Utsushi">
+          <img src="assets/images/cards/characters/tokens/kurokagi-butai-3-token-v286.png" alt="Buki Utsushi">
           <span><strong>Activar Buki Utsushi</strong><small>${canPickup ? `Escoge una de las ${getKurokagiBukiPickupCandidates(unit).length} armas caídas disponibles y reemplaza ${captured.label}.` : 'No hay armas desarmadas disponibles en el suelo para recoger.'}</small></span>
         </button>
         <button type="button" class="kurokagi-weapon-option" data-kurokagi-power-action="switch" data-weapon-mode="${switchMode}">
@@ -38277,7 +38277,7 @@ function ensureMinokageYariTrail(root) {
 
 function getMinokageYariSpinMarkup(mode = 'channel') {
   const safeMode = String(mode || 'generic').replace(/[^a-z0-9_-]/gi, '') || 'generic';
-  const src = 'assets/minokage-yari-spin.png';
+  const src = 'assets/images/fx/minokage-yari-spin.png';
   return `<span class="minokage-yari-spin-system minokage-yari-spin-${safeMode}" aria-hidden="true"><span class="minokage-yari-afterimage-layer"></span><span class="minokage-yari-orbit minokage-yari-orbit-main"><img src="${src}" alt=""></span></span>`;
 }
 
@@ -38393,7 +38393,7 @@ async function playMinokageDashFx(playerId, unit, path, landing, targets) {
   movingToken.className = 'minokage-dash-token-fx';
   movingToken.style.left = `${from.x}%`;
   movingToken.style.top = `${from.y}%`;
-  movingToken.innerHTML = `<span class="minokage-dash-visual">${getMinokageYariSpinMarkup('dash')}<img src="${card.tokenImage || 'assets/minokage-no-kurai-token.png'}" alt="Minokage"></span>`;
+  movingToken.innerHTML = `<span class="minokage-dash-visual">${getMinokageYariSpinMarkup('dash')}<img src="${card.tokenImage || 'assets/images/cards/characters/tokens/minokage-no-kurai-token.png'}" alt="Minokage"></span>`;
   els.boardContent.appendChild(movingToken);
   ensureMinokageYariTrail(movingToken.querySelector('.minokage-yari-spin-system'));
   // El salto final de Shippū Ugachi comparte exactamente el mismo trail de
@@ -39427,7 +39427,7 @@ function buildSelectedUnitCommandStatusEntries(context) {
       id: 'status_kurayami_death_seal',
       kind: 'status',
       label: 'Canalizando',
-      icon: power?.icon || 'assets/kurayami-token.png',
+      icon: power?.icon || 'assets/images/cards/characters/tokens/kurayami-token.png',
       count: Math.max(0, Number(unit.kurayamiChannelRemaining ?? 3)),
       title: `Shizukesa no Shi-in · ${Math.max(0, Number(unit.kurayamiChannelRemaining ?? 3))} fase(s) restante(s)`,
       onClick(event) {
@@ -39445,7 +39445,7 @@ function buildSelectedUnitCommandStatusEntries(context) {
       id: 'status_kurayami_power_cooldown',
       kind: 'status',
       label: 'Enfriamiento',
-      icon: power?.icon || 'assets/kurayami-token.png',
+      icon: power?.icon || 'assets/images/cards/characters/tokens/kurayami-token.png',
       count: kurayamiCooldown,
       title: `Shizukesa no Shi-in · enfriamiento ${kurayamiCooldown} fase${kurayamiCooldown === 1 ? '' : 's'}`,
       onClick(event) {
@@ -45208,7 +45208,7 @@ function createMinokageTravelAfterimageFromNode(unit, movingToken) {
   fx.style.width = `${widthPct}%`;
   fx.style.height = `${heightPct}%`;
   fx.style.zIndex = String(470 + Number(unit.row || 0));
-  const tokenSrc = visual.currentSrc || visual.src || (CARD_LIBRARY[unit.cardId]?.tokenImage || 'assets/minokage-no-kurai-token.png');
+  const tokenSrc = visual.currentSrc || visual.src || (CARD_LIBRARY[unit.cardId]?.tokenImage || 'assets/images/cards/characters/tokens/minokage-no-kurai-token.png');
   fx.innerHTML = `<img src="${tokenSrc}" alt="">`;
   els.boardContent.appendChild(fx);
   window.requestAnimationFrame(() => fx.classList.add('is-visible'));
@@ -45316,7 +45316,7 @@ async function playMinokagePassiveTravelFx(playerId, unit, destination, options 
   movingToken.style.left = `${from.x}%`;
   movingToken.style.top = `${from.y}%`;
   const yariMarkup = options.showYari === false ? '' : getMinokageYariSpinMarkup(options.returning ? 'passive-return' : 'passive-travel');
-  movingToken.innerHTML = `<span class="minokage-dash-visual">${yariMarkup}<img src="${card.tokenImage || 'assets/minokage-no-kurai-token.png'}" alt="Minokage"></span>`;
+  movingToken.innerHTML = `<span class="minokage-dash-visual">${yariMarkup}<img src="${card.tokenImage || 'assets/images/cards/characters/tokens/minokage-no-kurai-token.png'}" alt="Minokage"></span>`;
   els.boardContent.appendChild(movingToken);
   const yariSystem = movingToken.querySelector('.minokage-yari-spin-system');
   if (yariSystem) ensureMinokageYariTrail(yariSystem);
@@ -48286,7 +48286,7 @@ function closeYasuganaPowerModal(options = {}) {
 
 function buildYasuganaTargetChoiceHtml(targetUnit, kind) {
   const card = CARD_LIBRARY[targetUnit?.cardId] || {};
-  const image = card.tokenImage || card.artImage || 'assets/invocation-token.png';
+  const image = card.tokenImage || card.artImage || 'assets/images/cards/summons/invocation-token.png';
   const life = Math.max(0, Number(targetUnit?.hp ?? card?.stats?.life ?? 0));
   const effectText = kind === 'yasuganaBlindness'
     ? 'Aplicar Ceguera · −4 Precisión · −1 Velocidad'
@@ -48396,7 +48396,7 @@ function openYasuganaPowerModeMenu(playerId, unitId) {
     <section class="yasugana-power-modal-card">
       <button type="button" class="yasugana-power-modal-close" data-action="cancel" aria-label="Cerrar">×</button>
       <div class="yasugana-power-modal-header">
-        <img src="assets/yasugana-hattori-token.png" alt="Yasugana Hattori">
+        <img src="assets/images/cards/characters/tokens/yasugana-hattori-token.png" alt="Yasugana Hattori">
         <div>
           <span>PODER ACTIVO</span>
           <h3>Poderes de Yasugana Hattori</h3>
@@ -55163,14 +55163,14 @@ function attachLinkHoverHandlers(el, spawnId, playerId, mode) {
 
 
 const MOVE_ARROW_BY_DELTA = {
-  '-1,-1': 'assets/move_ul.jpg',
-  '-1,0': 'assets/move_u.jpg',
-  '-1,1': 'assets/move_ur.jpg',
-  '0,-1': 'assets/move_l.jpg',
-  '0,1': 'assets/move_r.jpg',
-  '1,-1': 'assets/move_dl.jpg',
-  '1,0': 'assets/move_d.jpg',
-  '1,1': 'assets/move_dr.jpg',
+  '-1,-1': 'assets/images/ui/movement/move_ul.jpg',
+  '-1,0': 'assets/images/ui/movement/move_u.jpg',
+  '-1,1': 'assets/images/ui/movement/move_ur.jpg',
+  '0,-1': 'assets/images/ui/movement/move_l.jpg',
+  '0,1': 'assets/images/ui/movement/move_r.jpg',
+  '1,-1': 'assets/images/ui/movement/move_dl.jpg',
+  '1,0': 'assets/images/ui/movement/move_d.jpg',
+  '1,1': 'assets/images/ui/movement/move_dr.jpg',
 };
 
 function prepareResolutionMoves(playerId) {
@@ -55714,7 +55714,7 @@ function renderCardInfoSpellbookTargetModal() {
 
     const image = document.createElement('img');
     image.className = 'card-info-spellbook-target-caster';
-    image.src = caster?.tokenImage || caster?.artImage || 'assets/caster-hanzo.png';
+    image.src = caster?.tokenImage || caster?.artImage || 'assets/images/cards/casters/caster-hanzo.png';
     image.alt = caster?.name || 'Kaster';
 
     const main = document.createElement('span');
@@ -58617,9 +58617,9 @@ const CARGA_REAL_DAMAGE = 1;
 const CARGA_REAL_STUN_PHASES = 3;
 const CARGA_REAL_PUSH_CELLS = 2;
 const CARGA_REAL_HORSE_FRAMES = [
-  'assets/carga-real-caballo-1.png',
-  'assets/carga-real-caballo-2.png',
-  'assets/carga-real-caballo-3.png',
+  'assets/images/fx/carga-real-caballo-1.png',
+  'assets/images/fx/carga-real-caballo-2.png',
+  'assets/images/fx/carga-real-caballo-3.png',
 ];
 
 const CARGA_REAL_TOTAL_HORSES = 16;
@@ -61169,7 +61169,7 @@ function renderTacticaGuerraSelectionModal() {
   overlay.innerHTML = `<div class="tactica-guerra-selection-shell">
     <button type="button" class="tactica-guerra-selection-close" aria-label="Cerrar">×</button>
     <header>
-      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/spell-tactica-de-guerra.png'}" alt="">
+      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/images/cards/spells/spell-tactica-de-guerra.png'}" alt="">
       <div><strong>Táctica de guerra</strong><span>Selecciona las invocaciones</span></div>
     </header>
     <p class="tactica-guerra-selection-help">Cada invocación añade 1 elemento de su propio dominio. El orden de selección será el orden de colocación de sus nuevos nexos. ${pending.quickDefense ? '<strong>Defensa rápida:</strong> resolución instantánea; solo invocaciones en tu lado de la arena.' : '<strong>Kasteo normal:</strong> 2 fases antes de la resolución.'}</p>
@@ -61205,7 +61205,7 @@ function renderTacticaGuerraSelectionModal() {
     button.style.setProperty('--tactica-target-color', element?.color || '#ffffff');
     button.innerHTML = `
       <span class="tactica-guerra-selection-order">${alreadySelected ? selectedIndex + 1 : ''}</span>
-      <img class="tactica-guerra-selection-token" src="${unitCard?.tokenImage || unitCard?.artImage || 'assets/invocation-token.png'}" alt="">
+      <img class="tactica-guerra-selection-token" src="${unitCard?.tokenImage || unitCard?.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt="">
       <span class="tactica-guerra-selection-copy"><strong>${unitCard?.name || 'Invocación'}</strong><small>${coordLabel(unit.row, unit.col)} · Vida ${Number(unit.hp ?? unitCard?.stats?.life ?? 0)}/${Number(unit.maxHp ?? unitCard?.stats?.life ?? 0)}</small></span>
       <span class="tactica-guerra-selection-element"><img src="${getElementCostIcon(elementId)}" alt="${element?.label || elementId}"><b>${element?.label || elementId}</b><small>${availableCount - selectedCountForElement} libre${availableCount - selectedCountForElement === 1 ? '' : 's'}</small></span>`;
     button.addEventListener('click', event => {
@@ -61695,7 +61695,7 @@ function createEmboscadaTacticaUnitButton(playerId, unit, options = {}) {
   button.style.setProperty('--tactica-target-color', targetColor);
   button.innerHTML = `
     <span class="tactica-guerra-selection-order">${order}</span>
-    <img class="tactica-guerra-selection-token" src="${card?.tokenImage || card?.artImage || card?.thumbnailImage || 'assets/invocation-token.png'}" alt="">
+    <img class="tactica-guerra-selection-token" src="${card?.tokenImage || card?.artImage || card?.thumbnailImage || 'assets/images/cards/summons/invocation-token.png'}" alt="">
     <span class="tactica-guerra-selection-copy"><strong>${escapeHtml(card?.name || 'Invocación')}</strong><small>${coordLabel(unit.row, unit.col)} · Vida ${Number(unit.hp ?? card?.stats?.life ?? 0)}/${Number(unit.maxHp ?? card?.stats?.life ?? 0)}</small></span>
     <span class="tactica-guerra-selection-element"><img src="${getElementCostIcon(iconElementId)}" alt="${escapeHtml(iconElement?.label || iconElementId)}"><b>${escapeHtml(role)}</b><small>${escapeHtml(detail)}</small></span>`;
   return button;
@@ -61724,7 +61724,7 @@ function renderEmboscadaRivalSelectionModal() {
   overlay.innerHTML = `<div class="tactica-guerra-selection-shell emboscada-selection-shell">
     <button type="button" class="tactica-guerra-selection-close" aria-label="Cerrar">×</button>
     <header>
-      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/spell-emboscada.webp'}" alt="">
+      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/images/cards/spells/spell-emboscada.webp'}" alt="">
       <div><strong>Emboscada</strong><span>Selecciona la invasora rival</span></div>
     </header>
     <p class="tactica-guerra-selection-help">Selecciona la invocación rival que ingresó a tu lado de la arena. Esa unidad será el objetivo exclusivo de todas las invocaciones vinculadas por Emboscada hasta que vuelvan a restaurarse.</p>
@@ -61828,7 +61828,7 @@ function renderEmboscadaAlliedSelectionModal() {
   overlay.innerHTML = `<div class="tactica-guerra-selection-shell emboscada-selection-shell">
     <button type="button" class="tactica-guerra-selection-close" aria-label="Cerrar">×</button>
     <header>
-      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/spell-emboscada.webp'}" alt="">
+      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/images/cards/spells/spell-emboscada.webp'}" alt="">
       <div><strong>Emboscada</strong><span>Objetivo: ${escapeHtml(rivalCard?.name || 'Invasora rival')}</span></div>
     </header>
     <p class="tactica-guerra-selection-help">Selecciona una o varias invocaciones aliadas de tu lado. Cada selección consume <strong>1 Agua</strong>. El orden de selección será el orden de colocación de sus nuevos nexos dentro de radio ${EMBOSCADA_RADIUS} alrededor de la invasora. ${pending.quickDefense ? '<strong>Defensa rápida:</strong> se resolverá como instantáneo.' : '<strong>Kasteo normal:</strong> 2 fases.'}</p>
@@ -62258,7 +62258,7 @@ function createInterceptarCandidateButton(playerId, unit, options = {}) {
   button.style.setProperty('--tactica-target-color', element?.color || '#49d6dd');
   button.innerHTML = `
     <span class="tactica-guerra-selection-order">${options.orderLabel || ''}</span>
-    <img class="tactica-guerra-selection-token" src="${card?.tokenImage || card?.artImage || card?.thumbnailImage || 'assets/invocation-token.png'}" alt="">
+    <img class="tactica-guerra-selection-token" src="${card?.tokenImage || card?.artImage || card?.thumbnailImage || 'assets/images/cards/summons/invocation-token.png'}" alt="">
     <span class="tactica-guerra-selection-copy"><strong>${card?.name || 'Invocación'}</strong><small>${coordLabel(unit.row, unit.col)} · Vida ${Number(unit.hp ?? card?.stats?.life ?? 0)}/${Number(unit.maxHp ?? card?.stats?.life ?? 0)}</small></span>
     <span class="tactica-guerra-selection-element"><img src="${getElementCostIcon(elementId)}" alt="${element?.label || elementId}"><b>${options.roleLabel || element?.label || elementId}</b><small>${options.detailLabel || ''}</small></span>`;
   return button;
@@ -62285,7 +62285,7 @@ function renderInterceptarAlliedSelectionModal() {
   overlay.innerHTML = `<div class="tactica-guerra-selection-shell interceptar-selection-shell">
     <button type="button" class="tactica-guerra-selection-close" aria-label="Cerrar">×</button>
     <header>
-      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/spell-interceptar.webp'}" alt="">
+      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/images/cards/spells/spell-interceptar.webp'}" alt="">
       <div><strong>Interceptar</strong><span>Selecciona tu invocación</span></div>
     </header>
     <p class="tactica-guerra-selection-help">Selecciona una sola invocación aliada activa. Después elegirás la invocación rival que haya ingresado a tu lado de la arena.${pending.artimana ? ' <strong>Artimaña:</strong> se resolverá como instantáneo.' : ' <strong>Kasteo normal:</strong> 2 fases.'}</p>
@@ -62352,7 +62352,7 @@ function renderInterceptarRivalSelectionModal() {
   overlay.innerHTML = `<div class="tactica-guerra-selection-shell interceptar-selection-shell">
     <button type="button" class="tactica-guerra-selection-close" aria-label="Cerrar">×</button>
     <header>
-      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/spell-interceptar.webp'}" alt="">
+      <img src="${card?.spellIcon || card?.thumbnailImage || 'assets/images/cards/spells/spell-interceptar.webp'}" alt="">
       <div><strong>Interceptar</strong><span>Selecciona la invocación rival</span></div>
     </header>
     <p class="tactica-guerra-selection-help">El nuevo nexo de tu invocación aparecerá automáticamente en la casilla inmediatamente inferior, frente al rival seleccionado.</p>
@@ -71469,7 +71469,7 @@ function createCardElement(card, options = {}) {
   const element = getElementById(elementId);
   const skinImage = getElementSkinForCard(card, elementId);
   const bgImage = getElementBackgroundForCard(card, elementId);
-  const artImage = card?.artImage || 'assets/kagero-art.png';
+  const artImage = card?.artImage || 'assets/images/cards/characters/illustrations/kagero-art.png';
   const cardTypeId = getCardTypeId(card);
   const usesArtLayer = card?.composition !== 'backgroundSkin' && card?.usesArtLayer !== false && cardTypeId !== 'spell';
   wrap.dataset.elementId = elementId;
@@ -71478,9 +71478,9 @@ function createCardElement(card, options = {}) {
   wrap.classList.toggle('card-no-art-layer', !usesArtLayer);
   wrap.style.setProperty('--card-element-color', element?.color || '#5400FF');
   wrap.innerHTML = `
-    <img class="card-layer card-bg" src="${bgImage}" alt="fondo" onerror="this.onerror=null;this.src='assets/card-bg-darkness.jpg';">
-    ${usesArtLayer ? `<img class="card-layer card-art" src="${artImage}" alt="arte" onerror="this.onerror=null;this.src='assets/invocation-art.png';">` : ''}
-    <img class="card-layer card-skin" src="${skinImage}" alt="skin ${element?.label || ''}" onerror="this.onerror=null;this.src='assets/card-skin-darkness.png';">
+    <img class="card-layer card-bg" src="${bgImage}" alt="fondo" onerror="this.onerror=null;this.src='assets/images/cards/backgrounds/card-bg-darkness.jpg';">
+    ${usesArtLayer ? `<img class="card-layer card-art" src="${artImage}" alt="arte" onerror="this.onerror=null;this.src='assets/images/cards/summons/invocation-art.png';">` : ''}
+    <img class="card-layer card-skin" src="${skinImage}" alt="skin ${element?.label || ''}" onerror="this.onerror=null;this.src='assets/images/cards/skins/card-skin-darkness.png';">
   `;
   return wrap;
 }
@@ -71540,7 +71540,7 @@ function createCastQueueVisual(card, options = {}) {
   }
   const img = document.createElement('img');
   img.className = 'cast-token-image';
-  img.src = card?.tokenImage || card?.artImage || 'assets/invocation-token.png';
+  img.src = card?.tokenImage || card?.artImage || 'assets/images/cards/summons/invocation-token.png';
   img.alt = card?.name || 'Carta en kasteo';
   return img;
 }
@@ -71551,7 +71551,7 @@ function createCastTravelVisual(card, options = {}) {
     return createSpellCompositeMini(card, 'cast-travel-spell-composite-mini');
   }
   const img = document.createElement('img');
-  img.src = card?.tokenImage || card?.artImage || 'assets/invocation-token.png';
+  img.src = card?.tokenImage || card?.artImage || 'assets/images/cards/summons/invocation-token.png';
   img.alt = card?.name || 'Carta en viaje';
   return img;
 }
@@ -76349,7 +76349,7 @@ function renderVisualDevShowcase() {
       miniBtn.className = 'target-access-mini-btn';
       const mini = document.createElement('div');
       mini.className = 'target-access-mini target-access-invocation';
-      mini.innerHTML = `<img src="${sample.card?.tokenImage || sample.card?.artImage || 'assets/invocation-token.png'}" alt="${sample.card?.name || 'Invocación'}">`;
+      mini.innerHTML = `<img src="${sample.card?.tokenImage || sample.card?.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt="${sample.card?.name || 'Invocación'}">`;
       miniBtn.appendChild(mini);
       row.appendChild(miniBtn);
       const btn = document.createElement('button');
@@ -76394,7 +76394,7 @@ function renderVisualDevShowcase() {
         originSlot: 0,
       };
       player.units = [...previousUnits, fakeUnit];
-      renderUnit(fakeUnit.row, fakeUnit.col, 'invocation', sampleCard.tokenImage || sampleCard.artImage || 'assets/invocation-token.png', sampleCard.name, LOCAL_PLAYER_ID, null, '#5400FF', sampleUnitId);
+      renderUnit(fakeUnit.row, fakeUnit.col, 'invocation', sampleCard.tokenImage || sampleCard.artImage || 'assets/images/cards/summons/invocation-token.png', sampleCard.name, LOCAL_PLAYER_ID, null, '#5400FF', sampleUnitId);
       player.units = previousUnits;
 
       const sampleNode = els.unitsLayer.querySelector(`[data-unit-id="${sampleUnitId}"]`);
@@ -76433,9 +76433,9 @@ function renderVisualDevShowcase() {
     const versus = document.createElement('div');
     versus.className = 'visual-dev-vs-showcase visual-dev-showcase-node';
     versus.innerHTML = `
-      <div class="vs-card left"><img src="${invokeA?.tokenImage || invokeA?.artImage || 'assets/invocation-token.png'}" alt=""><span>${invokeA?.name || 'Aliado'}</span></div>
+      <div class="vs-card left"><img src="${invokeA?.tokenImage || invokeA?.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt=""><span>${invokeA?.name || 'Aliado'}</span></div>
       <div class="vs-badge">VS</div>
-      <div class="vs-card right"><img src="${invokeB?.tokenImage || invokeB?.artImage || 'assets/invocation-token.png'}" alt=""><span>${invokeB?.name || 'Enemigo'}</span></div>`;
+      <div class="vs-card right"><img src="${invokeB?.tokenImage || invokeB?.artImage || 'assets/images/cards/summons/invocation-token.png'}" alt=""><span>${invokeB?.name || 'Enemigo'}</span></div>`;
     els.boardContent.appendChild(versus);
   }
 }

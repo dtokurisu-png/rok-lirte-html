@@ -95,7 +95,7 @@
     const safe = value => String(value || '').slice(0, 140);
     let arenaImage = '';
     try {
-      const url = new URL(payload.arena?.image || 'assets/arena.webp', document.baseURI);
+      const url = new URL(payload.arena?.image || 'assets/images/arenas/backgrounds/arena.webp', document.baseURI);
       if (url.origin === ORIGIN && /^https?:$/.test(url.protocol)) arenaImage = url.href;
     } catch (_) {}
     const chosen=Array.isArray(payload.playerSpellbookCardIds) ?

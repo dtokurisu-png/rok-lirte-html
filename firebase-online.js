@@ -94,7 +94,7 @@
       id: 'random',
       label: 'Random',
       previewImage: 'assets/arenas/previews/japan.webp',
-      battleImage: 'assets/arena.webp',
+      battleImage: 'assets/images/arenas/backgrounds/arena.webp',
       random: true,
     },
   });
@@ -324,12 +324,12 @@
   let socialProfileRemoteBlocked = false;
 
   const PROFILE_AVATARS = Object.freeze([
-    { id: 'shinra', label: 'Shinra Hitokiri', src: 'assets/shinra-hitokiri-token.png' },
-    { id: 'oda', label: 'Oda no Kage', src: 'assets/oda-no-kage-token.png' },
-    { id: 'takeda', label: 'Takeda Shingen', src: 'assets/takeda-shingen-token.png' },
-    { id: 'ueshiba', label: 'O-sensei Ueshiba', src: 'assets/o-sensei-ueshiba-token.png' },
-    { id: 'musashi', label: 'Miyamoto Musashi', src: 'assets/miyamoto-musashi-token.png' },
-    { id: 'tokugawa', label: 'Tokugawa', src: 'assets/tokugawa-light-token.webp' },
+    { id: 'shinra', label: 'Shinra Hitokiri', src: 'assets/images/cards/characters/tokens/shinra-hitokiri-token.png' },
+    { id: 'oda', label: 'Oda no Kage', src: 'assets/images/cards/characters/tokens/oda-no-kage-token.png' },
+    { id: 'takeda', label: 'Takeda Shingen', src: 'assets/images/cards/characters/tokens/takeda-shingen-token.png' },
+    { id: 'ueshiba', label: 'O-sensei Ueshiba', src: 'assets/images/cards/characters/tokens/o-sensei-ueshiba-token.png' },
+    { id: 'musashi', label: 'Miyamoto Musashi', src: 'assets/images/cards/characters/tokens/miyamoto-musashi-token.png' },
+    { id: 'tokugawa', label: 'Tokugawa', src: 'assets/images/cards/characters/tokens/tokugawa-light-token.webp' },
   ]);
   const DEFAULT_PROFILE_AVATAR_ID = 'shinra';
   const LOCAL_SOCIAL_PROFILE_PREFIX = 'rokLocalSocialProfile';
