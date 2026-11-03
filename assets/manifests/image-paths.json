@@ -1,0 +1,883 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-11-03",
+  "status": "canonical copies established; original public URLs retained pending reference-by-reference migration",
+  "policy": "Do not delete original paths until all consumers have moved and tests pass.",
+  "entries": [
+    {
+      "source": "assets/ability-shirahadori.webp",
+      "canonical": "assets/images/cards/abilities/ability-shirahadori.webp",
+      "sha": "5b2fc990e76a891e1f970f84939ae7e076b736ac"
+    },
+    {
+      "source": "assets/adventure/casters/aurek-sabio-belico.png",
+      "canonical": "assets/images/cards/casters/portraits/aurek-sabio-belico.png",
+      "sha": "5a2e8a7087ae48aab432223485e8979e15ac6669"
+    },
+    {
+      "source": "assets/adventure/casters/enigma-apprentice.png",
+      "canonical": "assets/images/cards/casters/portraits/enigma-apprentice.png",
+      "sha": "fe5225989f10627d11325d2b8c83b3a1c0a3c41d"
+    },
+    {
+      "source": "assets/adventure/casters/enigma-first-apprentice.png",
+      "canonical": "assets/images/cards/casters/portraits/enigma-first-apprentice.png",
+      "sha": "e6f7d21001a0c55b9216f90636b3632528352d40"
+    },
+    {
+      "source": "assets/adventure/casters/ilyan-marea-electrica.png",
+      "canonical": "assets/images/cards/casters/portraits/ilyan-marea-electrica.png",
+      "sha": "1da4624fd9e9b44ad19a34fce1172248550eecd9"
+    },
+    {
+      "source": "assets/adventure/casters/kaelor-rompiente.png",
+      "canonical": "assets/images/cards/casters/portraits/kaelor-rompiente.png",
+      "sha": "5302f2339bd14eba5f6d9063bef797bbc7e60c35"
+    },
+    {
+      "source": "assets/adventure/casters/sahrkel-oraculo-abisal.png",
+      "canonical": "assets/images/cards/casters/portraits/sahrkel-oraculo-abisal.png",
+      "sha": "785be748a32739a76eb6d8874c741d0d960b95df"
+    },
+    {
+      "source": "assets/adventure/player/default-player-kaster.png",
+      "canonical": "assets/images/cards/casters/portraits/default-player-kaster.png",
+      "sha": "38b2f2f8f02f9501562b21db56c64d269d20e8d1"
+    },
+    {
+      "source": "assets/akari-art.png",
+      "canonical": "assets/images/cards/characters/illustrations/akari-art.png",
+      "sha": "40f1f6dfb77a6054faa995e68aa7179c679ea519"
+    },
+    {
+      "source": "assets/akari-token.png",
+      "canonical": "assets/images/cards/characters/tokens/akari-token.png",
+      "sha": "73bf3ebca0838d33f0311e16d1a43de9adc055f0"
+    },
+    {
+      "source": "assets/arena-egipto.webp",
+      "canonical": "assets/images/arenas/backgrounds/arena-egipto.webp",
+      "sha": "39b81dbb3b284eb4958f2bfd5418e8d7e8ab7259"
+    },
+    {
+      "source": "assets/arena.webp",
+      "canonical": "assets/images/arenas/backgrounds/arena.webp",
+      "sha": "4666b01434fa61ef5c24c14b029d710bdc44152b"
+    },
+    {
+      "source": "assets/bushi-art.png",
+      "canonical": "assets/images/cards/characters/illustrations/bushi-art.png",
+      "sha": "d46ea4e9e16738dfc904e58223b2e2990d5d7eba"
+    },
+    {
+      "source": "assets/bushi-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/bushi-card.png",
+      "sha": "b9d50d758e515c020a72695701f5ec25723f5eef"
+    },
+    {
+      "source": "assets/bushi-iniciado-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/bushi-iniciado-card.png",
+      "sha": "b3816b5bb22410f7ff77e0df9e6b2e87ea3ff418"
+    },
+    {
+      "source": "assets/bushi-iniciado-token.png",
+      "canonical": "assets/images/cards/characters/tokens/bushi-iniciado-token.png",
+      "sha": "d51a2381f047108d707f4d17130cd2277434c101"
+    },
+    {
+      "source": "assets/bushi-inquebrantable-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/bushi-inquebrantable-card.png",
+      "sha": "10cdf06e1712b6f38824f60d049979b1d2309c6d"
+    },
+    {
+      "source": "assets/bushi-inquebrantable-token.png",
+      "canonical": "assets/images/cards/characters/tokens/bushi-inquebrantable-token.png",
+      "sha": "0775294fee267b6357c35dd31fa8d316d77f0c77"
+    },
+    {
+      "source": "assets/bushi-token.png",
+      "canonical": "assets/images/cards/characters/tokens/bushi-token.png",
+      "sha": "d46ea4e9e16738dfc904e58223b2e2990d5d7eba"
+    },
+    {
+      "source": "assets/card-bg-darkness.jpg",
+      "canonical": "assets/images/cards/backgrounds/card-bg-darkness.jpg",
+      "sha": "e9561f9f428b194bd10c7582f3bfc54f61e5800c"
+    },
+    {
+      "source": "assets/card-bg-fire-domain.webp",
+      "canonical": "assets/images/cards/backgrounds/card-bg-fire-domain.webp",
+      "sha": "c56c47274ea43e895e421bdb86969b72d71bb466"
+    },
+    {
+      "source": "assets/card-bg-light-domain.webp",
+      "canonical": "assets/images/cards/backgrounds/card-bg-light-domain.webp",
+      "sha": "6192cfddb2e2dba32770828e87d4bb3c550d2763"
+    },
+    {
+      "source": "assets/card-bg-water-domain.png",
+      "canonical": "assets/images/cards/backgrounds/card-bg-water-domain.png",
+      "sha": "5bc544a509201823f805f9e5555f0269f3a3f019"
+    },
+    {
+      "source": "assets/card-bg.png",
+      "canonical": "assets/images/cards/backgrounds/card-bg.png",
+      "sha": "e9561f9f428b194bd10c7582f3bfc54f61e5800c"
+    },
+    {
+      "source": "assets/card-skin-catalyst.png",
+      "canonical": "assets/images/cards/skins/card-skin-catalyst.png",
+      "sha": "af5838bae33ab11206e3583ef109be9fec8faa80"
+    },
+    {
+      "source": "assets/card-skin-darkness.png",
+      "canonical": "assets/images/cards/skins/card-skin-darkness.png",
+      "sha": "fd8c1bfd0ba058c3c229faea455cb7bc3ef9927d"
+    },
+    {
+      "source": "assets/card-skin-earth.png",
+      "canonical": "assets/images/cards/skins/card-skin-earth.png",
+      "sha": "85e32f40b2e441fd703f8c17994401565af3887b"
+    },
+    {
+      "source": "assets/card-skin-fire.png",
+      "canonical": "assets/images/cards/skins/card-skin-fire.png",
+      "sha": "cf2410b7e19b31b53a0bd0447f2dcd202b6186ec"
+    },
+    {
+      "source": "assets/card-skin-light.png",
+      "canonical": "assets/images/cards/skins/card-skin-light.png",
+      "sha": "f18602225d9148235bd686c1440cedaee9d7b629"
+    },
+    {
+      "source": "assets/card-skin-water.png",
+      "canonical": "assets/images/cards/skins/card-skin-water.png",
+      "sha": "bba05020f45d1ac5de15e1d11d3c53ab59e9261d"
+    },
+    {
+      "source": "assets/carga-real-caballo-1.png",
+      "canonical": "assets/images/fx/carga-real-caballo-1.png",
+      "sha": "4437053b6f5c4b2d025fc0787088b8987436a137"
+    },
+    {
+      "source": "assets/carga-real-caballo-2.png",
+      "canonical": "assets/images/fx/carga-real-caballo-2.png",
+      "sha": "a1652a1a029d68ae2db91ba92c4782189a1e269b"
+    },
+    {
+      "source": "assets/carga-real-caballo-3.png",
+      "canonical": "assets/images/fx/carga-real-caballo-3.png",
+      "sha": "959c7e31dbd6d37dfa7b0c6902c131a54e25da30"
+    },
+    {
+      "source": "assets/caster-hanzo.png",
+      "canonical": "assets/images/cards/casters/caster-hanzo.png",
+      "sha": "7e45975fadbf519eec22ac30ccf8be0cfcfb887c"
+    },
+    {
+      "source": "assets/element-card-bg-fire.png",
+      "canonical": "assets/images/cards/backgrounds/element-card-bg-fire.png",
+      "sha": "dfdae3bd21dfd31f2c37ee39b6925ac2014834b1"
+    },
+    {
+      "source": "assets/element-card-bg.webp",
+      "canonical": "assets/images/cards/backgrounds/element-card-bg.webp",
+      "sha": "c1c1f7ae31d965b296d02a44ffcd6c31903c532b"
+    },
+    {
+      "source": "assets/element-darkness-x1.png",
+      "canonical": "assets/images/cards/elements/element-darkness-x1.png",
+      "sha": "7aadda0e515492fb633146c3a8fb97ecf4c79ca4"
+    },
+    {
+      "source": "assets/element-darkness-x2.webp",
+      "canonical": "assets/images/cards/elements/element-darkness-x2.webp",
+      "sha": "2a46b60fec76c5d5e4e0ade1eb39eafe46b6832f"
+    },
+    {
+      "source": "assets/element-darkness-x3.webp",
+      "canonical": "assets/images/cards/elements/element-darkness-x3.webp",
+      "sha": "fb26316a6cf1505587f2298a4492c335745283eb"
+    },
+    {
+      "source": "assets/element-darkness-x4.png",
+      "canonical": "assets/images/cards/elements/element-darkness-x4.png",
+      "sha": "96a0560f4adc1b23f500f91d07655e1ac2fe8ddc"
+    },
+    {
+      "source": "assets/element-earth-x1.png",
+      "canonical": "assets/images/cards/elements/element-earth-x1.png",
+      "sha": "3425d155162cbbcdda03273fa92318074a9c695c"
+    },
+    {
+      "source": "assets/element-earth-x2.png",
+      "canonical": "assets/images/cards/elements/element-earth-x2.png",
+      "sha": "fd03256199347af065fda3cced79ab321f1f0457"
+    },
+    {
+      "source": "assets/element-earth-x3.webp",
+      "canonical": "assets/images/cards/elements/element-earth-x3.webp",
+      "sha": "eb5f36d69d4f52f48e98dc017b1c322d22dfb8e7"
+    },
+    {
+      "source": "assets/element-earth-x4.webp",
+      "canonical": "assets/images/cards/elements/element-earth-x4.webp",
+      "sha": "7084fec940b896efb5def9772c6d7a002b961584"
+    },
+    {
+      "source": "assets/element-fire-x1.png",
+      "canonical": "assets/images/cards/elements/element-fire-x1.png",
+      "sha": "8e8b9fe2df515143735044850e41eaf7318ea7d5"
+    },
+    {
+      "source": "assets/element-fire-x2.png",
+      "canonical": "assets/images/cards/elements/element-fire-x2.png",
+      "sha": "0eced166e6282e57ed7499cfe8eb362954ce122e"
+    },
+    {
+      "source": "assets/element-fire-x3.webp",
+      "canonical": "assets/images/cards/elements/element-fire-x3.webp",
+      "sha": "e57578ba56135725f5b39ddafa740efebc613a3a"
+    },
+    {
+      "source": "assets/element-fire-x4.png",
+      "canonical": "assets/images/cards/elements/element-fire-x4.png",
+      "sha": "498b46fbffe57a5a40bc1fb0f70e3c91c575bbab"
+    },
+    {
+      "source": "assets/element-light-x1.png",
+      "canonical": "assets/images/cards/elements/element-light-x1.png",
+      "sha": "161b1e99523f66318460e3cc8c23ca17990c6d07"
+    },
+    {
+      "source": "assets/element-light-x2.png",
+      "canonical": "assets/images/cards/elements/element-light-x2.png",
+      "sha": "2f0fe99d383b52714208f8fd2c97fb32ab2206e3"
+    },
+    {
+      "source": "assets/element-light-x2.webp",
+      "canonical": "assets/images/cards/elements/element-light-x2.webp",
+      "sha": "4df94b2f78a1c9d893110e51c52749d5a16e9654"
+    },
+    {
+      "source": "assets/element-light-x3.webp",
+      "canonical": "assets/images/cards/elements/element-light-x3.webp",
+      "sha": "11d8061a298347137e41e130a366f6243412f176"
+    },
+    {
+      "source": "assets/element-light-x4.webp",
+      "canonical": "assets/images/cards/elements/element-light-x4.webp",
+      "sha": "99ddc502589eecaccb9127dd650b1729b15a23d7"
+    },
+    {
+      "source": "assets/element-water-x1.png",
+      "canonical": "assets/images/cards/elements/element-water-x1.png",
+      "sha": "241e650b1c54dcd2ce653b4b76cbe01331f2fdec"
+    },
+    {
+      "source": "assets/element-water-x2.png",
+      "canonical": "assets/images/cards/elements/element-water-x2.png",
+      "sha": "8cb829a62deeadc2d205e40f90bf63932e1c6af6"
+    },
+    {
+      "source": "assets/element-water-x3.png",
+      "canonical": "assets/images/cards/elements/element-water-x3.png",
+      "sha": "cedca2486747e49577f26f4f19abe6b7bfea25ec"
+    },
+    {
+      "source": "assets/element-water-x4.webp",
+      "canonical": "assets/images/cards/elements/element-water-x4.webp",
+      "sha": "05bdc79acd66f636f593e2c862f8503f480983d7"
+    },
+    {
+      "source": "assets/element-x1.png",
+      "canonical": "assets/images/cards/elements/element-x1.png",
+      "sha": "7aadda0e515492fb633146c3a8fb97ecf4c79ca4"
+    },
+    {
+      "source": "assets/element-x2.webp",
+      "canonical": "assets/images/cards/elements/element-x2.webp",
+      "sha": "2a46b60fec76c5d5e4e0ade1eb39eafe46b6832f"
+    },
+    {
+      "source": "assets/element-x3.webp",
+      "canonical": "assets/images/cards/elements/element-x3.webp",
+      "sha": "fb26316a6cf1505587f2298a4492c335745283eb"
+    },
+    {
+      "source": "assets/element-x4 .webp",
+      "canonical": "assets/images/cards/elements/element-x4 .webp",
+      "sha": "fb26316a6cf1505587f2298a4492c335745283eb"
+    },
+    {
+      "source": "assets/element-x4.png",
+      "canonical": "assets/images/cards/elements/element-x4.png",
+      "sha": "96a0560f4adc1b23f500f91d07655e1ac2fe8ddc"
+    },
+    {
+      "source": "assets/gioshonin-carta.png",
+      "canonical": "assets/images/cards/characters/illustrations/gioshonin-carta.png",
+      "sha": "0d3056d2b365540ae59dbbc55da8d57b0a97ac46"
+    },
+    {
+      "source": "assets/gioshonin-token.png",
+      "canonical": "assets/images/cards/characters/tokens/gioshonin-token.png",
+      "sha": "7d77e71cb21650e2a0ff63edef5df16b4eb2e41c"
+    },
+    {
+      "source": "assets/guardian-darkness.png",
+      "canonical": "assets/images/cards/guardians/guardian-darkness.png",
+      "sha": "cc27a921fea81f1474357898ab96f16750e0f8a7"
+    },
+    {
+      "source": "assets/guardian-light.webp",
+      "canonical": "assets/images/cards/guardians/guardian-light.webp",
+      "sha": "85b49ca7841f3fc191b2ee50d6e8a51a7840d7ca"
+    },
+    {
+      "source": "assets/guardian-water.png",
+      "canonical": "assets/images/cards/guardians/guardian-water.png",
+      "sha": "158a082b43fecaac6a428e066271142f988cca51"
+    },
+    {
+      "source": "assets/ichikawa-goemon-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/ichikawa-goemon-card.png",
+      "sha": "e361aa64cb0deae98b367ebcf11d1e70adcbc3a5"
+    },
+    {
+      "source": "assets/ichikawa-goemon-token.png",
+      "canonical": "assets/images/cards/characters/tokens/ichikawa-goemon-token.png",
+      "sha": "7bdc17a5d89560caa2d62b4a5d6b27df1872b374"
+    },
+    {
+      "source": "assets/invocation-art.png",
+      "canonical": "assets/images/cards/summons/invocation-art.png",
+      "sha": "745fc7deb508590d61298dba9648f28e068afbd0"
+    },
+    {
+      "source": "assets/invocation-token.png",
+      "canonical": "assets/images/cards/summons/invocation-token.png",
+      "sha": "1f8ca532ebde385420c2cd0b788ce1971c482965"
+    },
+    {
+      "source": "assets/junkai-butai-1-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/junkai-butai-1-card.png",
+      "sha": "2c46360d4a7ab768904dcd07b40074c26b82fd46"
+    },
+    {
+      "source": "assets/junkai-butai-1-token.png",
+      "canonical": "assets/images/cards/characters/tokens/junkai-butai-1-token.png",
+      "sha": "db5c867aeb89ce4080524a774e8d0c7c4f142c4b"
+    },
+    {
+      "source": "assets/junkai-butai-2-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/junkai-butai-2-card.png",
+      "sha": "28343bb88d1958e3e8913b97ed363fbddae7b62b"
+    },
+    {
+      "source": "assets/junkai-butai-2-token.png",
+      "canonical": "assets/images/cards/characters/tokens/junkai-butai-2-token.png",
+      "sha": "4fb5e14cd22ee6f4848a40e80cc0ce7d911a4a2d"
+    },
+    {
+      "source": "assets/kagero-art.png",
+      "canonical": "assets/images/cards/characters/illustrations/kagero-art.png",
+      "sha": "9f578cc866e5ffd88c060fa9c3a2e74389079a6f"
+    },
+    {
+      "source": "assets/kagero-token.png",
+      "canonical": "assets/images/cards/characters/tokens/kagero-token.png",
+      "sha": "c1d86095731f43653fff85fe786e231d8fe83b83"
+    },
+    {
+      "source": "assets/kaguya-carta.png",
+      "canonical": "assets/images/cards/characters/illustrations/kaguya-carta.png",
+      "sha": "3c72bb1ade8fcf978c86b8ab525fb1d5f76ad99c"
+    },
+    {
+      "source": "assets/kaguya-token.png",
+      "canonical": "assets/images/cards/characters/tokens/kaguya-token.png",
+      "sha": "e8cb66074c0159d931509931f395a1bf38a10bde"
+    },
+    {
+      "source": "assets/karunobu-taicho-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/karunobu-taicho-card.png",
+      "sha": "9746212434f0f1b42f761867e3a29c2e073c5f36"
+    },
+    {
+      "source": "assets/karunobu-taicho-token.png",
+      "canonical": "assets/images/cards/characters/tokens/karunobu-taicho-token.png",
+      "sha": "8936e0fba807530d1d29244114dee64a202f1b89"
+    },
+    {
+      "source": "assets/kast-cell-icon.jpg",
+      "canonical": "assets/images/ui/spellbook/kast-cell-icon.jpg",
+      "sha": "cd3e68fd2245443328c9c564cc836bd8ed2f5e7b"
+    },
+    {
+      "source": "assets/kiara/edran-custodio-arcano-art.png",
+      "canonical": "assets/images/cards/summons/kiara/edran-custodio-arcano-art.png",
+      "sha": "2d6bfd9a5b05874d48c667cea524f4a1af66eeef"
+    },
+    {
+      "source": "assets/kiara/edran-custodio-arcano-token.png",
+      "canonical": "assets/images/cards/summons/kiara/edran-custodio-arcano-token.png",
+      "sha": "f771dbb5e22ff5c4022f83da0ba4cde1f72d8513"
+    },
+    {
+      "source": "assets/kiara/farolera-del-umbral-art.png",
+      "canonical": "assets/images/cards/summons/kiara/farolera-del-umbral-art.png",
+      "sha": "c835b1bd4b33ba15b72f23eac47f46883a6a6b0b"
+    },
+    {
+      "source": "assets/kiara/farolera-del-umbral-lampara.png",
+      "canonical": "assets/images/props/kiara/farolera-del-umbral-lampara.png",
+      "sha": "3c5ec4f6f070f756b8d60b964ef3091c9898b726"
+    },
+    {
+      "source": "assets/kiara/farolera-del-umbral-token.png",
+      "canonical": "assets/images/cards/summons/kiara/farolera-del-umbral-token.png",
+      "sha": "f0ab00ced9fef423315e07ac98835351be984711"
+    },
+    {
+      "source": "assets/kiara/kiara-decima-aprendiz-enigma-art.png",
+      "canonical": "assets/images/cards/casters/kiara/kiara-decima-aprendiz-enigma-art.png",
+      "sha": "ce71401ccbbec6e871355f260aa63811f0b1e805"
+    },
+    {
+      "source": "assets/kiara/maeryn-arconte-de-la-mente-art.png",
+      "canonical": "assets/images/cards/summons/kiara/maeryn-arconte-de-la-mente-art.png",
+      "sha": "06dee273b9e78917b359e98a87360e7d9e7feaee"
+    },
+    {
+      "source": "assets/kiara/maeryn-arconte-de-la-mente-token.png",
+      "canonical": "assets/images/cards/summons/kiara/maeryn-arconte-de-la-mente-token.png",
+      "sha": "aff1cba81aa951a24b87b36bcd3c3338b9442de7"
+    },
+    {
+      "source": "assets/kiara/nael-vigia-de-la-mente-art.png",
+      "canonical": "assets/images/cards/summons/kiara/nael-vigia-de-la-mente-art.png",
+      "sha": "20cc20a8a12c8a24506945e6d2e104dd8d4550e5"
+    },
+    {
+      "source": "assets/kiara/nael-vigia-de-la-mente-token.png",
+      "canonical": "assets/images/cards/summons/kiara/nael-vigia-de-la-mente-token.png",
+      "sha": "f18d05cb17382d5811caf399bde58dbad1db5e33"
+    },
+    {
+      "source": "assets/kiara/neru-susurro-umbral-art.png",
+      "canonical": "assets/images/cards/summons/kiara/neru-susurro-umbral-art.png",
+      "sha": "92c642dbb16be65680f4e4ba12f70f7a77cc34c2"
+    },
+    {
+      "source": "assets/kiara/neru-susurro-umbral-token.png",
+      "canonical": "assets/images/cards/summons/kiara/neru-susurro-umbral-token.png",
+      "sha": "eb9be0783daa8b6adc95512abb8fcd96e2563896"
+    },
+    {
+      "source": "assets/kiara/seyran-geometra-umbral-art.png",
+      "canonical": "assets/images/cards/summons/kiara/seyran-geometra-umbral-art.png",
+      "sha": "1cf42dbb8a819b2773f1322dcfe9a09f32c858d9"
+    },
+    {
+      "source": "assets/kiara/seyran-geometra-umbral-token.png",
+      "canonical": "assets/images/cards/summons/kiara/seyran-geometra-umbral-token.png",
+      "sha": "781f8786bfd7ec1fcca347f7a0defe9d3b9b52f0"
+    },
+    {
+      "source": "assets/kiara/spell-no.png",
+      "canonical": "assets/images/cards/spells/kiara/spell-no.png",
+      "sha": "da7809bacce83ace97d493756c4a4061651c8166"
+    },
+    {
+      "source": "assets/kiara/spell-regresa.png",
+      "canonical": "assets/images/cards/spells/kiara/spell-regresa.png",
+      "sha": "5fb7af7480696eb625abf28771d90db92111e88f"
+    },
+    {
+      "source": "assets/kiara/spell-umbral-fugaz.png",
+      "canonical": "assets/images/cards/spells/kiara/spell-umbral-fugaz.png",
+      "sha": "2fc3608360259025a10b9fd21b4c02fd75d9c9db"
+    },
+    {
+      "source": "assets/kurayami-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/kurayami-card.png",
+      "sha": "6ec39cfdc35abab9a5576e6309364c58cb75cf8c"
+    },
+    {
+      "source": "assets/kurayami-token.png",
+      "canonical": "assets/images/cards/characters/tokens/kurayami-token.png",
+      "sha": "9f01ded1f65a8309864db3e2ee8c5fbe6e4deabd"
+    },
+    {
+      "source": "assets/kurokagi-butai-3-card-v286.png",
+      "canonical": "assets/images/cards/characters/misc/kurokagi-butai-3-card-v286.png",
+      "sha": "6632df4c4d2b9d20f7157b3d7d508588fff8b51d"
+    },
+    {
+      "source": "assets/kurokagi-butai-3-token-v286.png",
+      "canonical": "assets/images/cards/characters/tokens/kurokagi-butai-3-token-v286.png",
+      "sha": "ccbd38baaaf31565bf0a5ac2eacbda76f74ce270"
+    },
+    {
+      "source": "assets/menu/btn-bot.png",
+      "canonical": "assets/images/ui/menu/btn-bot.png",
+      "sha": "2d83a2d7dec8ac7650111419110b77e9d94e43f5"
+    },
+    {
+      "source": "assets/menu/btn-card-creator.png",
+      "canonical": "assets/images/ui/menu/btn-card-creator.png",
+      "sha": "40eb2de1fbcf95d82b9aee8ecd29023f493d971d"
+    },
+    {
+      "source": "assets/menu/btn-library.png",
+      "canonical": "assets/images/ui/menu/btn-library.png",
+      "sha": "e61a99cbbcfdeeb11a4f71f555a75cfdbbf601e8"
+    },
+    {
+      "source": "assets/menu/btn-online.png",
+      "canonical": "assets/images/ui/menu/btn-online.png",
+      "sha": "8c1d5d82c75faab92ad7973a81ad41d61b9bec61"
+    },
+    {
+      "source": "assets/menu/btn-shop.png",
+      "canonical": "assets/images/ui/menu/btn-shop.png",
+      "sha": "e7d63afe5bed260ccb8b8ab8080aa290646bb43c"
+    },
+    {
+      "source": "assets/menu/btn-spellbooks.png",
+      "canonical": "assets/images/ui/menu/btn-spellbooks.png",
+      "sha": "b6f3d033b78eb84ac9eb8cdf828bab98850be8aa"
+    },
+    {
+      "source": "assets/menu/btn-story.png",
+      "canonical": "assets/images/ui/menu/btn-story.png",
+      "sha": "ca160a60210a865e1e0e426d19999545f451515d"
+    },
+    {
+      "source": "assets/menu/btn-universal-frame.png",
+      "canonical": "assets/images/ui/menu/btn-universal-frame.png",
+      "sha": "ecb280892b552ec63472192417717eff26a127da"
+    },
+    {
+      "source": "assets/menu/icon-adventure.png",
+      "canonical": "assets/images/ui/menu/icon-adventure.png",
+      "sha": "5afb21321173b62a5a205a41c485160fc921e708"
+    },
+    {
+      "source": "assets/menu/icon-alchemy.png",
+      "canonical": "assets/images/ui/menu/icon-alchemy.png",
+      "sha": "a76a29881924743c3fb05f6e0251d54bca515406"
+    },
+    {
+      "source": "assets/menu/icon-bot.png",
+      "canonical": "assets/images/ui/menu/icon-bot.png",
+      "sha": "4c5548251c4a9c63093f3b43d4c6f300d174bbfb"
+    },
+    {
+      "source": "assets/menu/icon-library.png",
+      "canonical": "assets/images/ui/menu/icon-library.png",
+      "sha": "00494ab5603ae11cb4a7c2dda582828742eab322"
+    },
+    {
+      "source": "assets/menu/icon-online.png",
+      "canonical": "assets/images/ui/menu/icon-online.png",
+      "sha": "d52fd821935e3ce2636e2ec81cd073cd65a82fca"
+    },
+    {
+      "source": "assets/menu/icon-shop.png",
+      "canonical": "assets/images/ui/menu/icon-shop.png",
+      "sha": "3b23641d4572df27ea900f47bd22abf66c37ab2d"
+    },
+    {
+      "source": "assets/menu/icon-spellbooks.png",
+      "canonical": "assets/images/ui/menu/icon-spellbooks.png",
+      "sha": "c12d3e27dc02e4c45f931db7fb2c30152586c76f"
+    },
+    {
+      "source": "assets/menu/icon-story.png",
+      "canonical": "assets/images/ui/menu/icon-story.png",
+      "sha": "751af4704c55e8d359508d730c5cd41a42f4c4df"
+    },
+    {
+      "source": "assets/menu/main-menu-bg.webp",
+      "canonical": "assets/images/ui/menu/main-menu-bg.webp",
+      "sha": "1412434399603ff080505b50f5df577323bed931"
+    },
+    {
+      "source": "assets/minokage-no-kurai-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/minokage-no-kurai-card.png",
+      "sha": "b2cdc40eb951f2c712e8ade1586eec3c26b6ed6d"
+    },
+    {
+      "source": "assets/minokage-no-kurai-token.png",
+      "canonical": "assets/images/cards/characters/tokens/minokage-no-kurai-token.png",
+      "sha": "c2c17d9a6a25c6d16de3deb57a1c13365b1c7544"
+    },
+    {
+      "source": "assets/minokage-yari-spin.png",
+      "canonical": "assets/images/fx/minokage-yari-spin.png",
+      "sha": "fecd5cac925546d5912f27c1f7b3968d266d4356"
+    },
+    {
+      "source": "assets/miyamoto-musashi-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/miyamoto-musashi-card.png",
+      "sha": "0b043403e9649d18eceb5387313200db3866eb1d"
+    },
+    {
+      "source": "assets/miyamoto-musashi-token.png",
+      "canonical": "assets/images/cards/characters/tokens/miyamoto-musashi-token.png",
+      "sha": "b6e2fab118aa17d435fa6457e2b41d0ad791baed"
+    },
+    {
+      "source": "assets/move_d.jpg",
+      "canonical": "assets/images/ui/movement/move_d.jpg",
+      "sha": "4cf3cd05e18bbb12228d10490cfb948c81161490"
+    },
+    {
+      "source": "assets/move_dl.jpg",
+      "canonical": "assets/images/ui/movement/move_dl.jpg",
+      "sha": "e03c6e39ee4b543fca3635e2f86adf2385d0cba9"
+    },
+    {
+      "source": "assets/move_dr.jpg",
+      "canonical": "assets/images/ui/movement/move_dr.jpg",
+      "sha": "5c7f606f6ef5b8afd054db137f591ab720bbb5cc"
+    },
+    {
+      "source": "assets/move_l.jpg",
+      "canonical": "assets/images/ui/movement/move_l.jpg",
+      "sha": "906fa51d447178574a0635a430d0646ae4ec5591"
+    },
+    {
+      "source": "assets/move_r.jpg",
+      "canonical": "assets/images/ui/movement/move_r.jpg",
+      "sha": "736bbe65b292fe5d93cc354289f22636419d6260"
+    },
+    {
+      "source": "assets/move_u.jpg",
+      "canonical": "assets/images/ui/movement/move_u.jpg",
+      "sha": "fc1208f028dbc93491b123d9e4298cb67969786e"
+    },
+    {
+      "source": "assets/move_ul.jpg",
+      "canonical": "assets/images/ui/movement/move_ul.jpg",
+      "sha": "643565e053ae7894f6ef5ac061d70a45fa2f9c22"
+    },
+    {
+      "source": "assets/move_ur.jpg",
+      "canonical": "assets/images/ui/movement/move_ur.jpg",
+      "sha": "bc69084b8fc60b11c3744fc798680c4a33c72a58"
+    },
+    {
+      "source": "assets/naito-sutoka-art.webp",
+      "canonical": "assets/images/cards/characters/illustrations/naito-sutoka-art.webp",
+      "sha": "713a04a45642bfd131d7eb4c1f0287e9eac2e5f5"
+    },
+    {
+      "source": "assets/naito-sutoka-token.png",
+      "canonical": "assets/images/cards/characters/tokens/naito-sutoka-token.png",
+      "sha": "558df949e13b011f28f496ca15a344d2442b7abf"
+    },
+    {
+      "source": "assets/nobunaga-carta.png",
+      "canonical": "assets/images/cards/characters/illustrations/nobunaga-carta.png",
+      "sha": "668e68099ebbf72a25b64612028f342c058ebd09"
+    },
+    {
+      "source": "assets/nobunaga-token.png",
+      "canonical": "assets/images/cards/characters/tokens/nobunaga-token.png",
+      "sha": "f51f5a26967d26ab6657fcd4036b253a176b273f"
+    },
+    {
+      "source": "assets/o-sensei-ueshiba-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/o-sensei-ueshiba-card.png",
+      "sha": "4af819fd58363100e3c53371150ec604bb14154e"
+    },
+    {
+      "source": "assets/o-sensei-ueshiba-token.png",
+      "canonical": "assets/images/cards/characters/tokens/o-sensei-ueshiba-token.png",
+      "sha": "8441f7fede983db45da4b0a40d62d324292637e5"
+    },
+    {
+      "source": "assets/oda-no-kage-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/oda-no-kage-card.png",
+      "sha": "2e7a7ca4b120dde0e9836f6e86a74656d85900a9"
+    },
+    {
+      "source": "assets/oda-no-kage-token.png",
+      "canonical": "assets/images/cards/characters/tokens/oda-no-kage-token.png",
+      "sha": "bf2afc5dbe783cc023120b027cb39d6bd55fdec0"
+    },
+    {
+      "source": "assets/ojo-de-buho-art.png",
+      "canonical": "assets/images/cards/characters/illustrations/ojo-de-buho-art.png",
+      "sha": "1f76d50aa15632d3a0b85d8d7ffcfa9f2342223a"
+    },
+    {
+      "source": "assets/ojo-de-buho-token.png",
+      "canonical": "assets/images/cards/characters/tokens/ojo-de-buho-token.png",
+      "sha": "a8a16d0a24a5cd22371dd3aaa15f78e96715478f"
+    },
+    {
+      "source": "assets/regente-kishimoto-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/regente-kishimoto-card.png",
+      "sha": "ddbe8af76fe0e5cc44fdde2354f0ed464a750c44"
+    },
+    {
+      "source": "assets/regente-kishimoto-token.png",
+      "canonical": "assets/images/cards/characters/tokens/regente-kishimoto-token.png",
+      "sha": "419ad5be65320e1d3644b0dbaf819422b5d8989a"
+    },
+    {
+      "source": "assets/saqueador-novato-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/saqueador-novato-card.png",
+      "sha": "2b3e0232f3c463f38a90d4e7d906b21b82e1b764"
+    },
+    {
+      "source": "assets/saqueador-novato-token.png",
+      "canonical": "assets/images/cards/characters/tokens/saqueador-novato-token.png",
+      "sha": "07f8926c101884d14c1b0a260e7fc037e4bbd1e4"
+    },
+    {
+      "source": "assets/shinra-hitokiri-card.webp",
+      "canonical": "assets/images/cards/characters/illustrations/shinra-hitokiri-card.webp",
+      "sha": "2774b8c53aa7a1b5273d6a41181d9c08f44f9276"
+    },
+    {
+      "source": "assets/shinra-hitokiri-token.png",
+      "canonical": "assets/images/cards/characters/tokens/shinra-hitokiri-token.png",
+      "sha": "c05767524028c289a0bbd11368daf98f23004607"
+    },
+    {
+      "source": "assets/shiro-no-bushi-card.webp",
+      "canonical": "assets/images/cards/characters/illustrations/shiro-no-bushi-card.webp",
+      "sha": "e6342c7b63f087972ac741a2976877e24728d1b9"
+    },
+    {
+      "source": "assets/shiro-no-bushi-token.png",
+      "canonical": "assets/images/cards/characters/tokens/shiro-no-bushi-token.png",
+      "sha": "916fe4438bb2b96bead98a60f5d8fcb82927c6c0"
+    },
+    {
+      "source": "assets/spell-carga-real.png",
+      "canonical": "assets/images/cards/spells/spell-carga-real.png",
+      "sha": "2b5959c97cbb668940be8c24e195b842a5d1b901"
+    },
+    {
+      "source": "assets/spell-despliegue-anticipado.webp",
+      "canonical": "assets/images/cards/spells/spell-despliegue-anticipado.webp",
+      "sha": "3a5a21dba0d5f0a6c2d686b0966c17ffdddb0fc0"
+    },
+    {
+      "source": "assets/spell-emboscada.webp",
+      "canonical": "assets/images/cards/spells/spell-emboscada.webp",
+      "sha": "9849a634917b30eae358f1ffc3f5d72f5a325a00"
+    },
+    {
+      "source": "assets/spell-gloria-latente.webp",
+      "canonical": "assets/images/cards/spells/spell-gloria-latente.webp",
+      "sha": "90f4b0ea89df6712f97297fdcad3b88e831fffaa"
+    },
+    {
+      "source": "assets/spell-guren-gan.webp",
+      "canonical": "assets/images/cards/spells/spell-guren-gan.webp",
+      "sha": "1cb97660de1a108acf2d7c2891fb40ff3b28c1e1"
+    },
+    {
+      "source": "assets/spell-interceptar.webp",
+      "canonical": "assets/images/cards/spells/spell-interceptar.webp",
+      "sha": "d68120477b33edd90a4a1b32d0cc45a121584813"
+    },
+    {
+      "source": "assets/spell-kage-no-michi-bg.webp",
+      "canonical": "assets/images/cards/spells/spell-kage-no-michi-bg.webp",
+      "sha": "2da6102d04e5994ac35ff221ae01c6c11ad68bd9"
+    },
+    {
+      "source": "assets/spell-kouuten.webp",
+      "canonical": "assets/images/cards/spells/spell-kouuten.webp",
+      "sha": "f26f572e1e36cb3d6f29c3f7ad68d3acd4ef8c46"
+    },
+    {
+      "source": "assets/spell-nagayoru.webp",
+      "canonical": "assets/images/cards/spells/spell-nagayoru.webp",
+      "sha": "c5683a46aab70a97841507925f868b8ed1838ca5"
+    },
+    {
+      "source": "assets/spell-tactica-de-guerra.png",
+      "canonical": "assets/images/cards/spells/spell-tactica-de-guerra.png",
+      "sha": "5c749031688a786bd5127e2a2daf217181270561"
+    },
+    {
+      "source": "assets/spell-tactica-de-guerra.webp",
+      "canonical": "assets/images/cards/spells/spell-tactica-de-guerra.webp",
+      "sha": "b891f4b21031bc7ff15cf5fd9477193bae2ec9f5"
+    },
+    {
+      "source": "assets/spell-tentorou.webp",
+      "canonical": "assets/images/cards/spells/spell-tentorou.webp",
+      "sha": "bfacda10747a9fadd060f26a1605cd84ed47aeeb"
+    },
+    {
+      "source": "assets/takeda-shingen-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/takeda-shingen-card.png",
+      "sha": "b1c752962e41732bd44353572935acae8ccca390"
+    },
+    {
+      "source": "assets/takeda-shingen-token.png",
+      "canonical": "assets/images/cards/characters/tokens/takeda-shingen-token.png",
+      "sha": "d25e2ba967c5376c92ba6980f5f84b3b8bfa354c"
+    },
+    {
+      "source": "assets/tokugawa-light-art.webp",
+      "canonical": "assets/images/cards/characters/illustrations/tokugawa-light-art.webp",
+      "sha": "9949edcb59dad5a73f2336d53f8ec2db7536fbe0"
+    },
+    {
+      "source": "assets/tokugawa-light-token.webp",
+      "canonical": "assets/images/cards/characters/tokens/tokugawa-light-token.webp",
+      "sha": "4c7bee9ab34ffe0a58e1eb12b297d8c886da3ed4"
+    },
+    {
+      "source": "assets/toyotomi-hideyoshi-art.png",
+      "canonical": "assets/images/cards/characters/illustrations/toyotomi-hideyoshi-art.png",
+      "sha": "f7070accdc70525e63f6c2c0a69efb15ea29f6c0"
+    },
+    {
+      "source": "assets/toyotomi-hideyoshi-token.webp",
+      "canonical": "assets/images/cards/characters/tokens/toyotomi-hideyoshi-token.webp",
+      "sha": "ac3621b64fb607ea4ff15490a4fe7e2f50695071"
+    },
+    {
+      "source": "assets/yasugana-crow-real-front-flip.png",
+      "canonical": "assets/images/fx/yasugana-crow-real-front-flip.png",
+      "sha": "bda9483450204e1351fc521e14e3607f05f3fc32"
+    },
+    {
+      "source": "assets/yasugana-crow-real-front.png",
+      "canonical": "assets/images/fx/yasugana-crow-real-front.png",
+      "sha": "e2e2bf94d41a9ab3be51d72949b1f9897a791f6d"
+    },
+    {
+      "source": "assets/yasugana-crow-real-side-flip.png",
+      "canonical": "assets/images/fx/yasugana-crow-real-side-flip.png",
+      "sha": "3f830e7b59c97a2c558deb8d1318fef50aa4ba05"
+    },
+    {
+      "source": "assets/yasugana-crow-real-side.png",
+      "canonical": "assets/images/fx/yasugana-crow-real-side.png",
+      "sha": "9955828e86c4871ac59d492104bd3023ebd32702"
+    },
+    {
+      "source": "assets/yasugana-hattori-card.png",
+      "canonical": "assets/images/cards/characters/illustrations/yasugana-hattori-card.png",
+      "sha": "3667114895beff64b2489f6df787abbacdb777ad"
+    },
+    {
+      "source": "assets/yasugana-hattori-token.png",
+      "canonical": "assets/images/cards/characters/tokens/yasugana-hattori-token.png",
+      "sha": "1136b9d6b106837f7b73f446d398c848e912820b"
+    }
+  ]
+}
