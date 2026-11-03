@@ -2,7 +2,7 @@ export function validateSummonTemplates(catalog) {
   if (!Array.isArray(catalog) || !catalog.length || catalog.length>24) throw Error('Catalogo invalido');
   const seen = new Set();
   for (const c of catalog) {
-    if (!c || typeof c.id !== 'string' || !/^[a-z][a-z0-9-]{0,48}$/.test(c.id) || seen.has(c.id))throw Error('ID de invocacion invalido');
+    if (!c || typeof c.id !== 'string' || !/^[a-zA-Z][a-zA-Z0-9_-]{0,79}$/.test(c.id) || seen.has(c.id))throw Error('ID de invocacion invalido');
     seen.add(c.id);
     if (!['melee','range','distance'].includes(c.combatMode))throw Error('Modo de combate invalido');
     for (const [key,min,max] of [['hp',1,1000],['damage',1,100],['range',1,18],['speed',.1,20],
