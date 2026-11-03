@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "source": "R.O.K. Lite / CARD_LIBRARY",
+  "note": "Puente experimental: solo ataque básico de Farolera; cadencia, velocidad, vida de invocación y potencia se documentan; poder Farol Enlazado y costes no implementados. Nunca mapear cartas arbitrarias a arquetipos provisionales.",
+  "units": [
+    {
+      "id": "kiaraFaroleraUmbral",
+      "name": "Farolera del Umbral",
+      "combatMode": "distance",
+      "hp": 2,
+      "damage": 2,
+      "range": 3,
+      "speed": 2.4,
+      "periodMs": 2000,
+      "windupMs": 500,
+      "projectileSpeed": 15,
+      "spawnCol": 4,
+      "visualModel": "mana",
+      "legacyCardId": "kiaraFaroleraUmbral",
+      "implementation": "basic-attack-only",
+      "notes": "HP2 daño2 alcance3 reales del CARD_LIBRARY; velocidad, periodo, anticipación y proyectil tomados del tester como parámetros provisionales. NO implementar Farol Enlazado hasta adaptación explícita."
+    }
+  ]
+}
