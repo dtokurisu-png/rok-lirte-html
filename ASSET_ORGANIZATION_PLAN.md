@@ -1,28 +1,28 @@
-# R.O.K. Lite — Organización segura de imágenes y medios (2026-11-03)
+# R.O.K. Lite — Organización de imágenes y recursos
 
-## Estado: primera migración física completada sin alterar el juego
-Se crearon **175 rutas canónicas** bajo `assets/images/` copiando los archivos binarios existentes con sus mismos SHA de Git. Se registró cada relación origen/destino en:
-- [Manifiesto de 175 rutas](./assets/manifests/image-paths.json)
+Actualizado: 3 de noviembre de 2026
 
-**Importante:** las imágenes antiguas siguen disponibles en sus rutas originales porque `game.js` (~5 MB), `style.css` (~4,4 MB), `index.html` y algunos datos las consumen. El cambio es de organización física/registro, **no significa que ya se hayan migrado todas las referencias del juego ni que sea seguro eliminar las rutas antiguas**.
+## Estado real
+La migración de rutas de imágenes en el **juego activo** está aplicada:
+- **175 archivos de imagen** tienen una ubicación canónica en `assets/images/`. Cada copia coincide con el original y conserva su mismo hash de objeto Git.
+- **439 referencias literales** se modificaron en **ocho archivos**: `game.js`, `style.css`, `index.html`, `firebase-online.js`, `sw.js`, `nueva-version/frontend/js/adventure-bridge.js`, `nueva-version/frontend/js/ui/spellbook-hud.js` y `nueva-version/tests/flujo-aventura.test.js`.
+- El cambio se aplicó en el commit `dab177d428341aeed5232f4c7ae2645cf529acac` mediante [GitHub Actions](https://github.com/dtokurisu-png/rok-lirte-html/actions/runs/41600531615), que terminó con éxito.
+- La caché del service worker se versionó nuevamente para que dispositivos con instalaciones anteriores recuperen los nuevos recursos.
+- Todas las referencias literales del manifiesto quedaron eliminadas de esos ocho archivos y los nuevos destinos existen en GitHub.
 
-## Carpetas canónicas creadas
+## Carpetas canónicas
 ```text
 assets/
   images/
     cards/
-      casters/
-        portraits/
-        kiara/
-      summons/
-        kiara/
-      spells/
-        kiara/
+      casters/portraits/
+      casters/kiara/
+      summons/kiara/
+      spells/kiara/
       skins/
       backgrounds/
-      characters/
-        illustrations/
-        tokens/
+      characters/illustrations/
+      characters/tokens/
       elements/
       abilities/
       guardians/
@@ -30,27 +30,26 @@ assets/
       menu/
       spellbook/
       movement/
-    arenas/
-      backgrounds/
-    props/
-      kiara/
+    arenas/backgrounds/
+    props/kiara/
     fx/
-  manifests/
-    image-paths.json
+  manifests/image-paths.json
 ```
+El resto de familias que ya estaban correctamente divididas (por ejemplo, `assets/rarities/`, `assets/weapons/`, `assets/factors/`, `assets/arenas/`) se conservan para no duplicar una migración innecesaria. Los archivos de `version-anterior/` siguen siendo respaldo histórico.
 
-## Cómo usarlo
-1. Todos los nuevos archivos de carta, invocación, caster, hechizo, skin y fondo se suben a su carpeta canónica, no a la raíz de `assets/`.
-2. Los recursos de personaje no identificados inequívocamente como caster o invocación permanecen clasificados en `cards/characters/` hasta confirmar su definición en el catálogo. **No asignar categorías por suposición.**
-3. Las imágenes de biblioteca/Spellbook reutilizan las ilustraciones y tokens existentes: no duplicar el mismo binario con otro nombre si no es necesario.
-4. `assets/adventure/`, `assets/arenas/`, las familias de iconos y `version-anterior/` no se borran ni cambian mientras haya referencias.
-5. Migrar referencias por grupos pequeños: juego antiguo, biblioteca, Spellbook, preparación Aventura, VS, escena 3D y móvil. Comprobar en cada etapa.
-6. Solo borrar las rutas originales cuando todos sus consumidores estén actualizados y las pantallas funcionen. Mantener SHA original y mapeo reversible.
+## Compatibilidad con jugadores
+**Se mantienen las URLs antiguas como alias de compatibilidad, no como ubicación canónica.** Aunque los archivos actuales ya usan las rutas nuevas, partidas guardadas, perfiles persistentes, datos sincronizados, cachés, enlaces externos o versiones antiguas de cliente pueden contener rutas originales. Borrarlas sin migrar también esos datos podría dejar imágenes faltantes. Las dos rutas de un mismo recurso referencian el **mismo hash de objeto Git**, por lo que no duplican su contenido binario dentro del almacén Git.
 
-## Trabajo pendiente
-- Inventariar las referencias completas de los grandes archivos `game.js`, `style.css` e `index.html`. La conexión no proporciona aquí su contenido íntegro para una sustitución segura, por lo que no se modificaron.
-- Asignar los recursos genéricos de `cards/characters/` a casters/invocaciones cuando sus tipos estén confirmados.
-- Verificar visualmente todas las pantallas tras cada lote de cambio de rutas y retirar alias antiguos.
+**Norma a partir de ahora:** subir cada imagen nueva solo a su carpeta canónica. No agregar recursos nuevos a `assets/` raíz.
+
+## Comprobaciones
+- `scripts/migrate-image-references.mjs --verify` comprueba la identidad de los 175 pares de recursos y la ausencia de referencias antiguas en los ocho archivos migrados.
+- `.github/workflows/verify-image-assets.yml` verifica hashes, rutas, sintaxis JavaScript y pruebas de las rutas de Aventura y escena.
+- Rama de recuperación previa: `backup-before-image-references-2026-11-03`.
+- El suite completo del motor revela una **prueba preexistente independiente** en `nueva-version/tests/sesiones-continuas.test.js`: esperaba `unknown-card` y recibió `card-not-adapted-or-not-equipped`. El test y el motor no fueron modificados por esta organización; debe repararse en una tarea de lógica de combate distinta.
+
+## Próxima norma de mantenimiento
+La clasificación de ilustraciones genéricas en `cards/characters/` puede refinarse por tipo de unidad cuando el catálogo indique inequívocamente si cada carta es Kaster o invocación. No trasladarlas por suposición.
 
 ## Tester 3D
-En `dtokurisu-png/rok-3d-test` ya se copiaron 19 binarios a `assets/models/` y `assets/animations/`, se actualizaron referencias del visor y la arena, y se limpiaron nueve GLB decorativos de la raíz. Los archivos originales activos de modelos/animaciones se conservan como alias de compatibilidad hasta terminar la prueba visual.
+En `dtokurisu-png/rok-3d-test` la migración física también terminó: **19 binarios** distribuidos en `assets/models/` y `assets/animations/`, con cero GLB/FBX/ZIP en la raíz y rama de respaldo `backup-before-asset-root-cleanup-2026-11-03`. Se actualizaron las rutas del visor, la arena y el iniciador local, con pruebas de sintaxis y hashes; la comprobación visual WebGL aún corresponde hacerla en navegador.
