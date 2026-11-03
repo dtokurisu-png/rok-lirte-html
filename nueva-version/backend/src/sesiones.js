@@ -7,7 +7,7 @@ function prune(now=Date.now()){
   for(const [id,entry] of sessions)
     if(now-entry.createdAt>=MAX_AGE_MS)sessions.delete(id);
 }
-export function createSession(ownerId,encounter,player,rival,catalog,playerSpellbookCardIds=[]){
+export function createSession(ownerId,encounter,player,rival,catalog,playerSpellbookCardIds=null){
   prune();
   if(sessions.size>=MAX_SESSIONS)return {ok:false,error:'server-capacity'};
   const state=createAdventureInitialState(encounter,player,rival,catalog);
@@ -15,8 +15,10 @@ export function createSession(ownerId,encounter,player,rival,catalog,playerSpell
   // Los IDs del navegador son selección de UI, no prueba de desbloqueo.
   // Se permiten solo adaptaciones de catálogo marcadas para el puente.
   const approved=new Set(catalog.filter(c=>c.legacyCardId===c.id && c.implementation==='basic-attack-only').map(c=>c.id));
-  const allowedCardIds=new Set((Array.isArray(playerSpellbookCardIds)?playerSpellbookCardIds:[])
-    .filter(cardId=>approved.has(cardId)));
+  const allowedCardIds=playerSpellbookCardIds===null?
+    new Set(catalog.filter(c=>!c.legacyCardId).map(c=>c.id)):
+    new Set((Array.isArray(playerSpellbookCardIds)?playerSpellbookCardIds:[])
+      .filter(cardId=>approved.has(cardId)));
   sessions.set(id,{ownerId,state,allowedCardIds,createdAt:now,requests:new Map()});
   return {ok:true,session:{id,...projectAdventureState(state),createdAt:new Date(now).toISOString()}};
 }
