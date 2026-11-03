@@ -1,0 +1,383 @@
+:root {
+  /* ===== CONTROLES FUENTE MÁGICA ===== */
+  --fountain-p1-left: 12%;
+  --fountain-p1-top: 88%;
+  --fountain-p2-left: 91%;
+  --fountain-p2-top: 14%;
+
+  --fountain-size: 18%;
+  --fountain-opacity: .72;
+  --fountain-glow: 2;
+
+  --fountain-particle-size:4px;
+  --fountain-particle-distance: 1;
+  --fountain-particle-speed: 15s;
+  --fountain-particle-frequency: 4.60s;
+  --fountain-particle-scale: 2;
+
+
+  /* =========================================================
+     ROK, CALIBRACIÓN MANUAL DE ARENA Y DOS CUADRÍCULAS
+     ========================================================= */
+
+  /* Zoom/pan manual con mouse:
+     - Rueda del mouse sobre la arena = acercar/alejar.
+     - Click sostenido + arrastrar = mover la arena cuando esté ampliada.
+  */
+  --board-zoom: 1;
+  --board-pan-x: 0px;
+  --board-pan-y: 0px;
+
+  /* Tamaño general del tablero dentro de la pantalla */
+  --board-aspect: 2 / 3;
+  --board-max-width: 100%;
+  --board-max-height: 100%;
+
+  /* Imagen de arena */
+  --arena-left: 0%;
+  --arena-top: 0%;
+  --arena-width: 100%;
+  --arena-height: 100%;
+  --arena-fit: cover;
+
+  /* Valores base del grid */
+  --grid-left-base: 24%;
+  --grid-top-base: 14%;
+  --grid-width-base: 53.7%;
+  --grid-height-base: 75.5%;
+
+  /* Tamaño parejo para ambos grids */
+  --grid-row-height: 35.8%;
+  --risk-ally-reference-bottom: 89.5%;
+
+  /* GRID ENEMIGO 9x9 */
+  --enemy-grid-left: var(--grid-left-base);
+  --enemy-grid-top: var(--grid-top-base);
+  --enemy-grid-width: var(--grid-width-base);
+  --enemy-grid-height: var(--grid-row-height);
+
+  /* GRID ALIADO 9x9 */
+  --ally-grid-left: var(--grid-left-base);
+  --ally-grid-top: calc(var(--risk-ally-reference-bottom) - var(--grid-row-height));
+  --ally-grid-width: var(--grid-width-base);
+  --ally-grid-height: var(--grid-row-height);
+
+  /* =========================================================
+     CONTROLES VISUALES DEL GRID, SEPARADOS POR LADO
+
+     IMPORTANTE:
+     Ya no hay un solo fill opacity global.
+     Ahora el enemigo y el aliado se controlan por separado.
+
+     Los colores usan RGB sin rgba:
+     rojo = 255, 255, 255
+     morado = 155, 77, 255
+     rojo oscuro = 198, 59, 59
+  ========================================================= */
+
+  /* GRID ENEMIGO, arriba */
+  --enemy-cell-line-color: 255, 255, 255;
+  --enemy-cell-line-opacity: 0.34;
+
+  --enemy-cell-fill-color-a: 198, 59, 59;
+  --enemy-cell-fill-color-b: 198, 59, 59;
+  --enemy-cell-fill-opacity-a: 0.40;
+  --enemy-cell-fill-opacity-b: 0.012;
+
+  --enemy-cell-label-color: 0, 0, 0;
+  --enemy-cell-label-opacity: 0.72;
+
+  --enemy-calibration-color: 255, 255, 255;
+  --enemy-calibration-opacity: 0.12;
+
+  /* GRID ALIADO, abajo */
+  --ally-cell-line-color: 255, 255, 255;
+  --ally-cell-line-opacity: 0.34;
+
+  --ally-cell-fill-color-a: 155, 77, 255;
+  --ally-cell-fill-color-b: 155, 77, 255;
+  --ally-cell-fill-opacity-a: 0.40;
+  --ally-cell-fill-opacity-b: 0.12;
+
+  --ally-cell-label-color: 0, 0, 0;
+  --ally-cell-label-opacity: 0.72;
+
+  --ally-calibration-color: 255, 255, 255;
+  --ally-calibration-opacity: 0.12;
+
+  /* Hover general de casillas */
+  --cell-hover-opacity: 0.18;
+
+  /* =========================================================
+     LÍNEAS DE ZONA DE RIESGO Y LÍNEA CENTRAL
+     ========================================================= */
+
+  --risk-thickness: 4px;
+  --risk-line-opacity: 0.62;
+  --risk-line-glow-opacity: 0.72;
+
+  --risk-enemy-left: var(--enemy-grid-left);
+  --risk-enemy-top: var(--enemy-grid-top);
+  --risk-enemy-width: var(--enemy-grid-width);
+
+  --risk-ally-left: var(--ally-grid-left);
+  --risk-ally-top: calc(var(--ally-grid-top) + var(--ally-grid-height));
+  --risk-ally-width: var(--ally-grid-width);
+
+  /* Línea central */
+  --battle-center-left: var(--grid-left-base);
+  --battle-center-top-offset: -0.5%;
+  --battle-center-top: calc(((var(--enemy-grid-top) + var(--enemy-grid-height) + var(--ally-grid-top)) / 2) + var(--battle-center-top-offset));
+  --battle-center-width: var(--grid-width-base);
+  --battle-center-thickness: 4px;
+  --battle-center-opacity: 0.78;
+  --battle-center-glow-opacity: 0.78;
+
+  /* =========================================================
+     TAMAÑO Y AJUSTE VISUAL DE FICHAS
+     ========================================================= */
+
+  --caster-w: 5%;
+  --caster-h: 11%;
+  --caster-offset-x: 0px;
+  --caster-offset-y: 0px;
+
+  --guardian-w: 6%;
+  --guardian-h: 11%;
+  --guardian-offset-x: 0px;
+  --guardian-offset-y: 0px;
+
+  --invocation-w: 5%;
+  --invocation-h: 10%;
+  --invocation-offset-x: 0px;
+  --invocation-offset-y: 0px;
+
+  /* =========================================================
+     PALETA GENERAL
+     ========================================================= */
+
+  --bg: #060607;
+  --panel: #0c0c0f;
+  --panel-2: #141419;
+  --line: #2c2c34;
+  --text: #e8e2d8;
+  --muted: #958d9b;
+  --p1: #9b4dff;
+  --p1-soft: rgba(155, 77, 255, .28);
+  --p2: #c63b3b;
+  --p2-soft: rgba(198, 59, 59, .25);
+  --cyan: #26eaff;
+  --gold: #c59a42;
+  --cell-border: rgba(54, 255, 229, .22);
+  --cell-label-font-size: 5px;
+
+  /* =========================================================
+     CONTROLES BADGES / INDICADORES EN ARENA - v4.9
+     ========================================================= */
+
+  /* Guardianes: resistencia */
+  --guardian-resistance-status-x: -0px;
+  --guardian-resistance-status-y: -2px;
+  --guardian-resistance-status-scale: .56;
+  --guardian-resistance-icon-size: 24px;
+  --guardian-resistance-number-size: 20px;
+  --guardian-resistance-number-font-size: 16px;
+  --guardian-resistance-number-x: -12px;
+  --guardian-resistance-number-y: -12px;
+  --guardian-resistance-number-bg: #ffffff;
+  --guardian-resistance-number-color: #12071e;
+
+  /* Invocaciones: posición general de los badges abajo de la ficha */
+  --invocation-badges-x: 0px;
+  --invocation-badges-y: -10px;
+
+  /* Invocaciones: badge daño */
+  --damage-badge-x: -20px;
+  --damage-badge-y: 0px;
+  --damage-badge-box-size: 40px;
+  --damage-icon-size: 12px;
+  --damage-icon-x: 0px;
+  --damage-icon-y: 0px;
+  --damage-number-size: 20px;
+  --damage-number-font-size: 16px;
+  --damage-number-bg: #ffffff;
+  --damage-number-color: #12071e;
+  --damage-number-x: 18px;
+  --damage-number-y: 16px;
+
+  /* Invocaciones: badge vida */
+  --life-badge-x: 20px;
+  --life-badge-y: 0px;
+  --life-badge-box-size: 40px;
+  --life-icon-size: 12px;
+  --life-icon-x: -15px;
+  --life-icon-y: 0px;
+  --life-number-size: 20px;
+  --life-number-font-size: 16px;
+  --life-number-bg: #ffffff;
+  --life-number-color: #12071e;
+  --life-number-x: 18px;
+  --life-number-y: 16px;
+}
+
+/* v5.0.1 hotfix: controles individuales de badges.
+   El resto del CSS continúa igual en el repo. */
+
+/* Guardianes */
+.guardian-resistance-status {
+  right: var(--guardian-resistance-status-x) !important;
+  bottom: var(--guardian-resistance-status-y) !important;
+  transform: scale(var(--guardian-resistance-status-scale)) !important;
+  width: max-content !important;
+  height: max-content !important;
+  gap: 0 !important;
+}
+.guardian-resistance-status .guardian-shield-icon {
+  width: var(--guardian-resistance-icon-size) !important;
+  height: calc(var(--guardian-resistance-icon-size) * 1.08) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 6px rgba(255,255,255,.52) !important;
+}
+.guardian-resistance-status .status-number {
+  width: var(--guardian-resistance-number-size) !important;
+  height: var(--guardian-resistance-number-size) !important;
+  right: var(--guardian-resistance-number-x) !important;
+  bottom: var(--guardian-resistance-number-y) !important;
+  background: var(--guardian-resistance-number-bg) !important;
+  color: var(--guardian-resistance-number-color) !important;
+  font: bold var(--guardian-resistance-number-font-size) Arial, sans-serif !important;
+}
+
+/* Invocaciones */
+.invocation-stat-status {
+  position: absolute !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: var(--invocation-badges-y) !important;
+  transform: translateX(calc(-50% + var(--invocation-badges-x))) !important;
+  z-index: 12 !important;
+  width: 0 !important;
+  height: 0 !important;
+  display: block !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+.unit-stat-icon-badge {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  display: block !important;
+  pointer-events: none !important;
+}
+.unit-damage-badge {
+  width: var(--damage-badge-box-size) !important;
+  height: var(--damage-badge-box-size) !important;
+  transform: translate(calc(-50% + var(--damage-badge-x)), var(--damage-badge-y)) !important;
+}
+.unit-life-badge {
+  width: var(--life-badge-box-size) !important;
+  height: var(--life-badge-box-size) !important;
+  transform: translate(calc(-50% + var(--life-badge-x)), var(--life-badge-y)) !important;
+}
+.unit-damage-badge .unit-sword-icon,
+.unit-life-badge .unit-heart-icon {
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+}
+.unit-damage-badge .unit-sword-icon {
+  width: calc(var(--damage-icon-size) * .26) !important;
+  height: calc(var(--damage-icon-size) * .72) !important;
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 78%, #ececec 100%) !important;
+  border-radius: 4px 4px 2px 2px !important;
+  transform: translate(calc(-50% + var(--damage-icon-x)), calc(-50% + var(--damage-icon-y))) rotate(38deg) !important;
+  filter: drop-shadow(0 0 5px rgba(255,255,255,.72)) !important;
+}
+.unit-damage-badge .unit-sword-icon::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: calc(var(--damage-icon-size) * -.21) !important;
+  width: calc(var(--damage-icon-size) * .30) !important;
+  height: calc(var(--damage-icon-size) * .30) !important;
+  background: #fff !important;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%) !important;
+  transform: translateX(-50%) !important;
+}
+.unit-damage-badge .unit-sword-icon::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 50% !important;
+  bottom: calc(var(--damage-icon-size) * -.06) !important;
+  width: calc(var(--damage-icon-size) * .78) !important;
+  height: calc(var(--damage-icon-size) * .15) !important;
+  background: #fff !important;
+  border-radius: 999px !important;
+  transform: translateX(-50%) !important;
+  box-shadow: 0 calc(var(--damage-icon-size) * .20) 0 calc(var(--damage-icon-size) * -.16) #fff !important;
+}
+.unit-life-badge .unit-heart-icon {
+  width: calc(var(--life-icon-size) * .54) !important;
+  height: calc(var(--life-icon-size) * .54) !important;
+  background: #fff !important;
+  transform: translate(calc(-50% + var(--life-icon-x)), calc(-50% + var(--life-icon-y))) rotate(-45deg) translateY(calc(var(--life-icon-size) * .04)) !important;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,.65)) !important;
+}
+.unit-life-badge .unit-heart-icon::before,
+.unit-life-badge .unit-heart-icon::after {
+  width: calc(var(--life-icon-size) * .54) !important;
+  height: calc(var(--life-icon-size) * .54) !important;
+  background: #fff !important;
+}
+.unit-life-badge .unit-heart-icon::before {
+  content: '' !important;
+  position: absolute !important;
+  top: calc(var(--life-icon-size) * -.25) !important;
+  left: 0 !important;
+  border-radius: 50% !important;
+}
+.unit-life-badge .unit-heart-icon::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: calc(var(--life-icon-size) * .25) !important;
+  border-radius: 50% !important;
+}
+.unit-stat-corner-number {
+  border: 2px solid #12071e !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  box-shadow: 0 0 12px rgba(255,255,255,.72) !important;
+}
+.unit-damage-badge .unit-stat-corner-number {
+  width: var(--damage-number-size) !important;
+  height: var(--damage-number-size) !important;
+  left: var(--damage-number-x) !important;
+  top: var(--damage-number-y) !important;
+  right: auto !important;
+  bottom: auto !important;
+  background: var(--damage-number-bg) !important;
+  color: var(--damage-number-color) !important;
+  font: bold var(--damage-number-font-size) Arial, sans-serif !important;
+}
+.unit-life-badge .unit-stat-corner-number {
+  width: var(--life-number-size) !important;
+  height: var(--life-number-size) !important;
+  left: var(--life-number-x) !important;
+  top: var(--life-number-y) !important;
+  right: auto !important;
+  bottom: auto !important;
+  background: var(--life-number-bg) !important;
+  color: var(--life-number-color) !important;
+  font: bold var(--life-number-font-size) Arial, sans-serif !important;
+}
+.unit.invocation.restoring .invocation-stat-status {
+  bottom: calc(var(--invocation-badges-y) - 4px) !important;
+  opacity: .72;
+}

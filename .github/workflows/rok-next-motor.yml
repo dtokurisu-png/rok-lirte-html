@@ -1,0 +1,29 @@
+name: R.O.K. Next - pruebas del motor
+on:
+  push:
+    paths:
+      - "index.html"
+      - "nueva-version/**"
+      - ".github/workflows/rok-next-motor.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validar motor continuo, puente y escenario
+        run: |
+          node --check nueva-version/motor/simulacion.js
+          node --check nueva-version/backend/src/index.js
+          node --check nueva-version/frontend/js/app.js
+          node --check nueva-version/frontend/js/arena-entrada.js
+          node --check nueva-version/frontend/js/adventure-bridge.js
+          node --check nueva-version/frontend/js/scene/arena.js
+          node --check nueva-version/frontend/js/scene/modelos.js
+          node --check nueva-version/frontend/js/scene/renderer.js
+          node --test nueva-version/tests/*.test.js

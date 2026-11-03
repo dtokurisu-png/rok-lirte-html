@@ -1,0 +1,49 @@
+/* R.O.K. — capa visual 3D, sin logica de combate. */
+.stage-3d{grid-column:1/-1;padding:18px 18px 20px;background:#091f28e8}
+.stage-layout-3d{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(245px,.8fr);gap:16px;align-items:start}
+.scene-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.scene-toolbar button{font:700 11px/1.2 Roboto,Arial,sans-serif;background:#194750;
+  border:1px solid #367b84;color:#edfffa;border-radius:7px;padding:9px 11px;cursor:pointer}
+.scene-toolbar button:disabled{opacity:.45;cursor:not-allowed}
+.scene-toolbar button:hover:not(:disabled){border-color:#00ffe4}
+#sceneStatus{color:#a4d7d5;font-size:11px;flex:1;min-width:180px;text-align:right}
+.scene-viewport{position:relative;width:100%;height:570px;min-height:340px;overflow:hidden;
+ background:#091d29;border:1px solid #33807e;border-radius:10px;isolation:isolate}
+.scene-viewport canvas{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.scene-viewport.scene-unavailable{display:grid;place-content:center;padding:22px;
+ text-align:center;color:#e9bdc8;font-size:13px}
+.scene-label-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.scene-unit-tag{position:absolute;transform:translate(-50%,-110%);
+ width:80px;text-align:center;display:flex;flex-direction:column;gap:2px;
+ text-shadow:0 2px 4px #000,0 0 4px #000;color:#fff;font-size:10px;font-weight:800}
+.scene-unit-tag[hidden]{display:none}
+.scene-unit-tag.caster{width:110px}
+.scene-unit-tag .unit-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+ text-transform:capitalize}
+.scene-unit-tag .scene-health{position:relative;width:100%;height:13px;border:1px solid #b8d9d8;
+ border-radius:5px;overflow:hidden;background:#28131a}
+.scene-unit-tag .scene-health-fill{position:absolute;inset:0 auto 0 0;
+ background:linear-gradient(#acffb0,#28b67b);transition:width .16s}
+.scene-unit-tag.enemy .scene-health-fill{background:linear-gradient(#ff8da3,#bb365d)}
+.scene-unit-tag .scene-health-text{position:absolute;inset:0;text-align:center;
+ font-size:9px;line-height:11px;font-weight:900;color:#fff}
+.stage-3d .summon-panel{border:1px solid #32616a;border-radius:9px;padding:13px;background:#0b252bcc}
+.stage-3d .summon-buttons{grid-template-columns:1fr 1fr;gap:7px}
+.stage-3d .summon-buttons button{min-width:0}
+.stage-3d .summon-buttons button strong{font-size:12px}
+.stage-3d .summon-panel .combat-log{max-height:200px}
+@media(max-width:900px){
+  .stage-layout-3d{grid-template-columns:1fr}
+  .scene-viewport{height:min(73vh,600px);min-height:360px}
+  .scene-toolbar #sceneStatus{flex-basis:100%;text-align:left}
+}
+@media(max-width:490px){
+  .stage-3d{padding:11px}
+  .scene-viewport{height:460px;min-height:350px}
+  .stage-3d .summon-buttons{grid-template-columns:1fr 1fr}
+  .scene-toolbar button{font-size:10px;padding:8px 7px}
+  .scene-unit-tag{width:62px;font-size:8px}
+  .scene-unit-tag.caster{width:78px}
+  .scene-unit-tag .scene-health{height:11px}
+  .scene-unit-tag .scene-health-text{font-size:8px;line-height:9px}
+}

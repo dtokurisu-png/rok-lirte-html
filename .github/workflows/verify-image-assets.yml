@@ -1,0 +1,42 @@
+name: Verify organized R.O.K. image assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/verify-image-assets.yml'
+      - 'assets/manifests/image-paths.json'
+      - 'scripts/migrate-image-references.mjs'
+      - 'game.js'
+      - 'style.css'
+      - 'index.html'
+      - 'firebase-online.js'
+      - 'sw.js'
+      - 'nueva-version/frontend/js/**'
+      - 'nueva-version/tests/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check all 175 canonical image SHA values and migrated URLs
+        run: node scripts/migrate-image-references.mjs --verify
+      - name: Check original game script syntax
+        run: |
+          node --check game.js
+          node --check firebase-online.js
+          node --check sw.js
+      - name: Check modified frontend and relevant adventure/scene tests
+        run: |
+          node --check nueva-version/frontend/js/adventure-bridge.js
+          node --check nueva-version/frontend/js/ui/spellbook-hud.js
+          node --test nueva-version/tests/flujo-aventura.test.js nueva-version/tests/escena-3d.test.js

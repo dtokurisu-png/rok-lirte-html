@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "lioren",
+  "name": "Lioren",
+  "level": 1,
+  "element": "tierra",
+  "status": "prototype",
+  "source": "version-anterior/game.js / ADVENTURE_PLAYER_CASTERS",
+  "stats": {
+    "attack": 2,
+    "life": 14,
+    "range": 3,
+    "movement": 3
+  },
+  "notes": "Atributos tomados de la ficha visual heredada. El movimiento del nuevo prototipo usa 1 accion por desplazamiento; aun no es el equilibrio definitivo. No hay poderes ni invocaciones implementados."
+}

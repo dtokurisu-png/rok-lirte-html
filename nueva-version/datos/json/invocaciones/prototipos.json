@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "tester-inspired",
+  "note": "Perfiles de prueba basados en tiempos/vida/alcance del tester 2.5D. melee-vanguard es una unidad adicional provisional para verificar combate cuerpo a cuerpo. Sin implicar reglas definitivas ni disponibilidad en Spellbooks.",
+  "units": [
+    {
+      "id": "melee-vanguard",
+      "name": "Guardia de prueba",
+      "combatMode": "melee",
+      "hp": 7,
+      "damage": 2,
+      "range": 1,
+      "speed": 2.4,
+      "periodMs": 2000,
+      "windupMs": 400,
+      "projectileSpeed": 0,
+      "spawnCol": 2,
+      "visualModel": "shield",
+      "description": "Prototipo cuerpo a cuerpo 1v1; usa el modelo de escudo temporalmente."
+    },
+    {
+      "id": "shield",
+      "name": "Farolera escudo",
+      "combatMode": "range",
+      "hp": 7,
+      "damage": 2,
+      "range": 3,
+      "speed": 2.4,
+      "periodMs": 2000,
+      "windupMs": 500,
+      "projectileSpeed": 15,
+      "spawnCol": 3,
+      "visualModel": "shield",
+      "description": "Valores observados en el tester, modalidad de alcance 3."
+    },
+    {
+      "id": "mana",
+      "name": "Farolera maná",
+      "combatMode": "range",
+      "hp": 5,
+      "damage": 1,
+      "range": 5,
+      "speed": 2.15,
+      "periodMs": 2000,
+      "windupMs": 500,
+      "projectileSpeed": 15,
+      "spawnCol": 5,
+      "visualModel": "mana",
+      "description": "Valores observados en el tester, alcance 5."
+    },
+    {
+      "id": "archer",
+      "name": "Arquera del desierto",
+      "combatMode": "distance",
+      "hp": 3,
+      "damage": 2,
+      "range": 9,
+      "speed": 2.15,
+      "periodMs": 3000,
+      "windupMs": 220,
+      "projectileSpeed": 28.5,
+      "spawnCol": 4,
+      "visualModel": "archer",
+      "description": "Valores y cadencia del tester, flecha 28.5 casillas/segundo."
+    }
+  ]
+}
