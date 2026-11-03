@@ -34,5 +34,18 @@
 **Ejecución:** no ejecutada en este entorno (acceso a GitHub mediante conector, sin clonado local por red); pendiente correr `cd nueva-version/backend && npm test` en un entorno con Node 20+.
 **Bloqueador de integración de Spellbook:** las IDs de cartas heredadas aún no están mapeadas al catálogo del motor y el backend solamente recibe el identificador de encuentro. No activar cartas a ciegas.
 
+
+## 2026-11-02 — Puente del Spellbook antiguo con HUD e invocaciones (integración de código)
+- El puente `frontend/js/adventure-bridge.js` conserva IDs (incluidas copias) y extrae nombres e imágenes desde `CARD_LIBRARY` original sin modificar `game.js`.
+- La nueva arena incluye `frontend/js/ui/spellbook-hud.js` y su banda visual responsive en `frontend/css/arena-entrada.css`; muestra el mazo real, estado de conexión y botones de invocación.
+- `frontend/js/arena-entrada.js` envía el mazo al crear la sesión y transmite las pulsaciones por `summonUnit`. No aplica efectos ni daños en frontend.
+- El backend filtra solicitudes por cartas equipadas **y explícitamente adaptadas**, evitando el uso accidental de prototipos como si fueran cartas antiguas. La pantalla técnica de prototipos conserva una ruta separada.
+- Se ha adaptado únicamente **`kiaraFaroleraUmbral` (Farolera del Umbral)** como ataque básico: PV 2, daño 2, alcance 3 desde `CARD_LIBRARY`; velocidad/cadencia/proyectil aún provisionales del tester. El poder `Farol Enlazado`, costes, Spellbooks completos y sus reglas quedan PENDIENTES.
+- Se actualizaron validadores para aceptar los IDs canónicos de cartas antiguas, incluidos identificadores con mayúsculas.
+- **Verificación:** revisión estática de archivos y tests ajustados; NO ejecutados en Node ni en navegador todavía. `frontend/config.json` tiene `backendUrl` vacío. El HUD puede mostrar el mazo, pero NO puede invocar en la publicación sin servidor desplegado.
+- El Spellbook de Aventura original sigue bloqueado para edición hasta la primera victoria contra Kiara y puede estar inicialmente vacío. No se alteró esta progresión.
+- **Seguridad pendiente:** el servidor recibe IDs seleccionados desde el cliente, pero todavía no valida desbloqueos/propiedad contra almacenamiento servidor; por tanto es un prototipo, no autorización definitiva para PvP/progresión.
+- Próximos pasos: ejecutar pruebas, desplegar backend compatible, confirmar HUD real y mapeo autoritativo de desbloqueos; después continuar reglas/cartas y diseño en tester.
+
 ## Norma de futuras entradas
 Fecha · objetivo · archivos editados · comportamiento antes/después · pruebas realizadas y resultado · riesgos/pendientes · commit.
