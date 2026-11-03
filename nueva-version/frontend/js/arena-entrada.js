@@ -71,7 +71,7 @@ function displaySelection(detail){
   $('matchTitle').textContent=(detail.playerName||'Lioren')+'  VS  '+(detail.rivalName||'Kiara');
   $('arenaName').textContent=detail.arenaName||'Arena de Aventura';
   scene.resetSession();
-  spellbookHUD.setDeck(detail.playerSpellbookCardIds);
+  spellbookHUD.setDeck(detail.playerSpellbookCardIds,detail.playerSpellbookCards);
   spellbookHUD.setSession(false);
   spellbookHUD.setState(null);
   spellbookHUD.setMessage('Se conserva el Spellbook de Aventura. Las cartas pendientes de adaptar aparecen desactivadas.');
