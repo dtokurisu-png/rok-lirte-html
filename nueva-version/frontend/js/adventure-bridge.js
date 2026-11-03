@@ -98,7 +98,26 @@
       const url = new URL(payload.arena?.image || 'assets/arena.webp', document.baseURI);
       if (url.origin === ORIGIN && /^https?:$/.test(url.protocol)) arenaImage = url.href;
     } catch (_) {}
+    const chosen=Array.isArray(payload.playerSpellbookCardIds) ?
+      payload.playerSpellbookCardIds.filter(id=>typeof id==='string').slice(0,30) : [];
+    // CARD_LIBRARY pertenece al juego original, ya cargado antes de este script.
+    // Se usan sus fichas solo para el HUD; nunca como reglas autoritativas.
+    const cardLibrary=typeof CARD_LIBRARY!=='undefined' ? CARD_LIBRARY : {};
+    const cards=chosen.map(id=>{
+      const card=cardLibrary[id];
+      const rawImage=card?.tokenImage||card?.artImage||'';
+      let image='';
+      try{
+        if(rawImage){
+          const url=new URL(rawImage,document.baseURI);
+          if(url.origin===ORIGIN && /^https?:$/.test(url.protocol))image=url.href;
+        }
+      }catch(_){}
+      return {id:safe(id),name:safe(card?.shortName||card?.name||id),image,
+        type:safe(card?.type||'')};
+    });
     return {
+      playerSpellbookCards:cards,
       encounterId: safe(payload.encounterId),
       playerName: safe(payload.playerCaster?.label || 'Lioren'),
       rivalName: safe(payload.rivalCaster?.label || 'Kiara'),
