@@ -1,11 +1,11 @@
-const ROK_CACHE = 'rok-lite-v9-89-mobile-bypass-auth-test';
+const ROK_CACHE = 'rok-lite-assets-20261103';
 const ROK_SHELL = [
   './',
   './index.html',
-  './style.css?v=rok-v9-88-online-tiempo-real-audit',
-  './rok-layout-scale.js?v=rok-v9-88-online-tiempo-real-audit',
-  './game.js?v=rok-v9-88-online-tiempo-real-audit',
-  './firebase-online.js?v=rok-v9-88-online-tiempo-real-audit',
+  './style.css?v=rok-assets-20261103',
+  './rok-layout-scale.js?v=rok-assets-20261103',
+  './game.js?v=rok-assets-20261103',
+  './firebase-online.js?v=rok-assets-20261103',
   './assets/images/ui/spellbook/kast-cell-icon.jpg',
   './assets/pwa/rok-icon-192.png',
   './assets/pwa/rok-icon-512.png'
