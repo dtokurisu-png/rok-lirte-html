@@ -25,7 +25,7 @@ jobs:
           fi
           mkdir -p "$(dirname "$DEST")"
           curl --fail --location --retry 3 --silent --show-error \
-            'https://raw.githubusercontent.com/dtokurisu-png/rok-3d-test/main/chiara_idle.glb' \
+            'https://raw.githubusercontent.com/dtokurisu-png/rok-3d-test/main/assets/models/casters/farolera/chiara_idle.glb' \
             --output "$DEST"
           ACTUAL="$(wc -c < "$DEST" | tr -d ' ')"
           test "$ACTUAL" -eq 4901316
