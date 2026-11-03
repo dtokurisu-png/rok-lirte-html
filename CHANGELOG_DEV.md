@@ -18,5 +18,13 @@
 
 **Próxima intervención:** inspeccionar los archivos originales completos por un método fiable, comprobar y corregir el enlace únicamente donde haga falta; probar recorrido total. Registrar aquí rutas, resultados, commit y pendientes.
 
+
+## 2026-11-02 — Validación manual e inspección de arquitectura
+**Confirmación del usuario:** la secuencia completa Aventura → VS → 3-2-1 → tablero 3D se reprodujo correctamente en la versión publicada. No se han realizado pruebas automatizadas de interfaz ni del botón Volver.
+
+**Inspección técnica:** `nueva-version/backend/src/index.js`, `src/sesiones.js`, `nueva-version/motor/simulacion.js`, `nueva-version/compartido/protocolo.js`, `nueva-version/frontend/js/network.js`, `js/scene/renderer.js` y `js/scene/modelos.js`. Se confirmó separación de autoridad lógica y visual: backend con tick continuo de 100 ms; frontend escucha snapshots y eventos, carga GLB y elige clips por estado.
+
+**Limitaciones reales:** backend no desplegado (`frontend/config.json` sin URL), sesión real y Spellbook original no conectados, casters provisionales y clips definitivos pendientes. Sin cambios de código de juego en esta entrada. Próximo foco: integrar datos reales de combate y despliegue mientras se preparan modelos y animaciones.
+
 ## Norma de futuras entradas
 Fecha · objetivo · archivos editados · comportamiento antes/después · pruebas realizadas y resultado · riesgos/pendientes · commit.
