@@ -26,5 +26,13 @@
 
 **Limitaciones reales:** backend no desplegado (`frontend/config.json` sin URL), sesión real y Spellbook original no conectados, casters provisionales y clips definitivos pendientes. Sin cambios de código de juego en esta entrada. Próximo foco: integrar datos reales de combate y despliegue mientras se preparan modelos y animaciones.
 
+
+## 2026-11-02 — Pruebas de regresión del nuevo backend (trabajo paralelo)
+**Nuevo archivo:** `nueva-version/tests/integracion-sesiones.test.js`.
+**Cobertura escrita:** tablero lógico 9×18, tick continuo, invocaciones, esquema del protocolo que rechaza daño del cliente, propiedad/aislamiento de sesiones, deduplicación de acciones y sincronización del servidor.
+**Cambios en comportamiento del juego:** ninguno. Se preservan el recorrido Aventura → VS → 3-2-1, el tablero y el código del tester.
+**Ejecución:** no ejecutada en este entorno (acceso a GitHub mediante conector, sin clonado local por red); pendiente correr `cd nueva-version/backend && npm test` en un entorno con Node 20+.
+**Bloqueador de integración de Spellbook:** las IDs de cartas heredadas aún no están mapeadas al catálogo del motor y el backend solamente recibe el identificador de encuentro. No activar cartas a ciegas.
+
 ## Norma de futuras entradas
 Fecha · objetivo · archivos editados · comportamiento antes/después · pruebas realizadas y resultado · riesgos/pendientes · commit.
