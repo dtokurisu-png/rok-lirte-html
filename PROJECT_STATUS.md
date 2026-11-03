@@ -1,6 +1,9 @@
 # R.O.K. Lite — Estado del proyecto
 Actualizado: 2026-11-02. Fuente de verdad para retomar el trabajo.
 
+## Hito validado por el usuario (2026-11-02)
+El usuario probó R.O.K. Lite publicado y confirmó que la secuencia original de Aventura → preparación → VS → 3-2-1 → arena 3D funciona. Validación manual reportada; no equivale a prueba automatizada, ni certifica backend conectado o vuelta desde arena.
+
 ## Objetivo inmediato (fase de integración)
 Validar el recorrido existente de R.O.K. Lite: menú principal → Aventura → región Agua → Kiara → preparación de Lioren/Spellbook → botón Combatir → VS original, cartas destacadas, cuenta 3-2-1 y «Combatir» → tablero 3D/2.5D con la geometría del tester.
 No reconstruir menús ni el sistema de preparación. No sustituir la geometría del tester.
@@ -16,14 +19,20 @@ No reconstruir menús ni el sistema de preparación. No sustituir la geometría 
 - [x] Inspeccionados README, documento ETAPA_4_FLUJO, puente, entrada de arena, geometría y configuración.
 - [x] Confirmado en código que el puente tiene entrada de batalla y mensajería al iframe.
 - [ ] Verificar en el código completo de `game.js` el momento exacto en que invoca el punto de entrada: el conector no devolvió contenido para ese archivo grande en esta revisión.
-- [ ] Probar desde el `index.html` real, en navegador, todo el recorrido hasta la arena; comprobar dimensiones móviles, carga de recursos y retorno.
+- [x] El usuario probó en navegador el recorrido original hasta la arena y confirmó que funciona (reporte manual del 2026-11-02).
+- [ ] Probar dimensiones móviles, carga de recursos, botón Volver y regresiones.
 - [ ] Confirmar aparición de caster aliado/enemigo y arte correcto, sin pantalla técnica intermedia.
 - [ ] Conectar lógica definitiva del motor tras aprobar el flujo; no adelantarse.
 
 **IMPORTANTE:** código presente ≠ transición comprobada en ejecución. No dar por finalizada la fase antes de una prueba de extremo a extremo.
 
-## Próximo paso único
-Inspeccionar la invocación en `game.js` y efectuar prueba real desde el menú original hasta el tablero; reparar solamente el puente si falla. Después pasar a lógica de combate nueva.
+## Estado técnico verificado en código (2026-11-02)
+- Backend: `nueva-version/backend/src/index.js` (Node + Socket.IO, protocolo, validación, tick 100 ms), `src/sesiones.js` (sesiones/acciones), `nueva-version/motor/simulacion.js` (lógica autoritativa).
+- Frontend: `nueva-version/frontend/js/network.js` (conexión/protocolo), `js/scene/renderer.js` (representación 3D), `js/scene/modelos.js` (GLB y elección de clips). El renderizador no calcula daño ni victoria.
+- El frontend `arena-entrada.js` actualmente no inicia pelea real sin `backendUrl`, ni incorpora aún el Spellbook original. Casters aún son placeholders.
+
+## Próximo paso
+Mientras el usuario prepara los modelos y animaciones de Kiara/Lioren en el tester, revisar y preparar el contrato de entrada a sesión, datos de Spellbook y despliegue/backend, sin modificar la secuencia original validada. Posteriormente integrar modelos/clips y verificar sincronización real. La revisión completa de `game.js` queda como tarea de auditoría, pero NO bloquea ya la navegación confirmada por el usuario.
 
 ## Cómo retomar otra conversación
 1. Leer este archivo.
