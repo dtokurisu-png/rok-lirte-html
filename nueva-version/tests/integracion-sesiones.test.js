@@ -13,7 +13,8 @@ const json=(path)=>JSON.parse(readFileSync(new URL(path,import.meta.url),'utf8')
 const encounter=json('../datos/json/encuentros/kiara.json');
 const player=json('../datos/json/kasters/lioren.json');
 const rival=json('../datos/json/kasters/kiara.json');
-const catalog=json('../datos/json/invocaciones/prototipos.json').units;
+const catalog=[...json('../datos/json/invocaciones/prototipos.json').units,
+ ...json('../datos/json/invocaciones/legado-adaptado.json').units];
 const fixture=()=>createAdventureInitialState(encounter,player,rival,catalog);
 
 test('el escenario usa la arena original 9x18 y ambos kasters, sin turnos',()=>{
@@ -50,7 +51,8 @@ test('invocacion: resolucion autoritativa con ID de carta reconocido',()=>{
 
 test('protocolos no aceptan alteraciones autoritativas enviadas por cliente',()=>{
   const id=randomUUID(),actionId=randomUUID();
-  assert.equal(validEncounterRequest({encounterId:'enigma-apprentice'}),true);
+  assert.equal(validEncounterRequest({encounterId:'enigma-apprentice',playerSpellbookCardIds:['kiaraFaroleraUmbral']}),true);
+  assert.equal(validEncounterRequest({encounterId:'enigma-apprentice'}),false);
   assert.equal(validEncounterRequest({encounterId:'enigma-apprentice',hp:500}),false);
   assert.equal(validStateRequest({sessionId:id}),true);
   assert.equal(validActionRequest({sessionId:id,actionId,type:'summon',cardId:'shield'}),true);
@@ -62,16 +64,19 @@ test('las sesiones pertenecen al jugador y rechazan solicitudes ajenas',()=>{
   const owner='test-owner-'+randomUUID();
   const intruder='test-intruder-'+randomUUID();
   try{
-    const opened=createSession(owner,encounter,player,rival,catalog);
+    const opened=createSession(owner,encounter,player,rival,catalog,['kiaraFaroleraUmbral']);
     assert.equal(opened.ok,true);
     const id=opened.session.id;
     assert.equal(getSessionState(owner,id).ok,true);
     assert.equal(getSessionState(intruder,id).ok,false);
     assert.equal(performSessionAction(intruder,{
-      sessionId:id,actionId:randomUUID(),type:'summon',cardId:'shield'
+      sessionId:id,actionId:randomUUID(),type:'summon',cardId:'kiaraFaroleraUmbral'
     }).ok,false);
     const actionId=randomUUID();
-    const request={sessionId:id,actionId,type:'summon',cardId:'shield'};
+    const rejected=performSessionAction(owner,{sessionId:id,actionId:randomUUID(),type:'summon',cardId:'shield'});
+    assert.equal(rejected.ok,false);
+    assert.equal(rejected.error,'card-not-adapted-or-not-equipped');
+    const request={sessionId:id,actionId,type:'summon',cardId:'kiaraFaroleraUmbral'};
     const first=performSessionAction(owner,request);
     assert.equal(first.ok,true);
     assert.deepEqual(performSessionAction(owner,request),first);
