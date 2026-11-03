@@ -8,8 +8,14 @@ const exact=(obj,keys)=>obj && typeof obj==='object' && !Array.isArray(obj) &&
   Object.keys(obj).length===keys.length && keys.every(key=>Object.hasOwn(obj,key));
 const uuid = id => typeof id==='string' && /^[a-f0-9]{8}-[a-f0-9-]{27,40}$/i.test(id);
 export function validEncounterRequest(payload){
-  return Boolean(exact(payload,['encounterId']) && typeof payload.encounterId==='string' &&
-    /^[a-z0-9][a-z0-9-]{0,63}$/.test(payload.encounterId));
+  const keys=payload && typeof payload==='object' && !Array.isArray(payload) && Object.keys(payload);
+  const shape=keys && keys.length===2 && keys.includes('encounterId') &&
+    keys.includes('playerSpellbookCardIds');
+  const ids=payload?.playerSpellbookCardIds;
+  return Boolean(shape && typeof payload.encounterId==='string' &&
+    /^[a-z0-9][a-z0-9-]{0,63}$/.test(payload.encounterId) &&
+    Array.isArray(ids) && ids.length<=30 &&
+    ids.every(id=>typeof id==='string' && /^[a-zA-Z][a-zA-Z0-9_-]{0,79}$/.test(id)));
 }
 export function validStateRequest(payload){
   return Boolean(exact(payload,['sessionId']) && uuid(payload.sessionId));
