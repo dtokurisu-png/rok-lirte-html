@@ -90,7 +90,11 @@ export function absorbFactorDamage(instance,damage,{category=null}={}){
  if(!instance?.state?.active||!['escudo','armadura'].includes(instance.factor))
   return {absorbed:0,remaining:amount};
  if(instance.semantic.category!==norm(category))return {absorbed:0,remaining:amount};
- if(instance.config.mode==='time')return {absorbed:amount,remaining:0};
+ // Timed immunity to negative psychic factors must NOT absorb ordinary
+ // weapon or spell damage. Timed damage protection is opt-in per ability.
+ if(instance.config.mode==='time')
+  return instance.config.absorbTimedDamage===true?
+   {absorbed:amount,remaining:0}:{absorbed:0,remaining:amount};
  if(instance.config.mode==='hit'){
   instance.state.capacity=Math.max(0,instance.state.capacity-1);
   if(instance.state.capacity<=0)instance.state.active=false;
