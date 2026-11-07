@@ -159,6 +159,6 @@ export function factorProfile(factor){
  return Object.freeze({id:name,focus:definition.focus,
   supportedModes:[...definition.modes],
   configurable:['category','orientation','potency','duration',
-   'interval','capacity','radius','blocksCategories','animation','activation']
+   'interval','capacity','radius','blocksCategories']
  });
 }
