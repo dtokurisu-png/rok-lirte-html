@@ -176,6 +176,19 @@ export function stepFactor(instance,dt,{emit=()=>{}}={}){
  for(const event of events)emit(event);
  return events;
 }
+/**
+ * Resolve a healing pulse without mutating the target or choosing recipients.
+ * The card configures potency/frequency/range; the arena selects eligible
+ * allies and performs the authoritative HP update using this result.
+ */
+export function resolveFactorHealing(event,{current,max}={}){
+ if(event?.type!=='sanacion')throw Error('El evento no es Sanación');
+ const amount=finite(Number(event.potency),'potency');
+ const maxHp=finite(Number(max),'max');
+ const hp=finite(Number(current),'current');
+ const next=Math.min(maxHp,Math.max(0,hp)+amount);
+ return {before:hp,next,healed:Math.max(0,next-hp)};
+}
 // A durationless factor ends when the action it imposed actually resolves.
 export function completeFactorAction(instance,{result='completed'}={}){
  if(!instance||instance.config.mode!=='action'||!instance.state.active)return false;
