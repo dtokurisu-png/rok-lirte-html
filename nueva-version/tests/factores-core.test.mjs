@@ -82,3 +82,25 @@ test('Confusión no expira por tiempo: termina al resolver el ataque obligado',(
  assert.equal(f.state.resolution,'attack-resolved');
  assert.equal(completeFactorAction(f),false);
 });
+
+test('Escudo mágico puede bloquear tipos de ataque configurados por la carta',()=>{
+ const f=createFactorInstance({factor:'escudo',
+  semantic:{category:'magico'},
+  config:{mode:'hit',capacity:3,
+   protectsCategories:['fisico','magico','elemental','psiquico']}});
+ for(const cat of ['fisico','magico','elemental']){
+  assert.deepEqual(absorbFactorDamage(f,5,{category:cat}),
+   {absorbed:5,remaining:0});
+ }
+ assert.equal(f.state.capacity,0);
+ assert.equal(f.state.active,false);
+});
+test('Escudo psíquico se agota después de 10 segundos de vida activa',()=>{
+ const f=createFactorInstance({factor:'escudo',
+  semantic:{category:'psiquico'},
+  config:{mode:'time',duration:10,blocksCategories:['psiquico']}});
+ assert.equal(factorBlocks(f,{negative:true,category:'psiquico'}),true);
+ stepFactor(f,7);assert.equal(f.state.remaining,3);
+ stepFactor(f,3);assert.equal(f.state.remaining,0);
+ assert.equal(factorBlocks(f,{negative:true,category:'psiquico'}),false);
+});
