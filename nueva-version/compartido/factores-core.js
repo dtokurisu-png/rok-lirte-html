@@ -19,14 +19,14 @@ export const FACTOR_COLORS=Object.freeze({
  fisico:'#FFFFFF',magico:'#79E9FF',psiquico:'#F2CE31',
  elemental:'#00FFE4',virtual:'#A455C8',estrategico:'#D7A803'
 });
+// Add new factors ONLY when a card requires them; this is the current set.
 const FACTORS=Object.freeze({
+ confusion:{focus:'control',modes:['time']},
  escudo:{focus:'proteccion',modes:['damage','hit','time','charges']},
  armadura:{focus:'proteccion',modes:['damage','hit','time','charges']},
- quemadura:{focus:'danio',modes:['time']},
- veneno:{focus:'danio',modes:['time']},
- evasion:{focus:'proteccion',modes:['charges','time']},
- confusion:{focus:'control',modes:['time']},
- sanacion:{focus:'sanacion',modes:['time','instant']}
+ extraccion:{focus:'saqueo',modes:['instant','time']},
+ sanacion:{focus:'sanacion',modes:['instant','time']},
+ control:{focus:'control',modes:['instant','time']}
 });
 const finite=(v,name,min=0)=>{if(!Number.isFinite(v)||v<min)throw Error('Factor: '+name+' inválido');return v;};
 const norm=(s)=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -52,21 +52,25 @@ export function createFactorInstance({
  const taxonomy={
   category:norm(semantic.category),
   orientation:norm(semantic.orientation||(
-   ['escudo','armadura','evasion','sanacion'].includes(id)?'defensivo':'ofensivo')),
+   ['escudo','armadura','sanacion'].includes(id)?'defensivo':'ofensivo')),
   focus:norm(semantic.focus||definition.focus)
  };
  for(const [layer,value] of Object.entries(taxonomy))
   if(!FACTOR_LAYERS[layer].includes(value))
    throw Error('Factor: capa '+layer+' inválida: '+value);
  const mode=norm(config.mode||(
-  ['quemadura','veneno','confusion'].includes(id)?'time':'damage'));
+  ['confusion','control'].includes(id)?'time':
+  ['sanacion','extraccion'].includes(id)?'instant':'damage'));
  if(!definition.modes.includes(mode))throw Error('Factor: consumo incompatible: '+id+'/'+mode);
  const potency=finite(Number(config.potency??1),'potency');
  const duration=finite(Number(config.duration??0),'duration');
  const interval=finite(Number(config.interval??1),'interval',.001);
  const capacity=finite(Number(config.capacity??potency),'capacity');
  const cooldown=finite(Number(config.cooldown??0),'cooldown');
+ if(!Number.isFinite(Number(config.radius??0))||Number(config.radius??0)<0)
+  throw Error('Factor: radio inválido');
  const normalized={...config,mode,potency,duration,interval,capacity,cooldown,
+  radius:Number(config.radius??0),
   blocksCategories:(config.blocksCategories||[]).map(norm)};
  for(const cat of normalized.blocksCategories)
   if(!FACTOR_LAYERS.category.includes(cat))throw Error('Categoría bloqueada desconocida: '+cat);
@@ -97,22 +101,60 @@ export function absorbFactorDamage(instance,damage,{category=null}={}){
  if(instance.state.capacity<=0)instance.state.active=false;
  return {absorbed,remaining:amount-absorbed};
 }
+// Consumers decide recipients (team, radius, eligibility) and apply the
+// emitted event to the authoritative game state; no Three.js dependency.
 export function stepFactor(instance,dt,{emit=()=>{}}={}){
  finite(dt,'dt');if(!instance?.state?.active)return [];
  const state=instance.state,cfg=instance.config,events=[];
- if(cfg.mode==='time'||cfg.duration>0){
-  const activeDt=cfg.duration>0?Math.min(dt,state.remaining):dt;
+ const activeDt=cfg.duration>0?Math.min(dt,state.remaining):dt;
+ const periodic=['sanacion','extraccion','control'].includes(instance.factor);
+ if(cfg.mode==='instant'){
+  if(state.pulses===0){
+   state.pulses=1;
+   events.push({type:instance.factor,category:instance.semantic.category,
+    potency:cfg.potency,radius:cfg.radius,sourceId:instance.sourceId,
+    targetId:instance.targetId,negative:instance.factor==='control'});
+   state.active=false;
+  }
+ }else if(cfg.mode==='time'){
   state.elapsed+=activeDt;
-  if(['quemadura','veneno','sanacion'].includes(instance.factor)){
+  if(periodic){
+   // One event per complete configured interval, including large frame dt.
    while(state.elapsed+1e-9>=cfg.interval){
     state.elapsed-=cfg.interval;state.pulses++;
     events.push({type:instance.factor,category:instance.semantic.category,
-     potency:cfg.potency,sourceId:instance.sourceId,targetId:instance.targetId});
+     potency:cfg.potency,radius:cfg.radius,sourceId:instance.sourceId,
+     targetId:instance.targetId,negative:instance.factor==='control'});
    }
   }
-  if(cfg.duration>0){state.remaining=Math.max(0,state.remaining-dt);
-   if(state.remaining===0)state.active=false;}
+  if(cfg.duration>0){
+   state.remaining=Math.max(0,state.remaining-dt);
+   if(state.remaining<=1e-9){state.remaining=0;state.active=false;}
+  }
  }
  for(const event of events)emit(event);
  return events;
+}
+// Retained separate state event for the existing fixed-outcome Telepate
+// confusion. No attack reroll, movement redirection or double damage.
+export function applyFactorStatus(instance,target){
+ if(!instance?.state?.active||!target)return false;
+ if(instance.factor!=='confusion'&&instance.factor!=='control')return false;
+ if(instance.config.mode!=='time')return false;
+ target.rokFactorStatuses??={};
+ target.rokFactorStatuses[instance.factor]={
+  category:instance.semantic.category,
+  negative:true,
+  remaining:instance.state.remaining,
+  sourceId:instance.sourceId
+ };
+ return true;
+}
+export function factorProfile(factor){
+ const name=norm(factor),definition=FACTORsGet(name);
+ return Object.freeze({id:name,focus:definition.focus,
+  supportedModes:[...definition.modes],
+  configurable:['category','orientation','potency','duration',
+   'interval','capacity','radius','blocksCategories','animation','activation']
+ });
 }
