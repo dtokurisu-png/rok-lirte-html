@@ -84,7 +84,7 @@ su carga en el navegador antes de declarar completa la integración.
 | --- | --- | --- |
 | Confusión | Telépata | **Factor 1 migrado en el tester:** ahora el núcleo compartido conserva el estado hasta que se resuelve el ataque obligado (sin caducidad de 1 s). El Telépata conserva pulso de 5 s, radio 6 y resultado 50/50; el atacante golpea a sí mismo o busca/ataca una invocación aliada, luego se restaura si sobrevive. Hay fallback si falla la carga del módulo. |
 | Escudo | Cariona; Amor de Astarin | **Factor 2 integrado en tester:** Cariona consume tres impactos desde el motor compartido y refleja el valor en el HUD (fallback legado si el módulo no carga). Astarin tiene protección psíquica por 10 segundos, 10 marcas amarillas y FX de desvanecimiento en los últimos tres segundos. La renovación automática queda pendiente de duración de enfriamiento aprobada. |
-| Armadura | Cariona; Roble Antiguo | Motor con perfil y consumo parametrizable; bonificaciones/desgaste siguen en runtime legado |
+| Armadura | Cariona; Roble Antiguo | **Factor 3 integrado en tester:** el motor compartido calcula reducciones planas persistentes por categoría y acumula fuentes base/equipo. La carta mantiene la duración del equipo, penalización de velocidad y destrucción; hay fallback al cálculo legado cuando no carga el módulo. |
 | Extracción | Semillera; fuentes de elementos | Definición/evento disponible; economía/stock siguen en runtime original |
 | Sanación | Amor de Astarin | Conexión inicial: pulso de 1 HP cada segundo dentro de radio 6, sin exceder HP máximo; depende de carga del núcleo compartido |
 | Control | Controladora de Agua | Definición/evento disponibles, sin efecto de carta hasta fijar sus reglas concretas |
@@ -135,14 +135,23 @@ confirmar si debe tener 6 o 10 segundos de cooldown, para no inventar
 una regla. La entrada de una nueva instancia a combate reinicia el
 escudo desde 10 segundos.
 
-No se ha migrado el factor `armadura`: sus reducciones siguen en el
-código de daño heredado. No se aplican dos defensas por un impacto.
+**Armadura migrada (etapa 3):** el motor compartido reduce daño con `mode:'flat'`, sin consumir cargas. Cariona base: físico 1; con Roble Antiguo: físico +2 y mágico +1, total físico 3/mágico 1. El daño se procesa primero contra Escudo, luego Armadura, luego escudo genérico y vida; los modificadores de velocidad y la rotura al morir continúan en la carta/equipo. Si falla la carga del núcleo central se conserva el cálculo anterior, no se aplican dos reducciones.
 
 Pruebas aisladas del adaptador: tres absorciones de Cariona,
 recuperación del escudo al invocar una nueva vida, bloqueo psíquico
 activo a 10s/3s e inactivo a 0s, y restablecimiento en vida nueva.
 La carga de CDN y el combate visual completo aún requieren QA de
 navegador real.
+
+### Armadura — factor 3
+
+- Definición: `armadura` con modo `flat` y potencia configurable; el factor nunca se desgasta al recibir daño, a diferencia de un escudo por cargas.
+- Cada fuente (armadura base y equipamiento) crea una instancia independiente del **mismo factor**. El cálculo agrega reducciones compatibles con la categoría del ataque.
+- Cariona: defensa física base 1; Armadura de Roble Antiguo concede física +2 y mágica +1. Equipada, su protección es física 3 / mágica 1.
+- El adaptador vuelve a calcular las fuentes cuando se equipa, pierde o rompe el objeto. La lógica de casteo, coste, recrafteo, velocidad y selección del equipo se conserva sin alteraciones.
+- El motor compartido recibe el daño después del Escudo y devuelve la cantidad neta para evitar dobles reducciones. Si falla su carga, el código anterior sigue disponible.
+- Pruebas del factor y del adaptador: sin equipar (1/0), equipada (3/1), desequipada (1/0), sin armadura (0), acumulación, límites y persistencia por golpes.
+- Falta confirmar en una partida real en navegador la integración visual completa y la disponibilidad del archivo del CDN.
 
 ## Estado real — etapa de base, NO migración completada
 - [x] Recuperar la clasificación canónica de R.O.K.
