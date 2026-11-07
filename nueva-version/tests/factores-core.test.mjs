@@ -126,3 +126,26 @@ test('Armadura base y Roble se acumulan sin consumirse por daño',()=>{
  assert.deepEqual(reduceFactorDamage([],4,{category:'fisico'}),
   {reduced:0,remaining:4});
 });
+
+test('Extracción usa un evento por operación, sin duplicar recursos',()=>{
+ for(const [operation,potency] of [['unlock',1],['recharge',.25]]){
+  const factor=createFactorInstance({factor:'extraccion',
+   semantic:{category:'elemental'},
+   application:{root:'factor',activation:'disparador'},
+   config:{mode:'instant',potency,resourceOperation:operation},
+   sourceId:'test',targetId:'ally'});
+  const events=stepFactor(factor,0);
+  assert.equal(events.length,1);
+  assert.equal(events[0].resourceOperation,operation);
+  assert.equal(events[0].potency,potency);
+  assert.equal(stepFactor(factor,3).length,0);
+ }
+});
+test('Extracción admite eventos periódicos solo cuando la carta los define',()=>{
+ const f=createFactorInstance({factor:'extraccion',
+  semantic:{category:'elemental'},config:{mode:'time',
+   interval:3,potency:.25,resourceOperation:'recharge'}});
+ assert.equal(stepFactor(f,2).length,0);
+ assert.equal(stepFactor(f,1).length,1);
+ assert.equal(stepFactor(f,6).length,2);
+});
