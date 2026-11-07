@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const src=readFileSync(new URL('../compartido/factores-core.js',import.meta.url),'utf8');
 const core=await import('data:text/javascript;base64,'+Buffer.from(src).toString('base64'));
-const {createFactorInstance,absorbFactorDamage,factorBlocks,stepFactor,describeFactor,completeFactorAction,reduceFactorDamage}=core;
+const {createFactorInstance,absorbFactorDamage,factorBlocks,stepFactor,describeFactor,completeFactorAction,reduceFactorDamage,resolveFactorHealing}=core;
 test('Cariona: mismo escudo, mágico y por puntos de daño',()=>{
  const f=createFactorInstance({factor:'escudo',
   semantic:{category:'magico'},config:{mode:'damage',capacity:2}});
@@ -148,4 +148,27 @@ test('Extracción admite eventos periódicos solo cuando la carta los define',()
  assert.equal(stepFactor(f,2).length,0);
  assert.equal(stepFactor(f,1).length,1);
  assert.equal(stepFactor(f,6).length,2);
+});
+
+test('Sanación respeta potencia, intervalo y vida máxima sin alterar al objetivo',()=>{
+ const f=createFactorInstance({factor:'sanacion',semantic:{category:'magico'},
+  application:{root:'habilidad',activation:'pasiva'},
+  config:{mode:'time',interval:1,potency:1,radius:6},sourceId:'astarium'});
+ assert.equal(stepFactor(f,.4).length,0);
+ const pulses=stepFactor(f,.6);
+ assert.equal(pulses.length,1);
+ assert.equal(pulses[0].radius,6);
+ assert.deepEqual(resolveFactorHealing(pulses[0],{current:2,max:5}),
+  {before:2,next:3,healed:1});
+ assert.deepEqual(resolveFactorHealing(pulses[0],{current:4.5,max:5}),
+  {before:4.5,next:5,healed:.5});
+ assert.deepEqual(resolveFactorHealing(pulses[0],{current:5,max:5}),
+  {before:5,next:5,healed:0});
+ assert.equal(stepFactor(f,2).length,2);
+});
+test('Sanación valida el evento, no crea curación desde otros factores',()=>{
+ assert.throws(()=>resolveFactorHealing({type:'confusion',potency:1},
+  {current:1,max:3}));
+ assert.throws(()=>resolveFactorHealing({type:'sanacion',potency:-1},
+  {current:1,max:3}));
 });
