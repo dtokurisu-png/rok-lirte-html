@@ -71,9 +71,10 @@ export function createFactorInstance({
   throw Error('Factor: radio inválido');
  const normalized={...config,mode,potency,duration,interval,capacity,cooldown,
   radius:Number(config.radius??0),
-  blocksCategories:(config.blocksCategories||[]).map(norm)};
- for(const cat of normalized.blocksCategories)
-  if(!FACTOR_LAYERS.category.includes(cat))throw Error('Categoría bloqueada desconocida: '+cat);
+  blocksCategories:(config.blocksCategories||[]).map(norm),
+  protectsCategories:(config.protectsCategories||[]).map(norm)};
+ for(const cat of [...normalized.blocksCategories,...normalized.protectsCategories])
+  if(!FACTOR_LAYERS.category.includes(cat))throw Error('Categoría desconocida: '+cat);
  const state={remaining:duration,capacity,elapsed:0,pulses:0,active:true};
  return {factor:id,semantic:taxonomy,application:origin,config:normalized,
   sourceId,targetId,state};
@@ -89,7 +90,12 @@ export function absorbFactorDamage(instance,damage,{category=null}={}){
  const amount=finite(Number(damage),'damage');
  if(!instance?.state?.active||!['escudo','armadura'].includes(instance.factor))
   return {absorbed:0,remaining:amount};
- if(instance.semantic.category!==norm(category))return {absorbed:0,remaining:amount};
+ // Nature of a shield is not the nature of every attack it can stop.
+ // The card can explicitly allow multiple damage categories.
+ const allowed=instance.config.protectsCategories;
+ if(allowed.length?!allowed.includes(norm(category)):
+   instance.semantic.category!==norm(category))
+  return {absorbed:0,remaining:amount};
  // Timed immunity to negative psychic factors must NOT absorb ordinary
  // weapon or spell damage. Timed damage protection is opt-in per ability.
  if(instance.config.mode==='time')
@@ -170,6 +176,6 @@ export function factorProfile(factor){
  return Object.freeze({id:name,focus:definition.focus,
   supportedModes:[...definition.modes],
   configurable:['category','orientation','potency','duration',
-   'interval','capacity','radius','blocksCategories']
+   'interval','capacity','radius','blocksCategories','protectsCategories']
  });
 }
