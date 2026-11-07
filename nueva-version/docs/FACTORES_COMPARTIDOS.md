@@ -83,7 +83,7 @@ su carga en el navegador antes de declarar completa la integración.
 | Factor | Fuente actual | Estado de migración |
 | --- | --- | --- |
 | Confusión | Telépata | **Factor 1 migrado en el tester:** ahora el núcleo compartido conserva el estado hasta que se resuelve el ataque obligado (sin caducidad de 1 s). El Telépata conserva pulso de 5 s, radio 6 y resultado 50/50; el atacante golpea a sí mismo o busca/ataca una invocación aliada, luego se restaura si sobrevive. Hay fallback si falla la carga del módulo. |
-| Escudo | Cariona; Astarin | Perfiles declarados en adaptador; daño de Cariona sigue en runtime legado; protección temporal psíquica de Astarin aún no activada |
+| Escudo | Cariona; Amor de Astarin | **Factor 2 integrado en tester:** Cariona consume tres impactos desde el motor compartido y refleja el valor en el HUD (fallback legado si el módulo no carga). Astarin tiene protección psíquica por 10 segundos, 10 marcas amarillas y FX de desvanecimiento en los últimos tres segundos. La renovación automática queda pendiente de duración de enfriamiento aprobada. |
 | Armadura | Cariona; Roble Antiguo | Motor con perfil y consumo parametrizable; bonificaciones/desgaste siguen en runtime legado |
 | Extracción | Semillera; fuentes de elementos | Definición/evento disponible; economía/stock siguen en runtime original |
 | Sanación | Amor de Astarin | Conexión inicial: pulso de 1 HP cada segundo dentro de radio 6, sin exceder HP máximo; depende de carga del núcleo compartido |
@@ -113,6 +113,36 @@ Si no hay otro aliado válido, o la trayectoria se atasca, el ataque
 forzado se convierte en autoataque como salida segura. Al morir o
 restaurarse de forma externa, la acción se cancela y se libera el factor.
 No se ejecuta daño duplicado al finalizar el estado.
+
+### Escudo — etapa 2
+
+Ambas unidades llaman el mismo factor `escudo`, pero cada una aporta
+sus propiedades. Cariona conserva **tres impactos por vida** (balance real
+del tester) hasta autorizar migrar a la propuesta distinta de **dos puntos
+de daño**. El motor guarda la capacidad; `magicShieldHits` es solamente
+compatibilidad con el HUD existente. Los ataques físicos y mágicos están
+configurados como protegidos, pese a que la naturaleza del escudo es
+mágica: naturaleza del escudo y naturaleza del ataque bloqueado no son
+sinónimos.
+
+Amor de Astarin usa `mode:time`, `duration:10`, categoría `psiquico`
+y bloquea exclusivamente factores negativos psíquicos mediante la
+interfaz compartida `factorBlocks`. Su HUD lee tiempo restante, no
+puntos de daño, y representa diez segmentos amarillos. El FX visual
+parpadea/desaparece progresivamente en sus tres segundos finales.
+La recarga/renovación automática se mantiene **sin habilitar** hasta
+confirmar si debe tener 6 o 10 segundos de cooldown, para no inventar
+una regla. La entrada de una nueva instancia a combate reinicia el
+escudo desde 10 segundos.
+
+No se ha migrado el factor `armadura`: sus reducciones siguen en el
+código de daño heredado. No se aplican dos defensas por un impacto.
+
+Pruebas aisladas del adaptador: tres absorciones de Cariona,
+recuperación del escudo al invocar una nueva vida, bloqueo psíquico
+activo a 10s/3s e inactivo a 0s, y restablecimiento en vida nueva.
+La carga de CDN y el combate visual completo aún requieren QA de
+navegador real.
 
 ## Estado real — etapa de base, NO migración completada
 - [x] Recuperar la clasificación canónica de R.O.K.
