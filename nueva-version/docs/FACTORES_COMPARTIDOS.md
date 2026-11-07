@@ -85,7 +85,7 @@ su carga en el navegador antes de declarar completa la integración.
 | Confusión | Telépata | **Factor 1 migrado en el tester:** ahora el núcleo compartido conserva el estado hasta que se resuelve el ataque obligado (sin caducidad de 1 s). El Telépata conserva pulso de 5 s, radio 6 y resultado 50/50; el atacante golpea a sí mismo o busca/ataca una invocación aliada, luego se restaura si sobrevive. Hay fallback si falla la carga del módulo. |
 | Escudo | Cariona; Amor de Astarin | **Factor 2 integrado en tester:** Cariona consume tres impactos desde el motor compartido y refleja el valor en el HUD (fallback legado si el módulo no carga). Astarin tiene protección psíquica por 10 segundos, 10 marcas amarillas y FX de desvanecimiento en los últimos tres segundos. La renovación automática queda pendiente de duración de enfriamiento aprobada. |
 | Armadura | Cariona; Roble Antiguo | **Factor 3 integrado en tester:** el motor compartido calcula reducciones planas persistentes por categoría y acumula fuentes base/equipo. La carta mantiene la duración del equipo, penalización de velocidad y destrucción; hay fallback al cálculo legado cuando no carga el módulo. |
-| Extracción | Semillera; fuentes de elementos | Definición/evento disponible; economía/stock siguen en runtime original |
+| Extracción | Fuentes elementales, Semillera, fragmentos de unidades y recuperación pasiva | **Factor 4 integrado:** todas las operaciones emiten un evento instantáneo del núcleo compartido antes de ejecutarse una vez en la economía existente; sin CDN, se utiliza la economía previa. El HUD continúa controlando casillas desbloqueadas y límites de almacenamiento. |
 | Sanación | Amor de Astarin | Conexión inicial: pulso de 1 HP cada segundo dentro de radio 6, sin exceder HP máximo; depende de carga del núcleo compartido |
 | Control | Controladora de Agua | Definición/evento disponibles, sin efecto de carta hasta fijar sus reglas concretas |
 
@@ -152,6 +152,35 @@ navegador real.
 - El motor compartido recibe el daño después del Escudo y devuelve la cantidad neta para evitar dobles reducciones. Si falla su carga, el código anterior sigue disponible.
 - Pruebas del factor y del adaptador: sin equipar (1/0), equipada (3/1), desequipada (1/0), sin armadura (0), acumulación, límites y persistencia por golpes.
 - Falta confirmar en una partida real en navegador la integración visual completa y la disponibilidad del archivo del CDN.
+
+### Extracción — factor 4
+
+La **identidad del factor** es `extraccion`, la **fuente/carta**
+determina `resourceOperation`, potencia y disparador. El factor
+genera un único evento por operación; el HUD de elementos conserva la
+autoridad sobre capacidad, reservas desbloqueadas y almacenamiento.
+
+- Orbes del escenario: operación `unlock`, potencia **1**; desbloquean
+  una casilla entera y entregan una unidad elemental, hasta el límite de 30
+  casillas divididas entre los elementos equipados.
+- Fragmentos de **Semillera** y restos de unidades vencidas: `recharge`,
+  potencia **0,25**, recuperan solamente energía en casillas ya desbloqueadas.
+  No aumentan capacidad ni velocidad de recuperación. Se mantienen el
+  casteo de Semillera 9+1 s, el desplazamiento y la recogida manual.
+- Recuperación pasiva: `recharge`, potencia **0,25** por operación cada
+  **3 segundos**, más operaciones según `regenBonus` existente.
+- El adaptador `arenaFactors.extract` construye una instancia `instant`
+  del factor por recogida/tick, verifica el evento y llama **una sola vez**
+  al `commit` de la economía; si el núcleo no está disponible, realiza
+  el mismo `commit` como fallback. No cambia el inventario desde el
+  propio factor ni recarga dos veces un orbe.
+- El reloj de producción y el ciclo de animación pertenecen a la carta
+  Semillera. Los límites, orden de distribución y fragmentos pertenecen
+  a la política del HUD elemental y no se replican en la biblioteca.
+
+Pruebas aisladas: desbloqueo +1, recarga +0,25, paso pasivo y respaldo
+sin núcleo; cada commit ocurre una sola vez. Revisión en navegador real
+y validación de despliegue pendientes.
 
 ## Estado real — etapa de base, NO migración completada
 - [x] Recuperar la clasificación canónica de R.O.K.
