@@ -23,7 +23,7 @@ export const FACTOR_COLORS=Object.freeze({
 const FACTORS=Object.freeze({
  confusion:{focus:'control',modes:['time','action']},
  escudo:{focus:'proteccion',modes:['damage','hit','time','charges']},
- armadura:{focus:'proteccion',modes:['damage','hit','time','charges']},
+ armadura:{focus:'proteccion',modes:['flat','damage','hit','time','charges']},
  extraccion:{focus:'saqueo',modes:['instant','time']},
  sanacion:{focus:'sanacion',modes:['instant','time']},
  control:{focus:'control',modes:['instant','time']}
@@ -110,6 +110,28 @@ export function absorbFactorDamage(instance,damage,{category=null}={}){
  instance.state.capacity-=absorbed;
  if(instance.state.capacity<=0)instance.state.active=false;
  return {absorbed,remaining:amount-absorbed};
+}
+/**
+ * Apply any number of independent armor factor instances in sequence.
+ * Flat armor is persistent and never consumes charges; the card determines
+ * its protected damage categories and flat reduction (potency).
+ * It is applied AFTER barriers by the caller, as established in R.O.K.
+ */
+export function reduceFactorDamage(instances,damage,{category=null}={}){
+ const amount=finite(Number(damage),'damage');
+ if(!Array.isArray(instances))throw Error('Factor: se esperan instancias de armadura');
+ const nature=norm(category);
+ let remaining=amount;
+ for(const instance of instances){
+  if(remaining<=0)break;
+  if(instance?.factor!=='armadura'||!instance.state?.active||
+    instance.config.mode!=='flat')continue;
+  const protectedKinds=instance.config.protectsCategories;
+  if(protectedKinds.length?!protectedKinds.includes(nature):
+    instance.semantic.category!==nature)continue;
+  remaining=Math.max(0,remaining-instance.config.potency);
+ }
+ return {reduced:amount-remaining,remaining};
 }
 // Consumers decide recipients (team, radius, eligibility) and apply the
 // emitted event to the authoritative game state; no Three.js dependency.
