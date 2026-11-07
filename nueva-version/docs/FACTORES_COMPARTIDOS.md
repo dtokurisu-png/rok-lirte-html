@@ -18,6 +18,29 @@ un Poder/Habilidad, a qué objetivos y si hereda un factor nativo
 (`inheritedBase`). **No deben eliminarse** ni convertirse directamente
 en reglas de combate.
 
+## Interpretación correcta de la taxonomía antigua
+
+La cadena antigua de cinco capas **clasificaba el uso del factor en la carta**,
+no cinco propiedades permanentes de la biblioteca de factores.
+
+- **Carta / habilidad / poder:** origen (raíz) y activación (pasiva, activa,
+  disparador, PDA), animación, disparadores y objetivos.
+- **Instancia del factor:** categoría/naturaleza, orientación y enfoque.
+  La carta puede decidir su naturaleza: el mismo escudo puede ser mágico
+  en Cariona y psíquico en Astarin.
+- **Configuración ejecutable:** modo de consumo, capacidad, potencia,
+  duración, intervalo y condiciones de aplicación, definidos al usarlo.
+- **Definición reutilizable:** identidad y efecto elemental del factor
+  (escudo protege, quemadura causa daño periódico, sanación restaura vida).
+- **Rasgos:** quedan explícitamente FUERA de la biblioteca de factores.
+
+`LEGACY_SEMANTIC_LAYERS` conserva origen/activación para la compatibilidad
+de las cadenas descriptivas, pero `FACTOR_LAYERS` ya no los presenta
+como propiedades intrínsecas del factor. El objeto `application` se
+entrega por separado a `createFactorInstance`. Las propiedades
+`semantic.root` y `semantic.activation` se aceptan temporalmente
+como puente legado, sin mezclarlas en `instance.semantic`.
+
 ## Separación de responsabilidades
 1. **Biblioteca de factores:** define qué hace un escudo, armadura, quemadura,
    veneno, evasión, confusión o sanación.
