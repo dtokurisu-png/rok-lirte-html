@@ -82,7 +82,7 @@ su carga en el navegador antes de declarar completa la integración.
 
 | Factor | Fuente actual | Estado de migración |
 | --- | --- | --- |
-| Confusión | Telépata | Clasificada como psíquica, radio de aura 6; resolución de daño sigue en módulo legado para evitar doble aplicación |
+| Confusión | Telépata | **Factor 1 migrado en el tester:** el núcleo compartido gestiona el reloj y vencimiento de Confusión. El Telépata mantiene el pulso de 5 s, alcance 6 y el resultado propio/aliado 50/50 en su habilidad; el fallback legado funciona sin el módulo remoto. |
 | Escudo | Cariona; Astarin | Perfiles declarados en adaptador; daño de Cariona sigue en runtime legado; protección temporal psíquica de Astarin aún no activada |
 | Armadura | Cariona; Roble Antiguo | Motor con perfil y consumo parametrizable; bonificaciones/desgaste siguen en runtime legado |
 | Extracción | Semillera; fuentes de elementos | Definición/evento disponible; economía/stock siguen en runtime original |
