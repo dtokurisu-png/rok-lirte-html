@@ -35,3 +35,38 @@ test('Jerarquía y parámetros inválidos se rechazan',()=>{
  assert.throws(()=>createFactorInstance({factor:'quemadura',semantic:{category:'elemental'},
   config:{mode:'damage'}}));
 });
+
+test('El factor conoce sólo seis mecanismos y no necesita tipo de carta',()=>{
+ for(const name of ['confusion','escudo','armadura','extraccion','sanacion','control'])
+  assert.ok(core.factorProfile(name));
+ for(const name of ['quemadura','veneno','evasion'])
+  assert.throws(()=>core.factorProfile(name));
+ const use=createFactorInstance({factor:'escudo',
+  semantic:{category:'psiquico'},
+  application:{root:'habilidad',activation:'disparador'},
+  config:{mode:'time',duration:10,blocksCategories:['psiquico']}});
+ assert.equal(use.semantic.root,undefined);
+ assert.equal(use.semantic.activation,undefined);
+ assert.equal(use.application.activation,'disparador');
+});
+test('Escudo psíquico temporal no absorbe daño por defecto',()=>{
+ const f=createFactorInstance({factor:'escudo',semantic:{category:'psiquico'},
+  config:{mode:'time',duration:10,blocksCategories:['psiquico']}});
+ assert.deepEqual(absorbFactorDamage(f,2,{category:'psiquico'}),
+  {absorbed:0,remaining:2});
+ assert.equal(factorBlocks(f,{category:'psiquico',negative:true}),true);
+});
+test('Extracción instantánea se emite una sola vez',()=>{
+ const f=createFactorInstance({factor:'extraccion',semantic:{category:'elemental'},
+  config:{mode:'instant',potency:1}});
+ assert.equal(stepFactor(f,0).length,1);
+ assert.equal(stepFactor(f,1).length,0);
+});
+test('Control es un factor separado de Confusión',()=>{
+ const c=createFactorInstance({factor:'control',semantic:{category:'psiquico'},
+  config:{mode:'time',duration:3,interval:1,potency:1}});
+ assert.equal(stepFactor(c,2).length,2);
+ const confusion=createFactorInstance({factor:'confusion',
+  semantic:{category:'psiquico'},config:{mode:'time',duration:1}});
+ assert.equal(stepFactor(confusion,.5).length,0);
+});
