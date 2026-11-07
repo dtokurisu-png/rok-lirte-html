@@ -82,7 +82,7 @@ su carga en el navegador antes de declarar completa la integración.
 
 | Factor | Fuente actual | Estado de migración |
 | --- | --- | --- |
-| Confusión | Telépata | **Factor 1 migrado en el tester:** el núcleo compartido gestiona el reloj y vencimiento de Confusión. El Telépata mantiene el pulso de 5 s, alcance 6 y el resultado propio/aliado 50/50 en su habilidad; el fallback legado funciona sin el módulo remoto. |
+| Confusión | Telépata | **Factor 1 migrado en el tester:** ahora el núcleo compartido conserva el estado hasta que se resuelve el ataque obligado (sin caducidad de 1 s). El Telépata conserva pulso de 5 s, radio 6 y resultado 50/50; el atacante golpea a sí mismo o busca/ataca una invocación aliada, luego se restaura si sobrevive. Hay fallback si falla la carga del módulo. |
 | Escudo | Cariona; Astarin | Perfiles declarados en adaptador; daño de Cariona sigue en runtime legado; protección temporal psíquica de Astarin aún no activada |
 | Armadura | Cariona; Roble Antiguo | Motor con perfil y consumo parametrizable; bonificaciones/desgaste siguen en runtime legado |
 | Extracción | Semillera; fuentes de elementos | Definición/evento disponible; economía/stock siguen en runtime original |
@@ -99,6 +99,20 @@ Los **rasgos** no forman parte de esta biblioteca. La fuente de ejecución
 (invocación, estructura, equipo, hechizo) y si se activa como poder,
 habilidad, efecto de daño, pasiva o disparador, pertenece al perfil de uso
 de la carta, no a la definición intrínseca del factor.
+
+### Aclaración: Confusión se resuelve por acción, no por tiempo
+
+La carta Telépata produce un disparador psíquico sobre el objetivo.
+El motor central conserva el factor `confusion` con `mode:'action'` hasta
+que la Arena confirme la ejecución del ataque forzado mediante
+`completeFactorAction`. La elección 50/50, la selección de compañero,
+el recorrido hasta él, las animaciones de ataque/hit y la restauración
+pertenecen a la **habilidad y adaptador de combate**, no al factor global.
+
+Si no hay otro aliado válido, o la trayectoria se atasca, el ataque
+forzado se convierte en autoataque como salida segura. Al morir o
+restaurarse de forma externa, la acción se cancela y se libera el factor.
+No se ejecuta daño duplicado al finalizar el estado.
 
 ## Estado real — etapa de base, NO migración completada
 - [x] Recuperar la clasificación canónica de R.O.K.
