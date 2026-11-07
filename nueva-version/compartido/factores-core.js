@@ -21,7 +21,7 @@ export const FACTOR_COLORS=Object.freeze({
 });
 // Add new factors ONLY when a card requires them; this is the current set.
 const FACTORS=Object.freeze({
- confusion:{focus:'control',modes:['time']},
+ confusion:{focus:'control',modes:['time','action']},
  escudo:{focus:'proteccion',modes:['damage','hit','time','charges']},
  armadura:{focus:'proteccion',modes:['damage','hit','time','charges']},
  extraccion:{focus:'saqueo',modes:['instant','time']},
@@ -59,7 +59,7 @@ export function createFactorInstance({
   if(!FACTOR_LAYERS[layer].includes(value))
    throw Error('Factor: capa '+layer+' inválida: '+value);
  const mode=norm(config.mode||(
-  ['confusion','control'].includes(id)?'time':
+  id==='confusion'?'action':id==='control'?'time':
   ['sanacion','extraccion'].includes(id)?'instant':'damage'));
  if(!definition.modes.includes(mode))throw Error('Factor: consumo incompatible: '+id+'/'+mode);
  const potency=finite(Number(config.potency??1),'potency');
@@ -120,6 +120,10 @@ export function stepFactor(instance,dt,{emit=()=>{}}={}){
     targetId:instance.targetId,negative:instance.factor==='control'});
    state.active=false;
   }
+ }else if(cfg.mode==='action'){
+  // Action-gated status: no expiry from wall-clock time.
+  // Its application source must explicitly report resolution.
+  state.elapsed+=dt;
  }else if(cfg.mode==='time'){
   state.elapsed+=activeDt;
   if(periodic){
@@ -139,12 +143,19 @@ export function stepFactor(instance,dt,{emit=()=>{}}={}){
  for(const event of events)emit(event);
  return events;
 }
+// A durationless factor ends when the action it imposed actually resolves.
+export function completeFactorAction(instance,{result='completed'}={}){
+ if(!instance||instance.config.mode!=='action'||!instance.state.active)return false;
+ instance.state.active=false;
+ instance.state.resolution=result;
+ return true;
+}
 // Retained separate state event for the existing fixed-outcome Telepate
 // confusion. No attack reroll, movement redirection or double damage.
 export function applyFactorStatus(instance,target){
  if(!instance?.state?.active||!target)return false;
  if(instance.factor!=='confusion'&&instance.factor!=='control')return false;
- if(instance.config.mode!=='time')return false;
+ if(!['time','action'].includes(instance.config.mode))return false;
  target.rokFactorStatuses??={};
  target.rokFactorStatuses[instance.factor]={
   category:instance.semantic.category,
