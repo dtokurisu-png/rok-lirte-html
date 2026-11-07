@@ -71,6 +71,7 @@ export function createFactorInstance({
   throw Error('Factor: radio inválido');
  const normalized={...config,mode,potency,duration,interval,capacity,cooldown,
   radius:Number(config.radius??0),
+  resourceOperation:config.resourceOperation??null,
   blocksCategories:(config.blocksCategories||[]).map(norm),
   protectsCategories:(config.protectsCategories||[]).map(norm)};
  for(const cat of [...normalized.blocksCategories,...normalized.protectsCategories])
@@ -144,7 +145,9 @@ export function stepFactor(instance,dt,{emit=()=>{}}={}){
   if(state.pulses===0){
    state.pulses=1;
    events.push({type:instance.factor,category:instance.semantic.category,
-    potency:cfg.potency,radius:cfg.radius,sourceId:instance.sourceId,
+    potency:cfg.potency,radius:cfg.radius,
+    resourceOperation:instance.factor==='extraccion'?cfg.resourceOperation:null,
+    sourceId:instance.sourceId,
     targetId:instance.targetId,negative:instance.factor==='control'});
    state.active=false;
   }
@@ -159,7 +162,9 @@ export function stepFactor(instance,dt,{emit=()=>{}}={}){
    while(state.elapsed+1e-9>=cfg.interval){
     state.elapsed-=cfg.interval;state.pulses++;
     events.push({type:instance.factor,category:instance.semantic.category,
-     potency:cfg.potency,radius:cfg.radius,sourceId:instance.sourceId,
+     potency:cfg.potency,radius:cfg.radius,
+    resourceOperation:instance.factor==='extraccion'?cfg.resourceOperation:null,
+    sourceId:instance.sourceId,
      targetId:instance.targetId,negative:instance.factor==='control'});
    }
   }
