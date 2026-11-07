@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const src=readFileSync(new URL('../compartido/factores-core.js',import.meta.url),'utf8');
 const core=await import('data:text/javascript;base64,'+Buffer.from(src).toString('base64'));
-const {createFactorInstance,absorbFactorDamage,factorBlocks,stepFactor,describeFactor}=core;
+const {createFactorInstance,absorbFactorDamage,factorBlocks,stepFactor,describeFactor,completeFactorAction}=core;
 test('Cariona: mismo escudo, mágico y por puntos de daño',()=>{
  const f=createFactorInstance({factor:'escudo',
   semantic:{category:'magico'},config:{mode:'damage',capacity:2}});
@@ -69,4 +69,16 @@ test('Control es un factor separado de Confusión',()=>{
  const confusion=createFactorInstance({factor:'confusion',
   semantic:{category:'psiquico'},config:{mode:'time',duration:1}});
  assert.equal(stepFactor(confusion,.5).length,0);
+});
+
+test('Confusión no expira por tiempo: termina al resolver el ataque obligado',()=>{
+ const f=createFactorInstance({factor:'confusion',semantic:{category:'psiquico'},
+  application:{root:'habilidad',activation:'disparador'},
+  config:{mode:'action',radius:6}});
+ stepFactor(f,20);
+ assert.equal(f.state.active,true);
+ assert.equal(completeFactorAction(f,{result:'attack-resolved'}),true);
+ assert.equal(f.state.active,false);
+ assert.equal(f.state.resolution,'attack-resolved');
+ assert.equal(completeFactorAction(f),false);
 });
