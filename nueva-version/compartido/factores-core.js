@@ -1,12 +1,16 @@
-/* R.O.K. — motor de factores compartible (v1, sin dependencias).
- * Clasificación canónica recuperada de R.O.K. Lite v8.32–v8.39:
- * raíz → activación → categoría → orientación → enfoque.
- * La habilidad/carta configura cada instancia; el factor define el efecto.
- * Estado experimental: no sustituye aún la lógica legada de game.js.
+/* R.O.K. — factor engine, independent of cards and renderers.
+ * Historic card-description chain (Lite v8.32–v8.39):
+ * root -> activation -> category -> orientation -> focus.
+ * Root (Factor/Power/Ability) and activation (Passive/Active/Trigger/PDA)
+ * belong to the CARD APPLICATION, never to a factor definition.
+ * A factor defines mechanics; each card/ability supplies nature, use and
+ * visual configuration. Not yet a replacement for legacy game.js.
  */
-export const FACTOR_LAYERS=Object.freeze({
+export const LEGACY_SEMANTIC_LAYERS=Object.freeze({
  roots:['factor','poder','habilidad'],
- activation:['pasiva','activa','disparador','pda'],
+ activation:['pasiva','activa','disparador','pda']
+});
+export const FACTOR_LAYERS=Object.freeze({
  category:['fisico','magico','elemental','psiquico','virtual','estrategico'],
  orientation:['ofensivo','defensivo','tactico'],
  focus:['proteccion','danio','control','sanacion','movilidad','iniciativa','saqueo']
@@ -28,21 +32,31 @@ const finite=(v,name,min=0)=>{if(!Number.isFinite(v)||v<min)throw Error('Factor:
 const norm=(s)=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function factorDefinition(id){return FACTORS[norm(id)]||null;}
 export function describeFactor(instance){
- const {factor,semantic,config}=instance;
- return {factor,semantic:{...semantic},config:{...config},color:FACTOR_COLORS[semantic.category]};
+ const {factor,semantic,application,config}=instance;
+ return {factor,semantic:{...semantic},application:{...application},
+  config:{...config},color:FACTOR_COLORS[semantic.category]};
 }
-export function createFactorInstance({factor,semantic={},config={},sourceId=null,targetId=null}){
+export function createFactorInstance({
+ factor,semantic={},application={},config={},sourceId=null,targetId=null
+}){
  const id=norm(factor),definition=FACTORsGet(id);
+ // A factor has only nature, orientation and focus. The invocation/card
+ // defines whether it is passive, active, triggered or attached to damage.
+ const origin={
+  root:norm(application.root??semantic.root??'factor'),
+  activation:norm(application.activation??semantic.activation??'pasiva')
+ };
+ for(const [key,value] of Object.entries(origin))
+  if(!LEGACY_SEMANTIC_LAYERS[key==='root'?'roots':'activation'].includes(value))
+   throw Error('Aplicación: '+key+' inválida: '+value);
  const taxonomy={
-  root:norm(semantic.root||'factor'),
-  activation:norm(semantic.activation||'pasiva'),
   category:norm(semantic.category),
   orientation:norm(semantic.orientation||(
    ['escudo','armadura','evasion','sanacion'].includes(id)?'defensivo':'ofensivo')),
   focus:norm(semantic.focus||definition.focus)
  };
  for(const [layer,value] of Object.entries(taxonomy))
-  if(!FACTOR_LAYERS[layer==='root'?'roots':layer].includes(value))
+  if(!FACTOR_LAYERS[layer].includes(value))
    throw Error('Factor: capa '+layer+' inválida: '+value);
  const mode=norm(config.mode||(
   ['quemadura','veneno','confusion'].includes(id)?'time':'damage'));
@@ -57,7 +71,8 @@ export function createFactorInstance({factor,semantic={},config={},sourceId=null
  for(const cat of normalized.blocksCategories)
   if(!FACTOR_LAYERS.category.includes(cat))throw Error('Categoría bloqueada desconocida: '+cat);
  const state={remaining:duration,capacity,elapsed:0,pulses:0,active:true};
- return {factor:id,semantic:taxonomy,config:normalized,sourceId,targetId,state};
+ return {factor:id,semantic:taxonomy,application:origin,config:normalized,
+  sourceId,targetId,state};
 }
 function FACTORsGet(id){const value=FACTORs[id];if(!value)throw Error('Factor desconocido: '+id);return value;}
 const FACTORs=FACTORS;
