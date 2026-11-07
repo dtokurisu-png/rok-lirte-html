@@ -86,7 +86,7 @@ su carga en el navegador antes de declarar completa la integración.
 | Escudo | Cariona; Amor de Astarin | **Factor 2 integrado en tester:** Cariona consume tres impactos desde el motor compartido y refleja el valor en el HUD (fallback legado si el módulo no carga). Astarin tiene protección psíquica por 10 segundos, 10 marcas amarillas y FX de desvanecimiento en los últimos tres segundos. La renovación automática queda pendiente de duración de enfriamiento aprobada. |
 | Armadura | Cariona; Roble Antiguo | **Factor 3 integrado en tester:** el motor compartido calcula reducciones planas persistentes por categoría y acumula fuentes base/equipo. La carta mantiene la duración del equipo, penalización de velocidad y destrucción; hay fallback al cálculo legado cuando no carga el módulo. |
 | Extracción | Fuentes elementales, Semillera, fragmentos de unidades y recuperación pasiva | **Factor 4 integrado:** todas las operaciones emiten un evento instantáneo del núcleo compartido antes de ejecutarse una vez en la economía existente; sin CDN, se utiliza la economía previa. El HUD continúa controlando casillas desbloqueadas y límites de almacenamiento. |
-| Sanación | Amor de Astarin | Conexión inicial: pulso de 1 HP cada segundo dentro de radio 6, sin exceder HP máximo; depende de carga del núcleo compartido |
+| Sanación | Amor de Astarin | **Factor 5 integrado en tester:** el núcleo compartido emite pulsos de +1 HP cada segundo y calcula el límite de vida máxima; el adaptador filtra aliados vivos dentro de radio 6, respeta restauración y representa cada curación efectiva con partículas verdes. |
 | Control | Controladora de Agua | Definición/evento disponibles, sin efecto de carta hasta fijar sus reglas concretas |
 
 Los números actuales del escudo de Cariona en el tester son tres impactos
@@ -181,6 +181,32 @@ autoridad sobre capacidad, reservas desbloqueadas y almacenamiento.
 Pruebas aisladas: desbloqueo +1, recarga +0,25, paso pasivo y respaldo
 sin núcleo; cada commit ocurre una sola vez. Revisión en navegador real
 y validación de despliegue pendientes.
+
+### Sanación — factor 5
+
+- Identidad universal: `sanacion`; el perfil de la habilidad de Amor
+  de Astarin configura `mode:'time'`, `interval:1`,
+  `potency:1`, `radius:6` y `activation:'pasiva'`.
+- El factor compartido **emite la pulsación** y calcula
+  `resolveFactorHealing(event,{current,max})` sin alterar el objeto
+  del juego. La Arena elige objetivos vivos del mismo bando y con
+  `role:'summon'` dentro del alcance horizontal XZ; el caster no
+  recibe sanación de esta habilidad.
+- La Arena confirma `next` HP una sola vez cuando `healed>0`.
+  Los objetivos a vida completa, muertos, enemigos y fuera de radio
+  no reciben puntos; si faltan 0,5 puntos, cura exactamente 0,5.
+- Astarin emite pulsos mientras está activa. La secuencia de
+  restauración suspende el reloj sin perder el avance; al iniciar una
+  **nueva vida** se reinicia el pulso. Al morir/retirarse se libera
+  su registro activo para evitar curaciones fantasma.
+- Efecto visual de sanación: indicador `SANACIÓN +N` más seis
+  partículas verdes que ascienden y desaparecen; no altera la pose
+  ni las animaciones de combate del objetivo. Los efectos se limpian
+  al reiniciar la partida.
+- Probado aisladamente con distintos radios, bandos y cantidades
+  de vida, incluidos límites y pausa del caster. Como los demás
+  factores, requiere validación de carga del CDN y QA en el navegador;
+  no se declara un despliegue visual comprobado.
 
 ## Estado real — etapa de base, NO migración completada
 - [x] Recuperar la clasificación canónica de R.O.K.
