@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const src=readFileSync(new URL('../compartido/factores-core.js',import.meta.url),'utf8');
 const core=await import('data:text/javascript;base64,'+Buffer.from(src).toString('base64'));
-const {createFactorInstance,absorbFactorDamage,factorBlocks,stepFactor,describeFactor,completeFactorAction}=core;
+const {createFactorInstance,absorbFactorDamage,factorBlocks,stepFactor,describeFactor,completeFactorAction,reduceFactorDamage}=core;
 test('Cariona: mismo escudo, mágico y por puntos de daño',()=>{
  const f=createFactorInstance({factor:'escudo',
   semantic:{category:'magico'},config:{mode:'damage',capacity:2}});
@@ -103,4 +103,26 @@ test('Escudo psíquico se agota después de 10 segundos de vida activa',()=>{
  stepFactor(f,7);assert.equal(f.state.remaining,3);
  stepFactor(f,3);assert.equal(f.state.remaining,0);
  assert.equal(factorBlocks(f,{negative:true,category:'psiquico'}),false);
+});
+
+test('Armadura base y Roble se acumulan sin consumirse por daño',()=>{
+ const mk=(category,potency)=>createFactorInstance({
+  factor:'armadura',semantic:{category},
+  config:{mode:'flat',potency,protectsCategories:[category]}
+ });
+ const base=mk('fisico',1),oakPhysical=mk('fisico',2),oakMagical=mk('magico',1);
+ assert.deepEqual(reduceFactorDamage([base],4,{category:'fisico'}),
+  {reduced:1,remaining:3});
+ assert.deepEqual(reduceFactorDamage([base,oakPhysical,oakMagical],4,{category:'fisico'}),
+  {reduced:3,remaining:1});
+ assert.deepEqual(reduceFactorDamage([base,oakPhysical,oakMagical],4,{category:'magico'}),
+  {reduced:1,remaining:3});
+ assert.deepEqual(reduceFactorDamage([base,oakPhysical,oakMagical],1,{category:'fisico'}),
+  {reduced:1,remaining:0});
+ assert.equal(base.state.active,true);
+ assert.equal(oakPhysical.state.active,true);
+ assert.deepEqual(reduceFactorDamage([base],4,{category:'magico'}),
+  {reduced:0,remaining:4});
+ assert.deepEqual(reduceFactorDamage([],4,{category:'fisico'}),
+  {reduced:0,remaining:4});
 });
