@@ -199,9 +199,8 @@ y validación de despliegue pendientes.
   restauración suspende el reloj sin perder el avance; al iniciar una
   **nueva vida** se reinicia el pulso. Al morir/retirarse se libera
   su registro activo para evitar curaciones fantasma.
-- Efecto visual de sanación: indicador `SANACIÓN +N` más seis
-  partículas verdes que ascienden y desaparecen; no altera la pose
-  ni las animaciones de combate del objetivo. Los efectos se limpian
+- Efecto visual de sanación: **la fuente emite una onda circular y un destello verde en cada pulso de un segundo, aunque no haya aliados heridos**. Si existe curación efectiva, el objetivo recibe adicionalmente `SANACIÓN +N` y seis partículas verdes ascendentes. Ni el pulso ni el FX alteran la pose o las animaciones de combate.
+- Diagnóstico del adaptador: `healingDiagnostics` muestra el número de pulsos, la fase del reloj y el estado activo de cada instancia de Astarin. Los efectos se limpian
   al reiniciar la partida.
 - Probado aisladamente con distintos radios, bandos y cantidades
   de vida, incluidos límites y pausa del caster. Como los demás
